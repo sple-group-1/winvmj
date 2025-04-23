@@ -1,0 +1,22 @@
+namespace OnlineTicketing
+
+features
+	OnlineTicketing {abstract true}
+		mandatory
+			Booking {abstract true}
+				or
+					Hotel
+					Flight
+					Event
+			Order
+		optional
+			Blog
+				optional
+					LikeBlog
+			Wishlist
+			Review
+		mandatory
+			Cart
+
+constraints
+	Review => Hotel
