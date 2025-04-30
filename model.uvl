@@ -13,9 +13,13 @@ features
 			Blog
 				optional
 					LikeBlog
-			Wishlist
+			Wishlist {abstract true}
+				alternative
+					RegularWishlist
+					CollectionWishlist
 			Review
-		mandatory
+				optional
+					ReviewRating
 			Cart
 
 constraints
