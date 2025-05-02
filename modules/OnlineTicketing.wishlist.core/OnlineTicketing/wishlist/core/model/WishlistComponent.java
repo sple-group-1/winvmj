@@ -11,40 +11,36 @@ import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="wishlist_comp")
+@Table(name = "wishlist_comp")
 @Inheritance(strategy = InheritanceType.JOINED)
-public abstract class WishlistComponent implements Wishlist{
-	@Id
-	public UUID wishlistId; 
-	public UUID wishlistId;
-	public DateTime addedAt;
-	protected String objectName = WishlistComponent.class.getName();
+public abstract class WishlistComponent implements Wishlist {
+  @Id
+  public UUID wishlistId;
+  public Date addedAt;
+  protected String objectName = WishlistComponent.class.getName();
 
-	public WishlistComponent() {
+  public WishlistComponent() {
 
-	} 
+  }
 
-	public WishlistComponent(
-        UUID wishlistId, DateTime addedAt
-    ) {
-        this.wishlistId = wishlistId;
-        this.addedAt = addedAt;
-    }
+  public WishlistComponent(UUID wishlistId, Date addedAt) {
+    this.wishlistId = wishlistId;
+    this.addedAt = addedAt;
+  }
 
-	public abstract UUID getWishlistId();
-	public abstract void setWishlistId(UUID wishlistId);
-	
-	public abstract DateTime getAddedAt();
-	public abstract void setAddedAt(DateTime addedAt);
-	
- 
+  public abstract UUID getWishlistId();
 
-	@Override
-    public String toString() {
-        return "{" +
-            " wishlistId='" + getWishlistId() + "'" +
-            " addedAt='" + getAddedAt() + "'" +
-            "}";
-    }
-	
+  public abstract void setWishlistId(UUID wishlistId);
+
+  public abstract Date getAddedAt();
+
+  public abstract void setAddedAt(Date addedAt);
+
+
+
+  @Override
+  public String toString() {
+    return "{" + " wishlistId='" + getWishlistId() + "'" + " addedAt='" + getAddedAt() + "'" + "}";
+  }
+
 }

@@ -1,8 +1,6 @@
-module OnlineTicketing.cart.core {
-	requires OnlineTicketing.bookingitem.core;
-	requires OnlineTicketing.customer.core;
-	exports OnlineTicketing.cart;
-    exports OnlineTicketing.cart.core;
+module OnlineTicketing.wishlist.core {
+	exports OnlineTicketing.wishlist;
+    exports OnlineTicketing.wishlist.core;
 	requires vmj.routing.route;
 	requires vmj.hibernate.integrator;
 	requires vmj.auth;
@@ -11,5 +9,5 @@ module OnlineTicketing.cart.core {
 	requires java.naming;
 	requires java.net.http;
 
-	opens OnlineTicketing.cart.core to org.hibernate.orm.core, gson, vmj.hibernate.integrator;
+	opens OnlineTicketing.wishlist.core to org.hibernate.orm.core, gson, vmj.hibernate.integrator;
 }

@@ -11,7 +11,7 @@ public abstract class BlogResourceDecorator extends BlogResourceComponent{
         this.record = record;
     }
 
-    public Blog createBlog(VMJExchange vmjExchange){
+	public HashMap<String, Object> createBlog(VMJExchange vmjExchange){
 		return record.createBlog(vmjExchange);
 	}
 

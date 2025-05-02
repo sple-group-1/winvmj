@@ -1,4 +1,8 @@
 {
   "Booking": ["OnlineTicketing.customer.core", "OnlineTicketing.bookingitem.core"],
-  "Order": ["OnlineTicketing.order.core"]
+  "Order": ["OnlineTicketing.order.core"],
+  "Wishlist": ["OnlineTicketing.wishlist.core"],
+  "Blog": ["OnlineTicketing.blog.core"],
+  "Cart": ["OnlineTicketing.cart.core"],
+  "Review": ["OnlineTicketing.review.core"]
 }
