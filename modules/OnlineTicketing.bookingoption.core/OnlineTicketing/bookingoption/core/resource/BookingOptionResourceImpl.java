@@ -5,6 +5,7 @@ import vmj.routing.route.Route;
 import vmj.routing.route.VMJExchange;
 import vmj.routing.route.exceptions.*;
 import OnlineTicketing.bookingoption.BookingOptionFactory;
+import vmj.auth.annotations.Restricted;
 //import prices.auth.vmj.annotations.Restricted;
 //add other required packages
 
@@ -12,9 +13,9 @@ public class BookingOptionResourceImpl extends BookingOptionResourceComponent{
 	
 	private BookingOptionServiceImpl bookingoptionServiceImpl = new BookingOptionServiceImpl();
 
-	// @Restriced(permission = "")
+	@Restricted(permissionName = "CreateBookingOption")
     @Route(url="call/bookingoption")
-    public HashMap<String,Object> createbookingoption(VMJExchange vmjExchange){
+    public HashMap<String,Object> createBookingOption(VMJExchange vmjExchange){
 		if (vmjExchange.getHttpMethod().equals("POST")) {
 		    Map<String, Object> requestBody = vmjExchange.getPayload(); 
 			BookingOption result = bookingoptionServiceImpl.createBookingOption(requestBody);
@@ -23,7 +24,7 @@ public class BookingOptionResourceImpl extends BookingOptionResourceComponent{
 		throw new NotFoundException("Route tidak ditemukan");
 	}
 
-    // @Restriced(permission = "")
+	@Restricted(permissionName = "UpdateBookingOption")
     @Route(url="call/bookingoption/update")
     public HashMap<String, Object> updateBookingOption(VMJExchange vmjExchange){
 		Map<String, Object> requestBody = vmjExchange.getPayload(); 
@@ -34,14 +35,14 @@ public class BookingOptionResourceImpl extends BookingOptionResourceComponent{
 		
 	}
 
-	// @Restriced(permission = "")
+	@Restricted(permissionName = "ReadBookingOption")
     @Route(url="call/bookingoption/detail")
     public HashMap<String, Object> getBookingOption(VMJExchange vmjExchange){
 		Map<String, Object> requestBody = vmjExchange.getPayload(); 
 		return bookingoptionServiceImpl.getBookingOption(requestBody);
 	}
 
-	// @Restriced(permission = "")
+	@Restricted(permissionName = "ReadBookingOption")
     @Route(url="call/bookingoption/list")
     public List<HashMap<String,Object>> getAllBookingOption(VMJExchange vmjExchange){
 		Map<String, Object> requestBody = vmjExchange.getPayload(); 
@@ -49,7 +50,7 @@ public class BookingOptionResourceImpl extends BookingOptionResourceComponent{
 	}
 
     
-	// @Restriced(permission = "")
+	@Restricted(permissionName = "DeleteBookingOption")
     @Route(url="call/bookingoption/delete")
     public List<HashMap<String,Object>> deleteBookingOption(VMJExchange vmjExchange){
 		Map<String, Object> requestBody = vmjExchange.getPayload(); 

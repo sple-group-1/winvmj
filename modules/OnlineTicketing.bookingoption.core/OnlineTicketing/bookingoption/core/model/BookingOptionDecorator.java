@@ -18,9 +18,10 @@ public abstract class BookingOptionDecorator extends BookingOptionComponent{
 		super();
 		this.record = record;
 		this.id =  id.randomUUID();
+	}
 		
 	public BookingOptionDecorator (BookingOptionComponent record) {
-		this.id =  id.randomUUID();
+		this.id =  UUID.randomUUID();
 		this.record = record;
 	}
 
@@ -30,14 +31,10 @@ public abstract class BookingOptionDecorator extends BookingOptionComponent{
 	}
 	
 	public BookingOptionDecorator (BookingOptionComponent record, String objectName) {
-		this.id =  id.randomUUID();
+		this.id =  UUID.randomUUID();
 		this.record = record;	
 		this.objectName=objectName;
 	}
-
-	public BookingOptionDecorator() { }
-
-
 
 	public HashMap<String, Object> toHashMap() {
         return this.record.toHashMap();

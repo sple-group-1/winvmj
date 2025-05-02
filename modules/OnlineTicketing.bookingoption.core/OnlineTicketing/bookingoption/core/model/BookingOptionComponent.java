@@ -9,17 +9,20 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
+import javax.persistence.ManyToOne;
 
-@Entity
+import OnlineTicketing.bookingitem.core.*;
+
+@Entity(name="bookingoption_comp")
 @Table(name="bookingoption_comp")
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class BookingOptionComponent implements BookingOption{
 	@Id
 	public UUID id; 
-	public ELong price;
+	public Long price;
 	public String bookingType;
-	@ManyToOne(targetEntity=OnlineTicketing..core.Component.class)
-	public  bookingitemimpl;
+	@ManyToOne(targetEntity=OnlineTicketing.bookingitem.core.BookingItemComponent.class)
+	public BookingItem bookingItem;
 	protected String objectName = BookingOptionComponent.class.getName();
 
 	public BookingOptionComponent() {
@@ -27,25 +30,25 @@ public abstract class BookingOptionComponent implements BookingOption{
 	} 
 
 	public BookingOptionComponent(
-        UUID id, ELong price, String bookingType, BookingItemImpl bookingitemimpl
+        UUID id, Long price, String bookingType, BookingItem bookingItem
     ) {
         this.id = id;
         this.price = price;
         this.bookingType = bookingType;
-        this.bookingitemimpl = bookingitemimpl;
+        this.bookingItem = bookingItem;
     }
 
-	public abstract UUID getId();
-	public abstract void setId(UUID id);
+	public UUID getId() {return this.id;};
+	public void setId(UUID id) {this.id=id;};
 	
-	public abstract ELong getPrice();
-	public abstract void setPrice(ELong price);
+	public Long getPrice() {return this.price;};
+	public void setPrice(Long price) {this.price=price;};
 	
-	public abstract String getBookingType();
-	public abstract void setBookingType(String bookingType);
+	public String getBookingType(){return this.bookingType;};
+	public void setBookingType(String bookingType) {this.bookingType=bookingType;};
 	
-	public abstract BookingItemImpl getBookingitemimpl();
-	public abstract void setBookingitemimpl(BookingItemImpl bookingitemimpl);
+	public BookingItem getBookingItem() {return this.bookingItem;};
+	public void setBookingIten(BookingItem bookingItem){this.bookingItem = bookingItem;};
 	
  
 
@@ -55,7 +58,7 @@ public abstract class BookingOptionComponent implements BookingOption{
             " id='" + getId() + "'" +
             " price='" + getPrice() + "'" +
             " bookingType='" + getBookingType() + "'" +
-            " bookingitemimpl='" + getBookingitemimpl() + "'" +
+            " bookingItem='" + getBookingItem() + "'" +
             "}";
     }
 	

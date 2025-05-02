@@ -14,35 +14,40 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import OnlineTicketing.bookingitem.core.*;
+
 
 @Entity(name="bookingoption_impl")
 @Table(name="bookingoption_impl")
 public class BookingOptionImpl extends BookingOptionComponent {
 
-	public BookingOptionImpl(UUID id, ELong price, String bookingType, BookingItemImpl bookingitemimpl) {
+	public BookingOptionImpl(UUID id, Long price, String bookingType, BookingItem bookingItem) {
 		this.id = id;
 		this.price = price;
 		this.bookingType = bookingType;
-		this.bookingitemimpl = bookingitemimpl;
+		this.bookingItem = bookingItem;
 	}
 
-	public BookingOptionImpl(ELong price, String bookingType, BookingItemImpl bookingitemimpl) {
-		this.id =  id.randomUUID();;
+	public BookingOptionImpl(Long price, String bookingType, BookingItem bookingItem) {
+		this.id =  UUID.randomUUID();
 		this.price = price;
 		this.bookingType = bookingType;
-		this.bookingitemimpl = bookingitemimpl;
+		this.bookingItem = bookingItem;
 	}
 
-	public BookingOptionImpl() { }
-
-
+	public BookingOptionImpl() {
+		this.id =  UUID.randomUUID();
+		this.price = null;
+		this.bookingType = "";
+		this.bookingItem = null;
+	}
 	
 	public HashMap<String, Object> toHashMap() {
         HashMap<String, Object> bookingoptionMap = new HashMap<String,Object>();
 		bookingoptionMap.put("id",getId());
 		bookingoptionMap.put("price",getPrice());
 		bookingoptionMap.put("bookingType",getBookingType());
-		bookingoptionMap.put("bookingitemimpl",getBookingitemimpl());
+		bookingoptionMap.put("bookingItem",getBookingItem());
 
         return bookingoptionMap;
     }

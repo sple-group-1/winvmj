@@ -11,7 +11,7 @@ public abstract class BookingOptionResourceDecorator extends BookingOptionResour
         this.record = record;
     }
 
-    public BookingOption createBookingOption(VMJExchange vmjExchange){
+    public HashMap<String, Object> createBookingOption(VMJExchange vmjExchange){
 		return record.createBookingOption(vmjExchange);
 	}
 
