@@ -26,21 +26,23 @@ public class BookingItemResourceImpl extends BookingItemResourceDecorator {
 
     public BookingItem create(VMJExchange vmjExchange){
 		String title = (String) vmjExchange.getRequestBodyForm("title");
+		String imageUrl = (String) vmjExchange.getRequestBodyForm("imageUrl");
 		String location = (String) vmjExchange.getRequestBodyForm("location");
 		
 		  = record.create(vmjExchange);
-		 deco = Factory.create("OnlineTicketing.hotel.core.BookingItemImpl", , title, imageUrls, location, facilities, );
+		 deco = Factory.create("OnlineTicketing.hotel.core.BookingItemImpl", , title, imageUrl, location, facilities);
 			return deco;
 	}
 
     public BookingItem create(VMJExchange vmjExchange, int id){
 		String title = (String) vmjExchange.getRequestBodyForm("title");
+		String imageUrl = (String) vmjExchange.getRequestBodyForm("imageUrl");
 		String location = (String) vmjExchange.getRequestBodyForm("location");
 		  = Repository.getObject(id);
 		int recordId = (((Decorator) saved.getRecord()).getId();
 		
 		  = record.create(vmjExchange);
-		 deco = Factory.create("OnlineTicketing.hotel.core.BookingItemImpl", id, , title, imageUrls, location, facilities, );
+		 deco = Factory.create("OnlineTicketing.hotel.core.BookingItemImpl", id, , title, imageUrl, location, facilities);
 			return deco;
 	}
 

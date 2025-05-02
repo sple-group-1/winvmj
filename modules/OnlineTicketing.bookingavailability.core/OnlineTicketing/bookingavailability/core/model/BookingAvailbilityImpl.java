@@ -19,16 +19,18 @@ import javax.persistence.OneToMany;
 @Table(name="bookingavailability_impl")
 public class BookingAvailbilityImpl extends BookingAvailbilityComponent {
 
-	public BookingAvailbilityImpl(UUID id, int quota, int available) {
+	public BookingAvailbilityImpl(UUID id, int quota, int available, BookingOptionImpl bookingoptionimpl) {
 		this.id = id;
 		this.quota = quota;
 		this.available = available;
+		this.bookingoptionimpl = bookingoptionimpl;
 	}
 
-	public BookingAvailbilityImpl(int quota, int available) {
+	public BookingAvailbilityImpl(int quota, int available, BookingOptionImpl bookingoptionimpl) {
 		this.id =  id.randomUUID();;
 		this.quota = quota;
 		this.available = available;
+		this.bookingoptionimpl = bookingoptionimpl;
 	}
 
 	public BookingAvailbilityImpl() { }
@@ -61,6 +63,7 @@ public class BookingAvailbilityImpl extends BookingAvailbilityComponent {
 		bookingavailabilityMap.put("id",getId());
 		bookingavailabilityMap.put("quota",getQuota());
 		bookingavailabilityMap.put("available",getAvailable());
+		bookingavailabilityMap.put("bookingoptionimpl",getBookingoptionimpl());
 
         return bookingavailabilityMap;
     }

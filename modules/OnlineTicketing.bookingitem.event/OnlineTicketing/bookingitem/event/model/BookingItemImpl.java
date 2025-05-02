@@ -26,7 +26,7 @@ public class BookingItemImpl extends BookingItemDecorator {
         this.objectName = BookingItemImpl.class.getName();
     }
     
-    public BookingItemImpl(String title, String location, List<String> imageUrls, List<String> facilities, String description, PackageOptionImpl packageOptions) {
+    public BookingItemImpl(String title, String location, List<String> imageUrls, List<String> facilities, String description) {
     	super();
 		this.title = title;
 		this.location = location;
@@ -36,7 +36,7 @@ public class BookingItemImpl extends BookingItemDecorator {
 		this.objectName = BookingItemImpl.class.getName();
     }
 	
-	public BookingItemImpl(BookingItemComponent record, String title, String location, List<String> imageUrls, List<String> facilities, String description, PackageOptionImpl packageOptions) {
+	public BookingItemImpl(BookingItemComponent record, String title, String location, List<String> imageUrls, List<String> facilities, String description) {
 		super(record);
 		this.title = title;
 		this.location = location;

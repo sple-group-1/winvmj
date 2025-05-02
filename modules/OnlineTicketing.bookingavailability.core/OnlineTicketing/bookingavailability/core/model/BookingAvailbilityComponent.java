@@ -18,6 +18,8 @@ public abstract class BookingAvailbilityComponent implements BookingAvailability
 	protected UUID id; 
 	protected int quota;
 	protected int available;
+	@ManyToOne(targetEntity=OnlineTicketing..core.Component.class)
+	public  bookingoptionimpl;
 	protected String objectName = BookingAvailbilityComponent.class.getName();
 
 	public BookingAvailbilityComponent() {
@@ -25,11 +27,12 @@ public abstract class BookingAvailbilityComponent implements BookingAvailability
 	} 
 
 	public BookingAvailbilityComponent(
-        UUID id, int quota, int available
+        UUID id, int quota, int available, BookingOptionImpl bookingoptionimpl
     ) {
         this.id = id;
         this.quota = quota;
         this.available = available;
+        this.bookingoptionimpl = bookingoptionimpl;
     }
 
 	public UUID getId() {
@@ -53,6 +56,9 @@ public abstract class BookingAvailbilityComponent implements BookingAvailability
 	public void setAvailable(int available) {
 		this.available = available;
 	}
+	public abstract BookingOptionImpl getBookingoptionimpl();
+	public abstract void setBookingoptionimpl(BookingOptionImpl bookingoptionimpl);
+	
  
 
 	@Override
@@ -61,6 +67,7 @@ public abstract class BookingAvailbilityComponent implements BookingAvailability
             " id='" + getId() + "'" +
             " quota='" + getQuota() + "'" +
             " available='" + getAvailable() + "'" +
+            " bookingoptionimpl='" + getBookingoptionimpl() + "'" +
             "}";
     }
 	

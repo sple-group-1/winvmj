@@ -10,15 +10,15 @@ public interface Order {
 	public void setCreatedAt(DateTime createdAt);
 	public int getAmount();
 	public void setAmount(int amount);
-	public CustomerImpl getCustomerimpl();
-	public void setCustomerimpl(CustomerImpl customerimpl);
-	public BookingItemImpl getBookingitemimpl();
-	public void setBookingitemimpl(BookingItemImpl bookingitemimpl);
 	public int getQuantity();
 	public void setQuantity(int quantity);
 	public Date getStartDate();
 	public void setStartDate(Date startDate);
 	public Date getEndDate();
 	public void setEndDate(Date endDate);
+	public CustomerImpl getCustomerimpl();
+	public void setCustomerimpl(CustomerImpl customerimpl);
+	public BookingOptionImpl getBookingoptionimpl();
+	public void setBookingoptionimpl(BookingOptionImpl bookingoptionimpl);
 	HashMap<String, Object> toHashMap();
 }

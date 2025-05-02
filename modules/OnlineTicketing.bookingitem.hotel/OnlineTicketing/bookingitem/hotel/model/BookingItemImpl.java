@@ -17,7 +17,7 @@ import OnlineTicketing.bookingitem.core.BookingItemComponent;
 public class BookingItemImpl extends BookingItemDecorator {
 
 	protected String title;
-	protected List<String> imageUrls;
+	protected String imageUrl;
 	protected String location;
 	protected List<String> facilities;
 	public BookingItemImpl(
@@ -25,19 +25,19 @@ public class BookingItemImpl extends BookingItemDecorator {
         this.objectName = BookingItemImpl.class.getName();
     }
     
-    public BookingItemImpl(String title, List<String> imageUrls, String location, List<String> facilities, RoomOptionImpl ) {
+    public BookingItemImpl(String title, String imageUrl, String location, List<String> facilities) {
     	super();
 		this.title = title;
-		this.imageUrls = imageUrls;
+		this.imageUrl = imageUrl;
 		this.location = location;
 		this.facilities = facilities;
 		this.objectName = BookingItemImpl.class.getName();
     }
 	
-	public BookingItemImpl(BookingItemComponent record, String title, List<String> imageUrls, String location, List<String> facilities, RoomOptionImpl ) {
+	public BookingItemImpl(BookingItemComponent record, String title, String imageUrl, String location, List<String> facilities) {
 		super(record);
 		this.title = title;
-		this.imageUrls = imageUrls;
+		this.imageUrl = imageUrl;
 		this.location = location;
 		this.facilities = facilities;
 		this.objectName = BookingItemImpl.class.getName();
@@ -50,12 +50,12 @@ public class BookingItemImpl extends BookingItemDecorator {
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	public List<String> getImageUrls() {
-		return this.imageUrls;
+	public String getImageUrl() {
+		return this.imageUrl;
 	}
 
-	public void setImageUrls(List<String> imageUrls) {
-		this.imageUrls = imageUrls;
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
 	}
 	public String getLocation() {
 		return this.location;

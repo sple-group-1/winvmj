@@ -1,4 +1,5 @@
 module OnlineTicketing.bookingavailability.core {
+	requires OnlineTicketing.classoption.core;
 	exports OnlineTicketing.bookingavailability;
     exports OnlineTicketing.bookingavailability.core;
 	requires vmj.routing.route;

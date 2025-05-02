@@ -41,6 +41,7 @@ public class BookingAvailbilityServiceImpl extends BookingAvailbilityServiceComp
 		id
 		, quota
 		, available
+		, bookingoptionimpl
 		);
 		Repository.saveObject(bookingavailability);
 		return bookingavailability;
@@ -54,7 +55,7 @@ public class BookingAvailbilityServiceImpl extends BookingAvailbilityServiceComp
 		
 		//to do: fix association attributes
 		
-		BookingAvailability bookingavailability = BookingAvailabilityFactory.createBookingAvailability("OnlineTicketing.bookingavailability.core.BookingAvailbilityImpl", quota, available);
+		BookingAvailability bookingavailability = BookingAvailabilityFactory.createBookingAvailability("OnlineTicketing.bookingavailability.core.BookingAvailbilityImpl", quota, available, bookingoptionimpl);
 		return bookingavailability;
 	}
 

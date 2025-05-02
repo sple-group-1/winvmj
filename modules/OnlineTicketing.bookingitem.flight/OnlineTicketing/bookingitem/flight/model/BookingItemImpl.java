@@ -20,29 +20,29 @@ public class BookingItemImpl extends BookingItemDecorator {
 	protected String arrivalLocation;
 	protected DateTime departureTime;
 	protected DateTime arrivalTime;
-	protected ELong price;
+	protected String airline;
 	public BookingItemImpl(
         super();
         this.objectName = BookingItemImpl.class.getName();
     }
     
-    public BookingItemImpl(String departureLocation, String arrivalLocation, DateTime departureTime, DateTime arrivalTime, ELong price, AirlineImpl , BookingAvailbilityImpl bookingavailbilityimpl) {
+    public BookingItemImpl(String departureLocation, String arrivalLocation, DateTime departureTime, DateTime arrivalTime, String airline) {
     	super();
 		this.departureLocation = departureLocation;
 		this.arrivalLocation = arrivalLocation;
 		this.departureTime = departureTime;
 		this.arrivalTime = arrivalTime;
-		this.price = price;
+		this.airline = airline;
 		this.objectName = BookingItemImpl.class.getName();
     }
 	
-	public BookingItemImpl(BookingItemComponent record, String departureLocation, String arrivalLocation, DateTime departureTime, DateTime arrivalTime, ELong price, AirlineImpl , BookingAvailbilityImpl bookingavailbilityimpl) {
+	public BookingItemImpl(BookingItemComponent record, String departureLocation, String arrivalLocation, DateTime departureTime, DateTime arrivalTime, String airline) {
 		super(record);
 		this.departureLocation = departureLocation;
 		this.arrivalLocation = arrivalLocation;
 		this.departureTime = departureTime;
 		this.arrivalTime = arrivalTime;
-		this.price = price;
+		this.airline = airline;
 		this.objectName = BookingItemImpl.class.getName();
 	}
 
@@ -74,12 +74,12 @@ public class BookingItemImpl extends BookingItemDecorator {
 	public void setArrivalTime(DateTime arrivalTime) {
 		this.arrivalTime = arrivalTime;
 	}
-	public ELong getPrice() {
-		return this.price;
+	public String getAirline() {
+		return this.airline;
 	}
 
-	public void setPrice(ELong price) {
-		this.price = price;
+	public void setAirline(String airline) {
+		this.airline = airline;
 	}
 
 

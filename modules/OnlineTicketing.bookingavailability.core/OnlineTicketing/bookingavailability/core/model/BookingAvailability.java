@@ -10,5 +10,7 @@ public interface BookingAvailability {
 	public void setQuota(int quota);
 	public int getAvailable();
 	public void setAvailable(int available);
+	public BookingOptionImpl getBookingoptionimpl();
+	public void setBookingoptionimpl(BookingOptionImpl bookingoptionimpl);
 	HashMap<String, Object> toHashMap();
 }

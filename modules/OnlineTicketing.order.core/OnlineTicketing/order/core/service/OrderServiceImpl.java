@@ -41,11 +41,11 @@ public class OrderServiceImpl extends OrderServiceComponent{
 		orderId
 		, createdAt
 		, amount
-		, customerimpl
-		, bookingitemimpl
 		, quantity
 		, startDate
 		, endDate
+		, customerimpl
+		, bookingoptionimpl
 		);
 		Repository.saveObject(order);
 		return order;
@@ -59,7 +59,7 @@ public class OrderServiceImpl extends OrderServiceComponent{
 		
 		//to do: fix association attributes
 		
-		Order order = OrderFactory.createOrder("OnlineTicketing.order.core.OrderImpl", orderId, createdAt, amount, customerimpl, bookingitemimpl, quantity, startDate, endDate);
+		Order order = OrderFactory.createOrder("OnlineTicketing.order.core.OrderImpl", orderId, createdAt, amount, quantity, startDate, endDate, customerimpl, bookingoptionimpl);
 		return order;
 	}
 

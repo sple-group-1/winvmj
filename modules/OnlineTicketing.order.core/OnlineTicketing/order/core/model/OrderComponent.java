@@ -19,13 +19,13 @@ public abstract class OrderComponent implements Order{
 	public UUID orderId;
 	public DateTime createdAt;
 	public int amount;
-	@ManyToOne(targetEntity=OnlineTicketing.customer.core.CustomerComponent.class)
-	public Customer customerimpl;
-	@ManyToOne(targetEntity=OnlineTicketing..core.Component.class)
-	public  bookingitemimpl;
 	public int quantity;
 	public Date startDate;
 	public Date endDate;
+	@ManyToOne(targetEntity=OnlineTicketing.customer.core.CustomerComponent.class)
+	public Customer customerimpl;
+	@ManyToOne(targetEntity=OnlineTicketing..core.Component.class)
+	public  bookingoptionimpl;
 	protected String objectName = OrderComponent.class.getName();
 
 	public OrderComponent() {
@@ -33,16 +33,16 @@ public abstract class OrderComponent implements Order{
 	} 
 
 	public OrderComponent(
-        UUID orderId, DateTime createdAt, int amount, CustomerImpl customerimpl, BookingItemImpl bookingitemimpl, int quantity, Date startDate, Date endDate
+        UUID orderId, DateTime createdAt, int amount, int quantity, Date startDate, Date endDate, CustomerImpl customerimpl, BookingOptionImpl bookingoptionimpl
     ) {
         this.orderId = orderId;
         this.createdAt = createdAt;
         this.amount = amount;
-        this.customerimpl = customerimpl;
-        this.bookingitemimpl = bookingitemimpl;
         this.quantity = quantity;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.customerimpl = customerimpl;
+        this.bookingoptionimpl = bookingoptionimpl;
     }
 
 	public abstract UUID getOrderId();
@@ -54,12 +54,6 @@ public abstract class OrderComponent implements Order{
 	public abstract int getAmount();
 	public abstract void setAmount(int amount);
 	
-	public abstract CustomerImpl getCustomerimpl();
-	public abstract void setCustomerimpl(CustomerImpl customerimpl);
-	
-	public abstract BookingItemImpl getBookingitemimpl();
-	public abstract void setBookingitemimpl(BookingItemImpl bookingitemimpl);
-	
 	public abstract int getQuantity();
 	public abstract void setQuantity(int quantity);
 	
@@ -69,6 +63,12 @@ public abstract class OrderComponent implements Order{
 	public abstract Date getEndDate();
 	public abstract void setEndDate(Date endDate);
 	
+	public abstract CustomerImpl getCustomerimpl();
+	public abstract void setCustomerimpl(CustomerImpl customerimpl);
+	
+	public abstract BookingOptionImpl getBookingoptionimpl();
+	public abstract void setBookingoptionimpl(BookingOptionImpl bookingoptionimpl);
+	
  
 
 	@Override
@@ -77,11 +77,11 @@ public abstract class OrderComponent implements Order{
             " orderId='" + getOrderId() + "'" +
             " createdAt='" + getCreatedAt() + "'" +
             " amount='" + getAmount() + "'" +
-            " customerimpl='" + getCustomerimpl() + "'" +
-            " bookingitemimpl='" + getBookingitemimpl() + "'" +
             " quantity='" + getQuantity() + "'" +
             " startDate='" + getStartDate() + "'" +
             " endDate='" + getEndDate() + "'" +
+            " customerimpl='" + getCustomerimpl() + "'" +
+            " bookingoptionimpl='" + getBookingoptionimpl() + "'" +
             "}";
     }
 	

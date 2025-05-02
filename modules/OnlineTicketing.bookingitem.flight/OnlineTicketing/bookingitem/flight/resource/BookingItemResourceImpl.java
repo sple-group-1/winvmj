@@ -27,20 +27,22 @@ public class BookingItemResourceImpl extends BookingItemResourceDecorator {
     public BookingItem create(VMJExchange vmjExchange){
 		String departureLocation = (String) vmjExchange.getRequestBodyForm("departureLocation");
 		String arrivalLocation = (String) vmjExchange.getRequestBodyForm("arrivalLocation");
+		String airline = (String) vmjExchange.getRequestBodyForm("airline");
 		
 		  = record.create(vmjExchange);
-		 deco = Factory.create("OnlineTicketing.flight.core.BookingItemImpl", , departureLocation, arrivalLocation, departureTime, arrivalTime, price, , bookingavailbilityimpl);
+		 deco = Factory.create("OnlineTicketing.flight.core.BookingItemImpl", , departureLocation, arrivalLocation, departureTime, arrivalTime, airline);
 			return deco;
 	}
 
     public BookingItem create(VMJExchange vmjExchange, int id){
 		String departureLocation = (String) vmjExchange.getRequestBodyForm("departureLocation");
 		String arrivalLocation = (String) vmjExchange.getRequestBodyForm("arrivalLocation");
+		String airline = (String) vmjExchange.getRequestBodyForm("airline");
 		  = Repository.getObject(id);
 		int recordId = (((Decorator) saved.getRecord()).getId();
 		
 		  = record.create(vmjExchange);
-		 deco = Factory.create("OnlineTicketing.flight.core.BookingItemImpl", id, , departureLocation, arrivalLocation, departureTime, arrivalTime, price, , bookingavailbilityimpl);
+		 deco = Factory.create("OnlineTicketing.flight.core.BookingItemImpl", id, , departureLocation, arrivalLocation, departureTime, arrivalTime, airline);
 			return deco;
 	}
 

@@ -19,27 +19,27 @@ import javax.persistence.OneToMany;
 @Table(name="order_impl")
 public class OrderImpl extends OrderComponent {
 
-	public OrderImpl(UUID orderId, DateTime createdAt, int amount, CustomerImpl customerimpl, BookingItemImpl bookingitemimpl, int quantity, Date startDate, Date endDate) {
+	public OrderImpl(UUID orderId, DateTime createdAt, int amount, int quantity, Date startDate, Date endDate, CustomerImpl customerimpl, BookingOptionImpl bookingoptionimpl) {
 		this.orderId = orderId;
 		this.createdAt = createdAt;
 		this.amount = amount;
-		this.customerimpl = customerimpl;
-		this.bookingitemimpl = bookingitemimpl;
 		this.quantity = quantity;
 		this.startDate = startDate;
 		this.endDate = endDate;
+		this.customerimpl = customerimpl;
+		this.bookingoptionimpl = bookingoptionimpl;
 	}
 
-	public OrderImpl(UUID orderId, DateTime createdAt, int amount, CustomerImpl customerimpl, BookingItemImpl bookingitemimpl, int quantity, Date startDate, Date endDate) {
+	public OrderImpl(UUID orderId, DateTime createdAt, int amount, int quantity, Date startDate, Date endDate, CustomerImpl customerimpl, BookingOptionImpl bookingoptionimpl) {
 		this.orderId =  orderId.randomUUID();;
 		this.orderId = orderId;
 		this.createdAt = createdAt;
 		this.amount = amount;
-		this.customerimpl = customerimpl;
-		this.bookingitemimpl = bookingitemimpl;
 		this.quantity = quantity;
 		this.startDate = startDate;
 		this.endDate = endDate;
+		this.customerimpl = customerimpl;
+		this.bookingoptionimpl = bookingoptionimpl;
 	}
 
 	public OrderImpl() { }
@@ -51,11 +51,11 @@ public class OrderImpl extends OrderComponent {
 		orderMap.put("orderId",getOrderId());
 		orderMap.put("createdAt",getCreatedAt());
 		orderMap.put("amount",getAmount());
-		orderMap.put("customerimpl",getCustomerimpl());
-		orderMap.put("bookingitemimpl",getBookingitemimpl());
 		orderMap.put("quantity",getQuantity());
 		orderMap.put("startDate",getStartDate());
 		orderMap.put("endDate",getEndDate());
+		orderMap.put("customerimpl",getCustomerimpl());
+		orderMap.put("bookingoptionimpl",getBookingoptionimpl());
 
         return orderMap;
     }

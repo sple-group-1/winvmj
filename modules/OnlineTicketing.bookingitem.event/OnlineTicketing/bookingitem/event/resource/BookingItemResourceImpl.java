@@ -30,7 +30,7 @@ public class BookingItemResourceImpl extends BookingItemResourceDecorator {
 		String description = (String) vmjExchange.getRequestBodyForm("description");
 		
 		  = record.create(vmjExchange);
-		 deco = Factory.create("OnlineTicketing.event.core.BookingItemImpl", , title, location, imageUrls, facilities, description, packageOptions);
+		 deco = Factory.create("OnlineTicketing.event.core.BookingItemImpl", , title, location, imageUrls, facilities, description);
 			return deco;
 	}
 
@@ -42,7 +42,7 @@ public class BookingItemResourceImpl extends BookingItemResourceDecorator {
 		int recordId = (((Decorator) saved.getRecord()).getId();
 		
 		  = record.create(vmjExchange);
-		 deco = Factory.create("OnlineTicketing.event.core.BookingItemImpl", id, , title, location, imageUrls, facilities, description, packageOptions);
+		 deco = Factory.create("OnlineTicketing.event.core.BookingItemImpl", id, , title, location, imageUrls, facilities, description);
 			return deco;
 	}
 

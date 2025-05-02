@@ -27,7 +27,7 @@ public class BookingAvailabilityResourceImpl extends BookingAvailabilityResource
     public BookingAvailability create(VMJExchange vmjExchange){
 		
 		  = record.create(vmjExchange);
-		 deco = Factory.create("OnlineTicketing.dailyavailability.core.BookingAvailabilityImpl", , date, );
+		 deco = Factory.create("OnlineTicketing.dailyavailability.core.BookingAvailabilityImpl", , date, , bookingoptionimpl, bookingoptionimpl);
 			return deco;
 	}
 
@@ -36,7 +36,7 @@ public class BookingAvailabilityResourceImpl extends BookingAvailabilityResource
 		int recordId = (((Decorator) saved.getRecord()).getId();
 		
 		  = record.create(vmjExchange);
-		 deco = Factory.create("OnlineTicketing.dailyavailability.core.BookingAvailabilityImpl", id, , date, );
+		 deco = Factory.create("OnlineTicketing.dailyavailability.core.BookingAvailabilityImpl", id, , date, , bookingoptionimpl, bookingoptionimpl);
 			return deco;
 	}
 
