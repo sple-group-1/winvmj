@@ -1,1 +1,4 @@
-{}
+{
+    "Booking": ["OnlineTicketing.customer.core"], 
+    "Order" : ["OnlineTicketing.order.core"]
+}
