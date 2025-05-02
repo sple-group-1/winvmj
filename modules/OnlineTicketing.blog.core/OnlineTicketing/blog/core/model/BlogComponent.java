@@ -9,14 +9,18 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
+import javax.persistence.Column;
 
-@Entity
+
+@Entity(name="blog_comp")
 @Table(name="blog_comp")
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class BlogComponent implements Blog{
 	@Id
 	public UUID id; 
 	public String title;
+
+	@Column(columnDefinition = "TEXT")
 	public String content;
 	public Date createdAt;
 	protected String objectName = BlogComponent.class.getName();
@@ -34,17 +38,17 @@ public abstract class BlogComponent implements Blog{
         this.createdAt = createdAt;
     }
 
-	public abstract UUID getId();
-	public abstract void setId(UUID id);
+	public UUID getId(){return this.id;}
+	public void setId(UUID id){this.id = id;}
 	
-	public abstract String getTitle();
-	public abstract void setTitle(String title);
+	public String getTitle(){return this.title;}
+	public void setTitle(String title){this.title = title;}
 	
-	public abstract String getContent();
-	public abstract void setContent(String content);
+	public String getContent(){return this.content;}
+	public void setContent(String content){this.content = content;}
 	
-	public abstract Date getCreatedAt();
-	public abstract void setCreatedAt(Date createdAt);
+	public Date getCreatedAt(){return this.createdAt;}
+	public void setCreatedAt(Date createdAt){this.content = content;}
 	
  
 

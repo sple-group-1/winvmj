@@ -27,13 +27,18 @@ public class BlogImpl extends BlogComponent {
 	}
 
 	public BlogImpl(String title, String content, Date createdAt) {
-		this.id =  id.randomUUID();;
+		this.id =  UUID.randomUUID();
 		this.title = title;
 		this.content = content;
 		this.createdAt = createdAt;
 	}
 
-	public BlogImpl() { }
+	public BlogImpl() { 
+		this.id =  UUID.randomUUID();
+		this.title = "";
+		this.content = "";
+		this.createdAt = new Date();
+	}
 
 
 	

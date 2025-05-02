@@ -18,7 +18,7 @@ public abstract class BlogDecorator extends BlogComponent{
 		super();
 		this.record = record;
 		this.id =  id.randomUUID();
-		
+	}	
 	public BlogDecorator (BlogComponent record) {
 		this.id =  id.randomUUID();
 		this.record = record;
@@ -34,10 +34,6 @@ public abstract class BlogDecorator extends BlogComponent{
 		this.record = record;	
 		this.objectName=objectName;
 	}
-
-	public BlogDecorator() { }
-
-
 
 	public HashMap<String, Object> toHashMap() {
         return this.record.toHashMap();
