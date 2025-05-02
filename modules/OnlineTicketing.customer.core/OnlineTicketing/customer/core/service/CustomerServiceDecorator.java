@@ -8,7 +8,7 @@ public abstract class CustomerServiceDecorator extends CustomerServiceComponent{
         this.record = record;
     }
 
-	public CustomerImpl createCustomer(Map<String, Object> requestBody){
+	public Customer createCustomer(Map<String, Object> requestBody){
 		return record.createCustomer(requestBody);
 	}
 
@@ -21,7 +21,7 @@ public abstract class CustomerServiceDecorator extends CustomerServiceComponent{
 	}
 
 	public List<HashMap<String,Object>> getAllCustomer(Map<String, Object> requestBody){
-		return record.getAllCustomer();
+		return record.getAllCustomer(requestBody);
 	}
 
     // public List<HashMap<String,Object>> saveCustomer(VMJExchange vmjExchange){

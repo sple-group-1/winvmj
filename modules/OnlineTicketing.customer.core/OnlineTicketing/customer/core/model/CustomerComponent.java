@@ -31,17 +31,16 @@ public abstract class CustomerComponent implements Customer{
         this.email = email;
         this.name = name;
     }
+	
+	public UUID getCustomerId(){ return this.customerId; }
+	public void setCustomerId(UUID customerId) {this.customerId=customerId; }
+	
+	public String getEmail(){ return this.email; }
+	public void setEmail(String email) {this.email=email; }
+	
+	public String getName(){ return this.name; }
+	public void setName(String name) {this.name=name; }
 
-	public abstract UUID getCustomerId();
-	public abstract void setCustomerId(UUID customerId);
-	
-	public abstract String getEmail();
-	public abstract void setEmail(String email);
-	
-	public abstract String getName();
-	public abstract void setName(String name);
-	
- 
 
 	@Override
     public String toString() {

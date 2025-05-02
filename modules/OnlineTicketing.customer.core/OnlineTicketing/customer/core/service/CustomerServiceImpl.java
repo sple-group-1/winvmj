@@ -7,7 +7,7 @@ import OnlineTicketing.customer.CustomerFactory;
 //add other required packages
 
 public class CustomerServiceImpl extends CustomerServiceComponent{
-	private CustomerFactory customerFactory = new CustomerFactoryImpl();
+	private CustomerFactory customerFactory = new CustomerFactory();
 
     // public List<HashMap<String,Object>> saveCustomer(VMJExchange vmjExchange){
 	// 	if (vmjExchange.getHttpMethod().equals("OPTIONS")) {
@@ -24,7 +24,7 @@ public class CustomerServiceImpl extends CustomerServiceComponent{
 		
 		Customer customer = customerFactory.createCustomer("OnlineTicketing.customer.core.CustomerImpl", email, name);
 		customerRepository.saveObject(customer);
-		return getAllCustomer();
+		return getAllCustomer(requestBody);
 	}
 
     public Customer createCustomer(Map<String, Object> requestBody){
@@ -65,7 +65,9 @@ public class CustomerServiceImpl extends CustomerServiceComponent{
 	}
 
     public HashMap<String, Object> getCustomer(Map<String, Object> requestBody){
-		List<HashMap<String, Object>> customerList = getAllCustomer("customer_impl");
+		Map<String, Object> map = new HashMap<>();
+		map.put("table_name", "customer_impl");
+		List<HashMap<String, Object>> customerList = getAllCustomer(map);
 		String idStr = (String) requestBody.get("customerId");
 		UUID id = UUID.fromString(idStr);
 		for (HashMap<String, Object> customer : customerList){

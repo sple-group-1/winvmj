@@ -14,7 +14,7 @@ public class CustomerResourceImpl extends CustomerResourceComponent{
 
 	@Restricted(permissionName = "CreateCustomer")
     @Route(url="call/customer/create")
-    public HashMap<String,Object> createcustomer(VMJExchange vmjExchange){
+    public HashMap<String,Object> createCustomer(VMJExchange vmjExchange){
 		if (vmjExchange.getHttpMethod().equals("POST")) {
 		    Map<String, Object> requestBody = vmjExchange.getPayload(); 
 			Customer result = customerService.createCustomer(requestBody);
