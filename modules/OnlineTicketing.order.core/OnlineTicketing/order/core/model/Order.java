@@ -3,6 +3,9 @@ import vmj.routing.route.Route;
 import vmj.routing.route.VMJExchange;
 import java.util.*;
 
+import OnlineTicketing.customer.core.Customer;
+import OnlineTicketing.bookingoption.core.BookingOption;
+
 public interface Order {
 	public UUID getOrderId();
 	public void setOrderId(UUID orderId);
@@ -16,9 +19,9 @@ public interface Order {
 	public void setStartDate(Date startDate);
 	public Date getEndDate();
 	public void setEndDate(Date endDate);
-	public CustomerImpl getCustomerimpl();
-	public void setCustomerimpl(CustomerImpl customerimpl);
-	public BookingOptionImpl getBookingoptionimpl();
-	public void setBookingoptionimpl(BookingOptionImpl bookingoptionimpl);
+	public Customer getCustomer();
+	public void setCustomer(Customer customer);
+	public BookingOption getBookingOption();
+	public void setBookingOption(BookingOption bookingoption);
 	HashMap<String, Object> toHashMap();
 }

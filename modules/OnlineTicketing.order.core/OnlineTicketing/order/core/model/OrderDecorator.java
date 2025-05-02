@@ -18,6 +18,8 @@ public abstract class OrderDecorator extends OrderComponent{
 		super();
 		this.record = record;
 		this.orderId =  orderId.randomUUID();
+
+	}
 		
 	public OrderDecorator (OrderComponent record) {
 		this.orderId =  orderId.randomUUID();
@@ -34,10 +36,6 @@ public abstract class OrderDecorator extends OrderComponent{
 		this.record = record;	
 		this.objectName=objectName;
 	}
-
-	public OrderDecorator() { }
-
-
 
 	public HashMap<String, Object> toHashMap() {
         return this.record.toHashMap();
