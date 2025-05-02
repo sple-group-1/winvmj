@@ -18,7 +18,8 @@ public abstract class CartItemDecorator extends CartItemComponent{
 		super();
 		this.record = record;
 		this.id =  id.randomUUID();
-		
+	}
+	
 	public CartItemDecorator (CartItemComponent record) {
 		this.id =  id.randomUUID();
 		this.record = record;
@@ -34,10 +35,6 @@ public abstract class CartItemDecorator extends CartItemComponent{
 		this.record = record;	
 		this.objectName=objectName;
 	}
-
-	public CartItemDecorator() { }
-
-
 
 	public HashMap<String, Object> toHashMap() {
         return this.record.toHashMap();

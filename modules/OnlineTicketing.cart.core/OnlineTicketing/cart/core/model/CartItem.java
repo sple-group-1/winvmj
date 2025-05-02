@@ -6,12 +6,6 @@ import java.util.*;
 public interface CartItem {
 	public UUID getId();
 	public void setId(UUID id);
-	public int getTotal();
-	public void setTotal(int total);
-	public CustomerImpl getCustomerimpl();
-	public void setCustomerimpl(CustomerImpl customerimpl);
-	public UUID getId();
-	public void setId(UUID id);
 	public BookingItemImpl getBookingitemimpl();
 	public void setBookingitemimpl(BookingItemImpl bookingitemimpl);
 	public CartImpl getCartimpl();

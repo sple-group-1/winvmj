@@ -93,7 +93,7 @@ public class CartItemServiceImpl extends CartItemServiceComponent{
 
 	public HashMap<String, Object> getCartItemById(int id){
 		String idStr = vmjExchange.getGETParam("id"); 
-		int id = Integer.parseInt(idStr);
+		id = Integer.parseInt(idStr);
 		CartItem cartitem = cartitemRepository.getObject(id);
 		return cartitem.toHashMap();
 	}
