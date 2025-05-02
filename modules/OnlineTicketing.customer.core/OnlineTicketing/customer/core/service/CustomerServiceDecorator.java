@@ -1,8 +1,6 @@
 package OnlineTicketing.customer.core;
 import java.util.*;
 
-import vmj.routing.route.VMJExchange;
-
 public abstract class CustomerServiceDecorator extends CustomerServiceComponent{
 	protected CustomerServiceComponent record;
 
@@ -14,20 +12,24 @@ public abstract class CustomerServiceDecorator extends CustomerServiceComponent{
 		return record.createCustomer(requestBody);
 	}
 
-    public Customer createCustomer(Map<String, Object> requestBody, Map<String, Object> response){
-		return record.createCustomer(requestBody, response);
-	}
+    // public Customer createCustomer(Map<String, Object> requestBody, Map<String, Object> response){
+	// 	return record.createCustomer(requestBody, response);
+	// }
 
 	public HashMap<String, Object> getCustomer(Map<String, Object> requestBody){
 		return record.getCustomer(requestBody);
 	}
 
 	public List<HashMap<String,Object>> getAllCustomer(Map<String, Object> requestBody){
-		return record.getAllCustomer(requestBody);
+		return record.getAllCustomer();
 	}
 
-    public List<HashMap<String,Object>> saveCustomer(VMJExchange vmjExchange){
-		return record.saveCustomer(vmjExchange);
+    // public List<HashMap<String,Object>> saveCustomer(VMJExchange vmjExchange){
+	// 	return record.saveCustomer(vmjExchange);
+	// }
+
+	public List<HashMap<String,Object>> saveCustomer(Map<String, Object> requestBody) {
+		return record.saveCustomer(requestBody);
 	}
 
     public HashMap<String, Object> updateCustomer(Map<String, Object> requestBody){
@@ -42,7 +44,8 @@ public abstract class CustomerServiceDecorator extends CustomerServiceComponent{
 		return record.deleteCustomer(requestBody);
 	}
 
-	public HashMap<String, Object> getCustomerById(int id){
+	// public HashMap<String, Object> getCustomerById(int id){
+	public HashMap<String, Object> getCustomerById(UUID id){
         return record.getCustomerById(id);
     }
 

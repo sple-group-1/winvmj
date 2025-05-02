@@ -10,12 +10,11 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 
-@Entity
+@Entity(name="customer_comp")
 @Table(name="customer_comp")
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class CustomerComponent implements Customer{
 	@Id
-	public UUID customerId; 
 	public UUID customerId;
 	public String email;
 	public String name;

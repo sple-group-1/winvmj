@@ -9,8 +9,13 @@ public interface CustomerService {
 	HashMap<String, Object> getCustomer(Map<String, Object> requestBody);
     List<HashMap<String,Object>> saveCustomer(Map<String, Object> requestBody);
     HashMap<String, Object> updateCustomer(Map<String, Object> requestBody);
-    HashMap<String, Object> getCustomerById(int id);
+
+    // HashMap<String, Object> getCustomerById(int id);
+    HashMap<String, Object> getCustomerById(UUID id);
+
     List<HashMap<String,Object>> getAllCustomer(Map<String, Object> requestBody);
     List<HashMap<String,Object>> deleteCustomer(Map<String, Object> requestBody);
-	List<HashMap<String, Object>> transformListToHashMap(List<Disbursement> List);
+
+	// List<HashMap<String, Object>> transformListToHashMap(List<Disbursement> List);
+	List<HashMap<String, Object>> transformListToHashMap(List<Customer> List);
 }

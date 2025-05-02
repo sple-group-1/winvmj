@@ -25,14 +25,17 @@ public class CustomerImpl extends CustomerComponent {
 		this.name = name;
 	}
 
-	public CustomerImpl(UUID customerId, String email, String name) {
-		this.customerId =  customerId.randomUUID();;
-		this.customerId = customerId;
+	public CustomerImpl(String email, String name) {
+		this.customerId =  UUID.randomUUID();
 		this.email = email;
 		this.name = name;
 	}
 
-	public CustomerImpl() { }
+	public CustomerImpl() {
+		this.customerId =  UUID.randomUUID();
+		this.email = "";
+		this.name = "";
+	}
 
 
 	

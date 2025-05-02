@@ -11,7 +11,8 @@ public abstract class CustomerResourceDecorator extends CustomerResourceComponen
         this.record = record;
     }
 
-    public Customer createCustomer(VMJExchange vmjExchange){
+    // public Customer createCustomer(VMJExchange vmjExchange){
+	public HashMap<String, Object> createCustomer(VMJExchange vmjExchange){
 		return record.createCustomer(vmjExchange);
 	}
 

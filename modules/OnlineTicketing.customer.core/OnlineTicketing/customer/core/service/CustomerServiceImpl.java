@@ -1,68 +1,62 @@
 package OnlineTicketing.customer.core;
-import java.util.*;
-import com.google.gson.Gson;
+
 import java.util.*;
 import java.util.logging.Logger;
-import java.io.File;
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 
-import vmj.routing.route.Route;
-import vmj.routing.route.VMJExchange;
-import vmj.routing.route.exceptions.*;
 import OnlineTicketing.customer.CustomerFactory;
-import prices.auth.vmj.annotations.Restricted;
 //add other required packages
 
 public class CustomerServiceImpl extends CustomerServiceComponent{
+	private CustomerFactory customerFactory = new CustomerFactoryImpl();
 
-    public List<HashMap<String,Object>> saveCustomer(VMJExchange vmjExchange){
-		if (vmjExchange.getHttpMethod().equals("OPTIONS")) {
-			return null;
-		}
-		Customer customer = createCustomer(vmjExchange);
+    // public List<HashMap<String,Object>> saveCustomer(VMJExchange vmjExchange){
+	// 	if (vmjExchange.getHttpMethod().equals("OPTIONS")) {
+	// 		return null;
+	// 	}
+	// 	Customer customer = createCustomer(vmjExchange);
+	// 	customerRepository.saveObject(customer);
+	// 	return getAllCustomer(vmjExchange);
+	// }
+
+	public List<HashMap<String,Object>> saveCustomer(Map<String, Object> requestBody) {
+		String email = (String) requestBody.get("email");
+		String name = (String) requestBody.get("name");
+		
+		Customer customer = customerFactory.createCustomer("OnlineTicketing.customer.core.CustomerImpl", email, name);
 		customerRepository.saveObject(customer);
-		return getAllCustomer(vmjExchange);
+		return getAllCustomer();
 	}
 
     public Customer createCustomer(Map<String, Object> requestBody){
 		String email = (String) requestBody.get("email");
 		String name = (String) requestBody.get("name");
 		
-		//to do: fix association attributes
-		Customer Customer = CustomerFactory.createCustomer(
-			"OnlineTicketing.customer.core.CustomerImpl",
-		customerId
-		, email
-		, name
-		);
-		Repository.saveObject(customer);
+		Customer customer = customerFactory.createCustomer("OnlineTicketing.customer.core.CustomerImpl", email, name);
+		customerRepository.saveObject(customer);
 		return customer;
 	}
 
-    public Customer createCustomer(Map<String, Object> requestBody, int id){
-		String email = (String) vmjExchange.getRequestBodyForm("email");
-		String name = (String) vmjExchange.getRequestBodyForm("name");
+    // public Customer createCustomer(Map<String, Object> requestBody, int id){
+	// 	String email = (String) vmjExchange.getRequestBodyForm("email");
+	// 	String name = (String) vmjExchange.getRequestBodyForm("name");
 		
-		//to do: fix association attributes
+	// 	//to do: fix association attributes
 		
-		Customer customer = CustomerFactory.createCustomer("OnlineTicketing.customer.core.CustomerImpl", customerId, email, name);
-		return customer;
-	}
+	// 	Customer customer = CustomerFactory.createCustomer("OnlineTicketing.customer.core.CustomerImpl", customerId, email, name);
+	// 	return customer;
+	// }
 
     public HashMap<String, Object> updateCustomer(Map<String, Object> requestBody){
 		String idStr = (String) requestBody.get("customerId");
-		int id = Integer.parseInt(idStr);
-		Customer customer = Repository.getObject(id);
+		// int id = Integer.parseInt(idStr);
+		UUID id = UUID.fromString(idStr);
+
+		Customer customer = customerRepository.getObject(id);
 		
 		customer.setEmail((String) requestBody.get("email"));
 		customer.setName((String) requestBody.get("name"));
 		
-		Repository.updateObject(customer);
+		customerRepository.updateObject(customer);
 		
 		//to do: fix association attributes
 		
@@ -72,25 +66,30 @@ public class CustomerServiceImpl extends CustomerServiceComponent{
 
     public HashMap<String, Object> getCustomer(Map<String, Object> requestBody){
 		List<HashMap<String, Object>> customerList = getAllCustomer("customer_impl");
+		String idStr = (String) requestBody.get("customerId");
+		UUID id = UUID.fromString(idStr);
 		for (HashMap<String, Object> customer : customerList){
-			int record_id = ((Double) customer.get("record_id")).intValue();
-			if (record_id == id){
+			// int record_id = ((Double) customer.get("record_id")).intValue();
+			// if (record_id == id){
+			// 	return customer;
+			// }
+			UUID record_id = UUID.fromString(customer.get("record_id").toString());
+			if (record_id.equals(id)){
 				return customer;
 			}
 		}
 		return null;
 	}
 
-	public HashMap<String, Object> getCustomerById(int id){
-		String idStr = vmjExchange.getGETParam("customerId"); 
-		int id = Integer.parseInt(idStr);
+	// public HashMap<String, Object> getCustomerById(int id){
+	public HashMap<String, Object> getCustomerById(UUID id){
 		Customer customer = customerRepository.getObject(id);
 		return customer.toHashMap();
 	}
 
     public List<HashMap<String,Object>> getAllCustomer(Map<String, Object> requestBody){
 		String table = (String) requestBody.get("table_name");
-		List<Customer> List = Repository.getAllObject(table);
+		List<Customer> List = customerRepository.getAllObject(table);
 		return transformListToHashMap(List);
 	}
 
@@ -104,9 +103,10 @@ public class CustomerServiceImpl extends CustomerServiceComponent{
 	}
 
     public List<HashMap<String,Object>> deleteCustomer(Map<String, Object> requestBody){
-		String idStr = ((String) requestBody.get("id"));
-		int id = Integer.parseInt(idStr);
-		Repository.deleteObject(id);
+		String idStr = (String) requestBody.get("customerId");
+		// int id = Integer.parseInt(idStr);
+		UUID id = UUID.fromString(idStr);
+		customerRepository.deleteObject(id);
 		return getAllCustomer(requestBody);
 	}
 

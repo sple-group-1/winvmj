@@ -18,6 +18,7 @@ public abstract class CustomerDecorator extends CustomerComponent{
 		super();
 		this.record = record;
 		this.customerId =  customerId.randomUUID();
+	}
 		
 	public CustomerDecorator (CustomerComponent record) {
 		this.customerId =  customerId.randomUUID();
@@ -34,10 +35,6 @@ public abstract class CustomerDecorator extends CustomerComponent{
 		this.record = record;	
 		this.objectName=objectName;
 	}
-
-	public CustomerDecorator() { }
-
-
 
 	public HashMap<String, Object> toHashMap() {
         return this.record.toHashMap();
