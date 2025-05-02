@@ -15,31 +15,43 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 
-@Entity(name="wishlist_impl")
-@Table(name="wishlist_impl")
+@Entity(name = "wishlist_impl")
+@Table(name = "wishlist_impl")
 public class WishlistImpl extends WishlistComponent {
 
-	public WishlistImpl(UUID wishlistId, DateTime addedAt) {
-		this.wishlistId = wishlistId;
-		this.addedAt = addedAt;
-	}
-
-	public WishlistImpl(UUID wishlistId, DateTime addedAt) {
-		this.wishlistId =  wishlistId.randomUUID();;
-		this.wishlistId = wishlistId;
-		this.addedAt = addedAt;
-	}
-
-	public WishlistImpl() { }
+  public WishlistImpl(UUID wishlistId, Date addedAt) {
+    this.wishlistId = wishlistId;
+    this.addedAt = addedAt;
+  }
 
 
-	
-	public HashMap<String, Object> toHashMap() {
-        HashMap<String, Object> wishlistMap = new HashMap<String,Object>();
-		wishlistMap.put("wishlistId",getWishlistId());
-		wishlistMap.put("addedAt",getAddedAt());
+  public WishlistImpl() {}
 
-        return wishlistMap;
-    }
 
+
+  public HashMap<String, Object> toHashMap() {
+    HashMap<String, Object> wishlistMap = new HashMap<String, Object>();
+    wishlistMap.put("wishlistId", getWishlistId());
+    wishlistMap.put("addedAt", getAddedAt());
+
+    return wishlistMap;
+  }
+  
+  public UUID getWishlistId() {
+	  return this.wishlistId;
+  }
+  public void setWishlistId(UUID wishlistId) {
+	  this.wishlistId = wishlistId;
+  }
+  
+  public Date getAddedAt() {
+	  return this.addedAt;
+  }
+  
+  public void setAddedAt(Date addedAt) {
+	  this.addedAt = addedAt;
+  }
+  
+  
 }
+
