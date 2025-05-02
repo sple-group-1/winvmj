@@ -1,100 +1,113 @@
 package OnlineTicketing.order.core;
-import java.util.*;
-import com.google.gson.Gson;
+
 import java.util.*;
 import java.util.logging.Logger;
-import java.io.File;
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 
-import vmj.routing.route.Route;
-import vmj.routing.route.VMJExchange;
-import vmj.routing.route.exceptions.*;
 import OnlineTicketing.order.OrderFactory;
-import prices.auth.vmj.annotations.Restricted;
 //add other required packages
 
 public class OrderServiceImpl extends OrderServiceComponent{
 
-    public List<HashMap<String,Object>> saveOrder(VMJExchange vmjExchange){
-		if (vmjExchange.getHttpMethod().equals("OPTIONS")) {
-			return null;
-		}
-		Order order = createOrder(vmjExchange);
-		orderRepository.saveObject(order);
-		return getAllOrder(vmjExchange);
-	}
+    // public List<HashMap<String,Object>> saveOrder(VMJExchange vmjExchange){
+	// 	if (vmjExchange.getHttpMethod().equals("OPTIONS")) {
+	// 		return null;
+	// 	}
+	// 	Order order = createOrder(vmjExchange);
+	// 	orderRepository.saveObject(order);
+	// 	return getAllOrder(vmjExchange);
+	// }
 
     public Order createOrder(Map<String, Object> requestBody){
 		String amountStr = (String) requestBody.get("amount");
 		int amount = Integer.parseInt(amountStr);
 		String quantityStr = (String) requestBody.get("quantity");
 		int quantity = Integer.parseInt(quantityStr);
+		String startStr = (String) requestBody.get("start_date");
+		Date startDate = Date.from(Instant.parse(startStr));
+		String endStr = (String) requestBody.get("end_date");
+		Date endDate = Date.from(Instant.parse(endStr));
+		String customerIdStr = (String) requestBody.get("customerId");
+		String bookingOptionIdStr = (String) requestBody.get("bookingOptionId");
+
+		Date createdAt = new DateTime();
+
+		Customer customer = null;
+		if (customerIdStr != null) {
+			UUID customerId = UUID.fromString(customerIdStr);
+			customer = orderRepository.getProxyObject(OnlineTicketing.customer.core.CustomerComponent.class, customerId);
+		}
+
+		BookingOption bookingOption = null;
+		if (bookingOptionIdStr != null) {
+			UUID bookingOptionId = UUID.fromString(bookingOptionIdStr);
+			bookingOption = orderRepository.getProxyObject(OnlineTicketing.bookingoption.core.BookingOptionComponent.class, bookingOptionId);
+		}
 		
 		//to do: fix association attributes
-		Order Order = OrderFactory.createOrder(
-			"OnlineTicketing.order.core.OrderImpl",
+		Order Order = OrderFactory.createOrder("OnlineTicketing.order.core.OrderImpl",
 		orderId
 		, createdAt
 		, amount
 		, quantity
 		, startDate
 		, endDate
-		, customerimpl
-		, bookingoptionimpl
+		, customer
+		, bookingoption
 		);
-		Repository.saveObject(order);
+		orderRepository.saveObject(order);
 		return order;
 	}
 
-    public Order createOrder(Map<String, Object> requestBody, int id){
-		String amountStr = (String) vmjExchange.getRequestBodyForm("amount");
-		int amount = Integer.parseInt(amountStr);
-		String quantityStr = (String) vmjExchange.getRequestBodyForm("quantity");
-		int quantity = Integer.parseInt(quantityStr);
+    // public Order createOrder(Map<String, Object> requestBody, int id){
+	// 	String amountStr = (String) vmjExchange.getRequestBodyForm("amount");
+	// 	int amount = Integer.parseInt(amountStr);
+	// 	String quantityStr = (String) vmjExchange.getRequestBodyForm("quantity");
+	// 	int quantity = Integer.parseInt(quantityStr);
 		
-		//to do: fix association attributes
+	// 	//to do: fix association attributes
 		
-		Order order = OrderFactory.createOrder("OnlineTicketing.order.core.OrderImpl", orderId, createdAt, amount, quantity, startDate, endDate, customerimpl, bookingoptionimpl);
-		return order;
-	}
+	// 	Order order = OrderFactory.createOrder("OnlineTicketing.order.core.OrderImpl", orderId, createdAt, amount, quantity, startDate, endDate, customerimpl, bookingoptionimpl);
+	// 	return order;
+	// }
 
-    public HashMap<String, Object> updateOrder(Map<String, Object> requestBody){
-		String idStr = (String) requestBody.get("orderId");
-		int id = Integer.parseInt(idStr);
-		Order order = Repository.getObject(id);
+    // public HashMap<String, Object> updateOrder(Map<String, Object> requestBody){
+	// 	String idStr = (String) requestBody.get("orderId");
+	// 	int id = Integer.parseInt(idStr);
+	// 	Order order = Repository.getObject(id);
 		
-		String amountStr = (String) requestBody.get("amount");
-		order.setAmount(Integer.parseInt(amountStr));
-		String quantityStr = (String) requestBody.get("quantity");
-		order.setQuantity(Integer.parseInt(quantityStr));
+	// 	String amountStr = (String) requestBody.get("amount");
+	// 	order.setAmount(Integer.parseInt(amountStr));
+	// 	String quantityStr = (String) requestBody.get("quantity");
+	// 	order.setQuantity(Integer.parseInt(quantityStr));
 		
-		Repository.updateObject(order);
+	// 	Repository.updateObject(order);
 		
-		//to do: fix association attributes
+	// 	//to do: fix association attributes
 		
-		return order.toHashMap();
+	// 	return order.toHashMap();
 		
-	}
+	// }
 
     public HashMap<String, Object> getOrder(Map<String, Object> requestBody){
 		List<HashMap<String, Object>> orderList = getAllOrder("order_impl");
+		String idStr = (String) requestBody.get("orderId");
+		UUID id = UUID.fromString(idStr);
 		for (HashMap<String, Object> order : orderList){
-			int record_id = ((Double) order.get("record_id")).intValue();
-			if (record_id == id){
-				return order;
+			// int record_id = ((Double) order.get("record_id")).intValue();
+			// if (record_id == id){
+			// 	return order;
+			// }
+			UUID record_id = UUID.fromString(customer.get("record_id").toString());
+			if (record_id.equals(id)){
+				return customer;
 			}
 		}
 		return null;
 	}
 
-	public HashMap<String, Object> getOrderById(int id){
-		String idStr = vmjExchange.getGETParam("orderId"); 
-		int id = Integer.parseInt(idStr);
+	public HashMap<String, Object> getOrderById(UUID id){
+		// String idStr = vmjExchange.getGETParam("orderId"); 
+		// int id = Integer.parseInt(idStr);
 		Order order = orderRepository.getObject(id);
 		return order.toHashMap();
 	}
@@ -114,11 +127,11 @@ public class OrderServiceImpl extends OrderServiceComponent{
         return resultList;
 	}
 
-    public List<HashMap<String,Object>> deleteOrder(Map<String, Object> requestBody){
-		String idStr = ((String) requestBody.get("id"));
-		int id = Integer.parseInt(idStr);
-		Repository.deleteObject(id);
-		return getAllOrder(requestBody);
-	}
+    // public List<HashMap<String,Object>> deleteOrder(Map<String, Object> requestBody){
+	// 	String idStr = ((String) requestBody.get("id"));
+	// 	int id = Integer.parseInt(idStr);
+	// 	Repository.deleteObject(id);
+	// 	return getAllOrder(requestBody);
+	// }
 
 }

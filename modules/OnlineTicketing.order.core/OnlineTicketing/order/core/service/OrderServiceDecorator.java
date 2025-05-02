@@ -1,8 +1,6 @@
 package OnlineTicketing.order.core;
 import java.util.*;
 
-import vmj.routing.route.VMJExchange;
-
 public abstract class OrderServiceDecorator extends OrderServiceComponent{
 	protected OrderServiceComponent record;
 
@@ -14,9 +12,9 @@ public abstract class OrderServiceDecorator extends OrderServiceComponent{
 		return record.createOrder(requestBody);
 	}
 
-    public Order createOrder(Map<String, Object> requestBody, Map<String, Object> response){
-		return record.createOrder(requestBody, response);
-	}
+    // public Order createOrder(Map<String, Object> requestBody, Map<String, Object> response){
+	// 	return record.createOrder(requestBody, response);
+	// }
 
 	public HashMap<String, Object> getOrder(Map<String, Object> requestBody){
 		return record.getOrder(requestBody);
@@ -26,23 +24,28 @@ public abstract class OrderServiceDecorator extends OrderServiceComponent{
 		return record.getAllOrder(requestBody);
 	}
 
-    public List<HashMap<String,Object>> saveOrder(VMJExchange vmjExchange){
-		return record.saveOrder(vmjExchange);
+    // public List<HashMap<String,Object>> saveOrder(VMJExchange vmjExchange){
+	// 	return record.saveOrder(vmjExchange);
+	// }
+
+	public List<HashMap<String,Object>> saveOrder(Map<String, Object> requestBody){
+		return record.saveOrder(requestBody);
 	}
 
-    public HashMap<String, Object> updateOrder(Map<String, Object> requestBody){
-		return record.updateOrder(requestBody);
-	}
+    // public HashMap<String, Object> updateOrder(Map<String, Object> requestBody){
+	// 	return record.updateOrder(requestBody);
+	// }
 
     public List<HashMap<String,Object>> transformListToHashMap(List<Order> List){
 		return record.transformListToHashMap(List);
 	}
 
-    public List<HashMap<String,Object>> deleteOrder(Map<String, Object> requestBody){
-		return record.deleteOrder(requestBody);
-	}
+    // public List<HashMap<String,Object>> deleteOrder(Map<String, Object> requestBody){
+	// 	return record.deleteOrder(requestBody);
+	// }
 
-	public HashMap<String, Object> getOrderById(int id){
+	public HashMap<String, Object> getOrderById(UUID id){
+	// public HashMap<String, Object> getOrderById(int id){
         return record.getOrderById(id);
     }
 

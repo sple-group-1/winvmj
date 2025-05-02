@@ -19,32 +19,36 @@ import javax.persistence.OneToMany;
 @Table(name="order_impl")
 public class OrderImpl extends OrderComponent {
 
-	public OrderImpl(UUID orderId, DateTime createdAt, int amount, int quantity, Date startDate, Date endDate, CustomerImpl customerimpl, BookingOptionImpl bookingoptionimpl) {
+	public OrderImpl(UUID orderId, DateTime createdAt, int amount, int quantity, Date startDate, Date endDate, Customer customer, BookingOption bookingOption) {
 		this.orderId = orderId;
 		this.createdAt = createdAt;
 		this.amount = amount;
 		this.quantity = quantity;
 		this.startDate = startDate;
 		this.endDate = endDate;
-		this.customerimpl = customerimpl;
-		this.bookingoptionimpl = bookingoptionimpl;
+		this.customer = customer;
+		this.bookingOption = bookingOption;
 	}
 
-	public OrderImpl(UUID orderId, DateTime createdAt, int amount, int quantity, Date startDate, Date endDate, CustomerImpl customerimpl, BookingOptionImpl bookingoptionimpl) {
-		this.orderId =  orderId.randomUUID();;
-		this.orderId = orderId;
+	public OrderImpl(DateTime createdAt, int amount, int quantity, Date startDate, Date endDate, Customer customer, BookingOption bookingOption) {
+		this.orderId =  UUID.randomUUID();
 		this.createdAt = createdAt;
 		this.amount = amount;
 		this.quantity = quantity;
 		this.startDate = startDate;
 		this.endDate = endDate;
-		this.customerimpl = customerimpl;
-		this.bookingoptionimpl = bookingoptionimpl;
+		this.customer = customer;
+		this.bookingOption = bookingOption;
 	}
 
-	public OrderImpl() { }
-
-
+	public OrderImpl() {
+		this.orderId = UUID.randomUUID();
+		this.createdAt = createdAt;
+		this.amount = amount;
+		this.quantity = quantity;
+		this.startDate = startDate;
+		this.endDate = endDate;
+	}
 	
 	public HashMap<String, Object> toHashMap() {
         HashMap<String, Object> orderMap = new HashMap<String,Object>();
@@ -54,8 +58,8 @@ public class OrderImpl extends OrderComponent {
 		orderMap.put("quantity",getQuantity());
 		orderMap.put("startDate",getStartDate());
 		orderMap.put("endDate",getEndDate());
-		orderMap.put("customerimpl",getCustomerimpl());
-		orderMap.put("bookingoptionimpl",getBookingoptionimpl());
+		orderMap.put("customer",getCustomer());
+		orderMap.put("bookingOption",getBookingOption());
 
         return orderMap;
     }
