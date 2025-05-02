@@ -9,7 +9,7 @@ public abstract class BookingItemResourceComponent implements BookingItemResourc
 	
 	public BookingItemResourceComponent() { }
  
-    public abstract BookingItem createBookingItem(VMJExchange vmjExchange);    
+    public abstract HashMap<String, Object> createBookingItem(VMJExchange vmjExchange);    
 	public abstract HashMap<String, Object> updateBookingItem(VMJExchange vmjExchange);
     public abstract HashMap<String, Object> getBookingItem(VMJExchange vmjExchange);
     public abstract List<HashMap<String,Object>> getAllBookingItem(VMJExchange vmjExchange);

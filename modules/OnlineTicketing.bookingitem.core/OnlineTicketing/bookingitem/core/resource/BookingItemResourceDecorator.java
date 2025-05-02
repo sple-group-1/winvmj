@@ -11,7 +11,7 @@ public abstract class BookingItemResourceDecorator extends BookingItemResourceCo
         this.record = record;
     }
 
-    public BookingItem createBookingItem(VMJExchange vmjExchange){
+    public HashMap<String, Object> createBookingItem(VMJExchange vmjExchange){
 		return record.createBookingItem(vmjExchange);
 	}
 

@@ -4,7 +4,6 @@ import java.util.*;
 import vmj.routing.route.VMJExchange;
 
 public interface BookingItemResource {
-    List<HashMap<String,Object>> saveBookingItem(VMJExchange vmjExchange);
     HashMap<String, Object> updateBookingItem(VMJExchange vmjExchange);
     HashMap<String, Object> getBookingItem(VMJExchange vmjExchange);
     List<HashMap<String,Object>> getAllBookingItem(VMJExchange vmjExchange);

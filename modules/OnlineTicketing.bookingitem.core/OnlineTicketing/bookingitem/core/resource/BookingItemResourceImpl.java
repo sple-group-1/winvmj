@@ -13,12 +13,12 @@ public class BookingItemResourceImpl extends BookingItemResourceComponent{
 	private BookingItemServiceImpl bookingitemServiceImpl = new BookingItemServiceImpl();
 
 	// @Restriced(permission = "")
-    @Route(url="call/bookingitem")
-    public HashMap<String,Object> createbookingitem(VMJExchange vmjExchange){
+  @Route(url="call/bookingitem/create")
+    public HashMap<String,Object> createBookingItem(VMJExchange vmjExchange){
 		if (vmjExchange.getHttpMethod().equals("POST")) {
 		    Map<String, Object> requestBody = vmjExchange.getPayload(); 
-			BookingItem result = bookingitemServiceImpl.createBookingItem(requestBody);
-			return result.toHashMap();
+				HashMap<String, Object> result = bookingitemServiceImpl.createBookingItem(requestBody);
+			return result;
 		}
 		throw new NotFoundException("Route tidak ditemukan");
 	}

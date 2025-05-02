@@ -10,13 +10,10 @@ public abstract class BookingItemServiceDecorator extends BookingItemServiceComp
         this.record = record;
     }
 
-	public BookingItemImpl createBookingItem(Map<String, Object> requestBody){
+	public HashMap<String, Object> createBookingItem(Map<String, Object> requestBody){
 		return record.createBookingItem(requestBody);
 	}
 
-    public BookingItem createBookingItem(Map<String, Object> requestBody, Map<String, Object> response){
-		return record.createBookingItem(requestBody, response);
-	}
 
 	public HashMap<String, Object> getBookingItem(Map<String, Object> requestBody){
 		return record.getBookingItem(requestBody);
@@ -24,10 +21,6 @@ public abstract class BookingItemServiceDecorator extends BookingItemServiceComp
 
 	public List<HashMap<String,Object>> getAllBookingItem(Map<String, Object> requestBody){
 		return record.getAllBookingItem(requestBody);
-	}
-
-    public List<HashMap<String,Object>> saveBookingItem(VMJExchange vmjExchange){
-		return record.saveBookingItem(vmjExchange);
 	}
 
     public HashMap<String, Object> updateBookingItem(Map<String, Object> requestBody){
