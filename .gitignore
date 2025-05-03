@@ -1,1 +1,10 @@
-/bin/
+src
+src-gen
+bin-comp
+bin
+.vscode
+*.sh
+*.txt
+/bin
+/src
+/bin-comp

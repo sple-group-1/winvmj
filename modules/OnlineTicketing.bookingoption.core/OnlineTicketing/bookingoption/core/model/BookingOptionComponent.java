@@ -48,7 +48,7 @@ public abstract class BookingOptionComponent implements BookingOption{
 	public void setBookingType(String bookingType) {this.bookingType=bookingType;};
 	
 	public BookingItem getBookingItem() {return this.bookingItem;};
-	public void setBookingIten(BookingItem bookingItem){this.bookingItem = bookingItem;};
+	public void setBookingItem(BookingItem bookingItem){this.bookingItem = bookingItem;};
 	
  
 

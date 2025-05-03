@@ -17,11 +17,11 @@ public abstract class CustomerDecorator extends CustomerComponent{
 	public CustomerDecorator () {
 		super();
 		this.record = record;
-		this.customerId =  customerId.randomUUID();
+		this.customerId =  UUID.randomUUID();
 	}
 		
 	public CustomerDecorator (CustomerComponent record) {
-		this.customerId =  customerId.randomUUID();
+		this.customerId =  UUID.randomUUID();
 		this.record = record;
 	}
 
