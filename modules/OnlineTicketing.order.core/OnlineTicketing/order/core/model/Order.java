@@ -2,6 +2,7 @@ package OnlineTicketing.order.core;
 import vmj.routing.route.Route;
 import vmj.routing.route.VMJExchange;
 import java.util.*;
+import java.time.LocalDateTime;
 
 import OnlineTicketing.customer.core.Customer;
 import OnlineTicketing.bookingoption.core.BookingOption;
@@ -9,8 +10,8 @@ import OnlineTicketing.bookingoption.core.BookingOption;
 public interface Order {
 	public UUID getOrderId();
 	public void setOrderId(UUID orderId);
-	public DateTime getCreatedAt();
-	public void setCreatedAt(DateTime createdAt);
+	public LocalDateTime getCreatedAt();
+	public void setCreatedAt(LocalDateTime createdAt);
 	public int getAmount();
 	public void setAmount(int amount);
 	public int getQuantity();

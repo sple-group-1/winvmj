@@ -3,12 +3,14 @@ package OnlineTicketing.order.core;
 import java.util.*;
 import vmj.routing.route.Route;
 import vmj.routing.route.VMJExchange;
+import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
+import javax.persistence.ManyToOne;
 
 import OnlineTicketing.customer.core.*;
 import OnlineTicketing.bookingoption.core.*;
@@ -19,14 +21,14 @@ import OnlineTicketing.bookingoption.core.*;
 public abstract class OrderComponent implements Order{
 	@Id
 	public UUID orderId; 
-	public DateTime createdAt;
+	public LocalDateTime createdAt;
 	public int amount;
 	public int quantity;
 	public Date startDate;
 	public Date endDate;
 	@ManyToOne(targetEntity=OnlineTicketing.customer.core.CustomerComponent.class)
 	public Customer customer;
-	@ManyToOne(targetEntity=OnlineTicketing.bookingoption.core.Component.class)
+	@ManyToOne(targetEntity=OnlineTicketing.bookingoption.core.BookingOptionComponent.class)
 	public BookingOption bookingOption;
 	protected String objectName = OrderComponent.class.getName();
 
@@ -35,7 +37,7 @@ public abstract class OrderComponent implements Order{
 	} 
 
 	public OrderComponent(
-        UUID orderId, DateTime createdAt, int amount, int quantity, Date startDate, Date endDate, Customer customer, BookingOption bookingOption
+        UUID orderId, LocalDateTime createdAt, int amount, int quantity, Date startDate, Date endDate, Customer customer, BookingOption bookingOption
     ) {
         this.orderId = orderId;
         this.createdAt = createdAt;
@@ -47,29 +49,69 @@ public abstract class OrderComponent implements Order{
         this.bookingOption = bookingOption;
     }
 
-	public abstract UUID getOrderId();
-	public abstract void setOrderId(UUID orderId);
-	
-	public abstract DateTime getCreatedAt();
-	public abstract void setCreatedAt(DateTime createdAt);
-	
-	public abstract int getAmount();
-	public abstract void setAmount(int amount);
-	
-	public abstract int getQuantity();
-	public abstract void setQuantity(int quantity);
-	
-	public abstract Date getStartDate();
-	public abstract void setStartDate(Date startDate);
-	
-	public abstract Date getEndDate();
-	public abstract void setEndDate(Date endDate);
-	
-	public abstract Customer getCustomer();
-	public abstract void setCustomer(Customer customer);
-	
-	public abstract BookingOption getBookingOption();
-	public abstract void setBookingOption(BookingOption bookingOption);
+	public UUID getOrderId() {
+        return this.orderId;
+    }
+
+    public void setOrderId(UUID orderId) {
+        this.orderId = orderId;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return this.createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public int getAmount() {
+        return this.amount;
+    }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
+    }
+
+    public int getQuantity() {
+        return this.quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public Date getStartDate() {
+        return this.startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Date getEndDate() {
+        return this.endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
+
+    public Customer getCustomer() {
+        return this.customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    public BookingOption getBookingOption() {
+        return this.bookingOption;
+    }
+
+    public void setBookingOption(BookingOption bookingOption) {
+        this.bookingOption = bookingOption;
+    }
 	
 	@Override
     public String toString() {

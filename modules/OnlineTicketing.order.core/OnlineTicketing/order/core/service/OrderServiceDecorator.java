@@ -8,7 +8,7 @@ public abstract class OrderServiceDecorator extends OrderServiceComponent{
         this.record = record;
     }
 
-	public OrderImpl createOrder(Map<String, Object> requestBody){
+	public Order createOrder(Map<String, Object> requestBody){
 		return record.createOrder(requestBody);
 	}
 
@@ -28,9 +28,9 @@ public abstract class OrderServiceDecorator extends OrderServiceComponent{
 	// 	return record.saveOrder(vmjExchange);
 	// }
 
-	public List<HashMap<String,Object>> saveOrder(Map<String, Object> requestBody){
-		return record.saveOrder(requestBody);
-	}
+	// public List<HashMap<String,Object>> saveOrder(Map<String, Object> requestBody){
+	// 	return record.saveOrder(requestBody);
+	// }
 
     // public HashMap<String, Object> updateOrder(Map<String, Object> requestBody){
 	// 	return record.updateOrder(requestBody);

@@ -14,10 +14,10 @@ public class OrderResourceImpl extends OrderResourceComponent{
 
 	@Restricted(permissionName = "CreateOrder")
     @Route(url="call/order/create")
-    public HashMap<String,Object> createorder(VMJExchange vmjExchange){
+    public HashMap<String,Object> createOrder(VMJExchange vmjExchange){
 		if (vmjExchange.getHttpMethod().equals("POST")) {
 		    Map<String, Object> requestBody = vmjExchange.getPayload(); 
-			Order result = OrderService.createOrder(requestBody);
+			Order result = orderService.createOrder(requestBody);
 			return result.toHashMap();
 		}
 		throw new NotFoundException("Route tidak ditemukan");
@@ -38,14 +38,14 @@ public class OrderResourceImpl extends OrderResourceComponent{
     @Route(url="call/order/detail")
     public HashMap<String, Object> getOrder(VMJExchange vmjExchange){
 		Map<String, Object> requestBody = vmjExchange.getPayload(); 
-		return OrderService.getOrder(requestBody);
+		return orderService.getOrder(requestBody);
 	}
 
 	@Restricted(permissionName = "ReadOrder")
     @Route(url="call/order/list")
     public List<HashMap<String,Object>> getAllOrder(VMJExchange vmjExchange){
 		Map<String, Object> requestBody = vmjExchange.getPayload(); 
-		return OrderService.getAllOrder(requestBody);
+		return orderService.getAllOrder(requestBody);
 	}
 
     

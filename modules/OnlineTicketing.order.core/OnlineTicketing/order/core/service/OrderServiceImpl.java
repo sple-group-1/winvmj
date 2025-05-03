@@ -2,8 +2,11 @@ package OnlineTicketing.order.core;
 
 import java.util.*;
 import java.util.logging.Logger;
+import java.time.*;
 
 import OnlineTicketing.order.OrderFactory;
+import OnlineTicketing.customer.core.*;
+import OnlineTicketing.bookingoption.core.*;
 //add other required packages
 
 public class OrderServiceImpl extends OrderServiceComponent{
@@ -29,7 +32,7 @@ public class OrderServiceImpl extends OrderServiceComponent{
 		String customerIdStr = (String) requestBody.get("customerId");
 		String bookingOptionIdStr = (String) requestBody.get("bookingOptionId");
 
-		Date createdAt = new DateTime();
+		LocalDateTime createdAt = LocalDateTime.now();
 
 		Customer customer = null;
 		if (customerIdStr != null) {
@@ -44,15 +47,14 @@ public class OrderServiceImpl extends OrderServiceComponent{
 		}
 		
 		//to do: fix association attributes
-		Order Order = OrderFactory.createOrder("OnlineTicketing.order.core.OrderImpl",
-		orderId
+		Order order = OrderFactory.createOrder("OnlineTicketing.order.core.OrderImpl"
 		, createdAt
 		, amount
 		, quantity
 		, startDate
 		, endDate
 		, customer
-		, bookingoption
+		, bookingOption
 		);
 		orderRepository.saveObject(order);
 		return order;
@@ -89,7 +91,9 @@ public class OrderServiceImpl extends OrderServiceComponent{
 	// }
 
     public HashMap<String, Object> getOrder(Map<String, Object> requestBody){
-		List<HashMap<String, Object>> orderList = getAllOrder("order_impl");
+		Map<String, Object> map = new HashMap<>();
+		map.put("table_name", "order_impl");
+		List<HashMap<String, Object>> orderList = getAllOrder(map);
 		String idStr = (String) requestBody.get("orderId");
 		UUID id = UUID.fromString(idStr);
 		for (HashMap<String, Object> order : orderList){
@@ -97,9 +101,9 @@ public class OrderServiceImpl extends OrderServiceComponent{
 			// if (record_id == id){
 			// 	return order;
 			// }
-			UUID record_id = UUID.fromString(customer.get("record_id").toString());
+			UUID record_id = UUID.fromString(order.get("record_id").toString());
 			if (record_id.equals(id)){
-				return customer;
+				return order;
 			}
 		}
 		return null;
@@ -114,7 +118,7 @@ public class OrderServiceImpl extends OrderServiceComponent{
 
     public List<HashMap<String,Object>> getAllOrder(Map<String, Object> requestBody){
 		String table = (String) requestBody.get("table_name");
-		List<Order> List = Repository.getAllObject(table);
+		List<Order> List = orderRepository.getAllObject(table);
 		return transformListToHashMap(List);
 	}
 

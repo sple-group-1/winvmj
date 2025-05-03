@@ -2,6 +2,7 @@ package OnlineTicketing.order.core;
 
 import java.lang.Math;
 import java.util.*;
+import java.time.LocalDateTime;
 import vmj.routing.route.Route;
 import vmj.routing.route.VMJExchange;
 
@@ -14,12 +15,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import OnlineTicketing.customer.core.*;
+import OnlineTicketing.bookingoption.core.*;
 
 @Entity(name="order_impl")
 @Table(name="order_impl")
 public class OrderImpl extends OrderComponent {
 
-	public OrderImpl(UUID orderId, DateTime createdAt, int amount, int quantity, Date startDate, Date endDate, Customer customer, BookingOption bookingOption) {
+	public OrderImpl(UUID orderId, LocalDateTime createdAt, int amount, int quantity, Date startDate, Date endDate, Customer customer, BookingOption bookingOption) {
 		this.orderId = orderId;
 		this.createdAt = createdAt;
 		this.amount = amount;
@@ -30,7 +33,7 @@ public class OrderImpl extends OrderComponent {
 		this.bookingOption = bookingOption;
 	}
 
-	public OrderImpl(DateTime createdAt, int amount, int quantity, Date startDate, Date endDate, Customer customer, BookingOption bookingOption) {
+	public OrderImpl(LocalDateTime createdAt, int amount, int quantity, Date startDate, Date endDate, Customer customer, BookingOption bookingOption) {
 		this.orderId =  UUID.randomUUID();
 		this.createdAt = createdAt;
 		this.amount = amount;
