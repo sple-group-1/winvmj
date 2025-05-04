@@ -4,6 +4,8 @@ import java.util.*;
 import java.util.logging.Logger;
 
 import OnlineTicketing.customer.CustomerFactory;
+import vmj.routing.route.exceptions.NotFoundException;
+
 //add other required packages
 
 public class CustomerServiceImpl extends CustomerServiceComponent{
@@ -110,6 +112,15 @@ public class CustomerServiceImpl extends CustomerServiceComponent{
 		UUID id = UUID.fromString(idStr);
 		customerRepository.deleteObject(id);
 		return getAllCustomer(requestBody);
+	}
+
+	public Customer getCustomerByEmail(String email) {
+		try {
+			Customer customer = customerRepository.getListObject("customer_comp", "email", email).get(0);
+			return customer;
+		} catch (Exception e) {
+			throw new NotFoundException("Customer with email " + email + " not exist.");
+		}
 	}
 
 }

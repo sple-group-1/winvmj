@@ -18,4 +18,5 @@ public interface CustomerService {
 
 	// List<HashMap<String, Object>> transformListToHashMap(List<Disbursement> List);
 	List<HashMap<String, Object>> transformListToHashMap(List<Customer> List);
+    Customer getCustomerByEmail(String email);
 }

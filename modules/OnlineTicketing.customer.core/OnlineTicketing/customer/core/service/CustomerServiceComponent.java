@@ -27,5 +27,5 @@ public abstract class CustomerServiceComponent implements CustomerService{
 
 	// public abstract HashMap<String, Object> getCustomerById(int id);
 	public abstract HashMap<String, Object> getCustomerById(UUID id);
-
+    public abstract Customer getCustomerByEmail(String email);
 }

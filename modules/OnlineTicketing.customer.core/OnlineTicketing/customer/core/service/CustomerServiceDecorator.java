@@ -49,4 +49,8 @@ public abstract class CustomerServiceDecorator extends CustomerServiceComponent{
         return record.getCustomerById(id);
     }
 
+	public Customer getCustomerByEmail(String email) {
+		return record.getCustomerByEmail(email);
+	}
+
 }
