@@ -6,11 +6,14 @@ import vmj.routing.route.VMJExchange;
 import vmj.routing.route.exceptions.*;
 import OnlineTicketing.order.OrderFactory;
 import vmj.auth.annotations.Restricted;
+
+import OnlineTicketing.customer.core.*;
 //import prices.auth.vmj.annotations.Restricted;
 //add other required packages
 
 public class OrderResourceImpl extends OrderResourceComponent{
 	private OrderService orderService = new OrderServiceImpl();
+	private CustomerService customerService = new CustomerServiceImpl();
 
 	@Restricted(permissionName = "CreateOrder")
     @Route(url="call/order/create")
@@ -22,17 +25,6 @@ public class OrderResourceImpl extends OrderResourceComponent{
 		}
 		throw new NotFoundException("Route tidak ditemukan");
 	}
-
-    // @Restriced(permission = "")
-    // @Route(url="call/order/update")
-    // public HashMap<String, Object> updateOrder(VMJExchange vmjExchange){
-	// 	Map<String, Object> requestBody = vmjExchange.getPayload(); 
-	// 	if (vmjExchange.getHttpMethod().equals("OPTIONS")){
-	// 		return null;
-	// 	}
-	// 	return OrderService.updateOrder(requestBody);
-		
-	// }
 
 	@Restricted(permissionName = "ReadOrder")
     @Route(url="call/order/detail")
@@ -48,16 +40,34 @@ public class OrderResourceImpl extends OrderResourceComponent{
 		return orderService.getAllOrder(requestBody);
 	}
 
-    
-	// @Restriced(permission = "")
-    // @Route(url="call/order/delete")
-    // public List<HashMap<String,Object>> deleteOrder(VMJExchange vmjExchange){
-	// 	Map<String, Object> requestBody = vmjExchange.getPayload(); 
-	// 	if (vmjExchange.getHttpMethod().equals("OPTIONS")) {
-	// 		return null;
-	// 	}
-		
-	// 	return OrderService.deleteOrder(requestBody);
-	// }
+	@Restricted(permissionName = "ReadOrder")
+    @Route(url="call/order/completed")
+    public List<HashMap<String,Object>> getCompletedOrder(VMJExchange vmjExchange){
+		String type = (String) vmjExchange.getGETParam("type");
 
+		String email = vmjExchange.getAuthPayload().getEmail();
+		Customer customer = customerService.getCustomerByEmail(email);
+		UUID customerId = customer.getCustomerId();
+
+		return orderService.getCompletedOrder(customerId, type);
+	}
+
+	@Restricted(permissionName = "ReadOrder")
+    @Route(url="call/order/upcoming")
+    public List<HashMap<String,Object>> getUpcomingOrder(VMJExchange vmjExchange){
+		String type = (String) vmjExchange.getGETParam("type");
+
+		String email = vmjExchange.getAuthPayload().getEmail();
+		Customer customer = customerService.getCustomerByEmail(email);
+		UUID customerId = customer.getCustomerId();
+
+		return orderService.getUpcomingOrder(customerId, type);
+	}
+
+	// count payment
+    @Route(url="call/order/count")
+    public HashMap<String, Object> countPayment(VMJExchange vmjExchange){
+		Map<String, Object> requestBody = vmjExchange.getPayload(); 
+		return orderService.countPayment(requestBody);
+	}
 }

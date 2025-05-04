@@ -10,15 +10,8 @@ import OnlineTicketing.bookingoption.core.*;
 //add other required packages
 
 public class OrderServiceImpl extends OrderServiceComponent{
-
-    // public List<HashMap<String,Object>> saveOrder(VMJExchange vmjExchange){
-	// 	if (vmjExchange.getHttpMethod().equals("OPTIONS")) {
-	// 		return null;
-	// 	}
-	// 	Order order = createOrder(vmjExchange);
-	// 	orderRepository.saveObject(order);
-	// 	return getAllOrder(vmjExchange);
-	// }
+	private OrderFactory orderFactory = new OrderFactory();
+	// private CustomerService customerService = new CustomerServiceImpl();
 
     public Order createOrder(Map<String, Object> requestBody){
 		String amountStr = (String) requestBody.get("amount");
@@ -26,9 +19,9 @@ public class OrderServiceImpl extends OrderServiceComponent{
 		String quantityStr = (String) requestBody.get("quantity");
 		int quantity = Integer.parseInt(quantityStr);
 		String startStr = (String) requestBody.get("start_date");
-		Date startDate = Date.from(Instant.parse(startStr));
+		LocalDate startDate = LocalDate.parse(startStr);
 		String endStr = (String) requestBody.get("end_date");
-		Date endDate = Date.from(Instant.parse(endStr));
+		LocalDate endDate = LocalDate.parse(endStr);
 		String customerIdStr = (String) requestBody.get("customerId");
 		String bookingOptionIdStr = (String) requestBody.get("bookingOptionId");
 
@@ -46,7 +39,6 @@ public class OrderServiceImpl extends OrderServiceComponent{
 			bookingOption = orderRepository.getProxyObject(OnlineTicketing.bookingoption.core.BookingOptionComponent.class, bookingOptionId);
 		}
 		
-		//to do: fix association attributes
 		Order order = OrderFactory.createOrder("OnlineTicketing.order.core.OrderImpl"
 		, createdAt
 		, amount
@@ -60,36 +52,6 @@ public class OrderServiceImpl extends OrderServiceComponent{
 		return order;
 	}
 
-    // public Order createOrder(Map<String, Object> requestBody, int id){
-	// 	String amountStr = (String) vmjExchange.getRequestBodyForm("amount");
-	// 	int amount = Integer.parseInt(amountStr);
-	// 	String quantityStr = (String) vmjExchange.getRequestBodyForm("quantity");
-	// 	int quantity = Integer.parseInt(quantityStr);
-		
-	// 	//to do: fix association attributes
-		
-	// 	Order order = OrderFactory.createOrder("OnlineTicketing.order.core.OrderImpl", orderId, createdAt, amount, quantity, startDate, endDate, customerimpl, bookingoptionimpl);
-	// 	return order;
-	// }
-
-    // public HashMap<String, Object> updateOrder(Map<String, Object> requestBody){
-	// 	String idStr = (String) requestBody.get("orderId");
-	// 	int id = Integer.parseInt(idStr);
-	// 	Order order = Repository.getObject(id);
-		
-	// 	String amountStr = (String) requestBody.get("amount");
-	// 	order.setAmount(Integer.parseInt(amountStr));
-	// 	String quantityStr = (String) requestBody.get("quantity");
-	// 	order.setQuantity(Integer.parseInt(quantityStr));
-		
-	// 	Repository.updateObject(order);
-		
-	// 	//to do: fix association attributes
-		
-	// 	return order.toHashMap();
-		
-	// }
-
     public HashMap<String, Object> getOrder(Map<String, Object> requestBody){
 		Map<String, Object> map = new HashMap<>();
 		map.put("table_name", "order_impl");
@@ -97,10 +59,6 @@ public class OrderServiceImpl extends OrderServiceComponent{
 		String idStr = (String) requestBody.get("orderId");
 		UUID id = UUID.fromString(idStr);
 		for (HashMap<String, Object> order : orderList){
-			// int record_id = ((Double) order.get("record_id")).intValue();
-			// if (record_id == id){
-			// 	return order;
-			// }
 			UUID record_id = UUID.fromString(order.get("record_id").toString());
 			if (record_id.equals(id)){
 				return order;
@@ -110,8 +68,6 @@ public class OrderServiceImpl extends OrderServiceComponent{
 	}
 
 	public HashMap<String, Object> getOrderById(UUID id){
-		// String idStr = vmjExchange.getGETParam("orderId"); 
-		// int id = Integer.parseInt(idStr);
 		Order order = orderRepository.getObject(id);
 		return order.toHashMap();
 	}
@@ -131,11 +87,67 @@ public class OrderServiceImpl extends OrderServiceComponent{
         return resultList;
 	}
 
-    // public List<HashMap<String,Object>> deleteOrder(Map<String, Object> requestBody){
-	// 	String idStr = ((String) requestBody.get("id"));
-	// 	int id = Integer.parseInt(idStr);
-	// 	Repository.deleteObject(id);
-	// 	return getAllOrder(requestBody);
-	// }
+	public List<HashMap<String, Object>> getCompletedOrder(UUID customerId, String bookingType) {
+		List<Order> orderList = orderRepository.getListObject("order_comp", "customer_customerid", customerId);
+		List<Order> completedOrders = new ArrayList<>();
+
+		LocalDate today = LocalDate.now();
+
+		for (Order order : orderList) {
+			if (order.getEndDate().isBefore(today)) {
+				completedOrders.add(order);
+			}
+		}
+
+		List<Order> result = filterOrdersByType(completedOrders, bookingType);
+		return transformListToHashMap(result);
+	}
+	
+	public List<HashMap<String, Object>> getUpcomingOrder(UUID customerId, String bookingType) {
+		List<Order> orderList = orderRepository.getListObject("order_comp", "customer_customerid", customerId);
+		List<Order> upcomingOrders = new ArrayList<>();
+
+		LocalDate today = LocalDate.now();
+
+		for (Order order : orderList) {
+			if (order.getEndDate().isAfter(today)) {
+				upcomingOrders.add(order);
+			}
+		}
+
+		List<Order> result = filterOrdersByType(upcomingOrders, bookingType);
+		return transformListToHashMap(result);
+	}
+
+	public List<Order> filterOrdersByType(List<Order> orderList, String bookingType) {
+		List<Order> filteredOrders = new ArrayList<>();
+		for (Order order : orderList) {
+			if (order.getBookingOption().getBookingType().equalsIgnoreCase(bookingType)) {
+				filteredOrders.add(order);
+			}
+		}
+		return filteredOrders;
+	}
+
+	public HashMap<String, Object> countPayment(Map<String, Object> requestBody){
+		String bookingOptionIdStr = (String) requestBody.get("roomId");
+		String startDateStr = (String) requestBody.get("startDate");
+		LocalDate startDate = LocalDate.parse(startDateStr);
+		String endDateStr = (String) requestBody.get("endDate");
+		LocalDate endDate = LocalDate.parse(endDateStr);
+		String roomCountStr = (String) requestBody.get("roomCount");
+		int roomCount = Integer.parseInt(roomCountStr);
+
+		BookingOption bookingOption = null;
+		if (bookingOptionIdStr != null) {
+			UUID bookingOptionId = UUID.fromString(bookingOptionIdStr);
+			bookingOption = orderRepository.getProxyObject(OnlineTicketing.bookingoption.core.BookingOptionComponent.class, bookingOptionId);
+		}
+		int total = 0;
+		if (bookingOption.getBookingType().equals("hotel")) {
+			long days = endDate.toEpochDay() - startDate.toEpochDay();
+			total = bookingOption.getPrice() * days * roomCount;
+		}
+	}
 
 }

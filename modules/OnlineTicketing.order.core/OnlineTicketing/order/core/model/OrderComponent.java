@@ -1,9 +1,7 @@
 package OnlineTicketing.order.core;
 
 import java.util.*;
-import vmj.routing.route.Route;
-import vmj.routing.route.VMJExchange;
-import java.time.LocalDateTime;
+import java.time.*;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -24,8 +22,8 @@ public abstract class OrderComponent implements Order{
 	public LocalDateTime createdAt;
 	public int amount;
 	public int quantity;
-	public Date startDate;
-	public Date endDate;
+	public LocalDate startDate;
+	public LocalDate endDate;
 	@ManyToOne(targetEntity=OnlineTicketing.customer.core.CustomerComponent.class)
 	public Customer customer;
 	@ManyToOne(targetEntity=OnlineTicketing.bookingoption.core.BookingOptionComponent.class)
@@ -37,7 +35,7 @@ public abstract class OrderComponent implements Order{
 	} 
 
 	public OrderComponent(
-        UUID orderId, LocalDateTime createdAt, int amount, int quantity, Date startDate, Date endDate, Customer customer, BookingOption bookingOption
+        UUID orderId, LocalDateTime createdAt, int amount, int quantity, LocalDate startDate, LocalDate endDate, Customer customer, BookingOption bookingOption
     ) {
         this.orderId = orderId;
         this.createdAt = createdAt;
@@ -81,19 +79,19 @@ public abstract class OrderComponent implements Order{
         this.quantity = quantity;
     }
 
-    public Date getStartDate() {
+    public LocalDate getStartDate() {
         return this.startDate;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
 
-    public Date getEndDate() {
+    public LocalDate getEndDate() {
         return this.endDate;
     }
 
-    public void setEndDate(Date endDate) {
+    public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
 

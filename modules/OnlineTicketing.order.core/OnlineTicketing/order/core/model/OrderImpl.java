@@ -2,9 +2,7 @@ package OnlineTicketing.order.core;
 
 import java.lang.Math;
 import java.util.*;
-import java.time.LocalDateTime;
-import vmj.routing.route.Route;
-import vmj.routing.route.VMJExchange;
+import java.time.*;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -22,7 +20,7 @@ import OnlineTicketing.bookingoption.core.*;
 @Table(name="order_impl")
 public class OrderImpl extends OrderComponent {
 
-	public OrderImpl(UUID orderId, LocalDateTime createdAt, int amount, int quantity, Date startDate, Date endDate, Customer customer, BookingOption bookingOption) {
+	public OrderImpl(UUID orderId, LocalDateTime createdAt, int amount, int quantity, LocalDate startDate, LocalDate endDate, Customer customer, BookingOption bookingOption) {
 		this.orderId = orderId;
 		this.createdAt = createdAt;
 		this.amount = amount;
@@ -33,7 +31,7 @@ public class OrderImpl extends OrderComponent {
 		this.bookingOption = bookingOption;
 	}
 
-	public OrderImpl(LocalDateTime createdAt, int amount, int quantity, Date startDate, Date endDate, Customer customer, BookingOption bookingOption) {
+	public OrderImpl(LocalDateTime createdAt, int amount, int quantity, LocalDate startDate, LocalDate endDate, Customer customer, BookingOption bookingOption) {
 		this.orderId =  UUID.randomUUID();
 		this.createdAt = createdAt;
 		this.amount = amount;
