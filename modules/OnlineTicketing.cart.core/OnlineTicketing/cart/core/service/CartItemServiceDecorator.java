@@ -10,7 +10,7 @@ public abstract class CartItemServiceDecorator extends CartItemServiceComponent{
         this.record = record;
     }
 
-	public CartItemImpl createCartItem(Map<String, Object> requestBody){
+	public CartItem createCartItem(Map<String, Object> requestBody){
 		return record.createCartItem(requestBody);
 	}
 

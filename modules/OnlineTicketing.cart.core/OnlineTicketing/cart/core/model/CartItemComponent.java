@@ -10,6 +10,8 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 import OnlineTicketing.bookingitem.core.*;
+import java.time.*;
+import javax.persistence.ManyToOne;
 
 @Entity
 @Table(name="cartitem_comp")
@@ -17,7 +19,7 @@ import OnlineTicketing.bookingitem.core.*;
 public abstract class CartItemComponent implements CartItem{
 	@Id
 	public UUID id; 
-	@ManyToOne(targetEntity=OnlineTicketing.bookingitem.core.Component.class)
+	@ManyToOne(targetEntity=OnlineTicketing.bookingitem.core.BookingItemComponent.class)
 	public BookingItem bookingitem;
 	@ManyToOne(targetEntity=OnlineTicketing.cart.core.CartComponent.class)
 	public Cart cart;
@@ -32,7 +34,7 @@ public abstract class CartItemComponent implements CartItem{
 	} 
 
 	public CartItemComponent(
-        UUID id, BookingItem bookingitem, Cart cart, int quantity, Date startDate, Date endDate, int amount
+        UUID id, BookingItem bookingitem, Cart cart, int quantity, LocalDate startDate, LocalDate endDate, int amount
     ) {
         this.id = id;
         this.bookingitem = bookingitem;

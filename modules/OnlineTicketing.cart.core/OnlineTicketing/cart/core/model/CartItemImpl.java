@@ -14,12 +14,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import OnlineTicketing.bookingitem.core.*;
+import java.time.*;
 
 @Entity(name="cartitem_impl")
 @Table(name="cartitem_impl")
 public class CartItemImpl extends CartItemComponent {
 
-	public CartItemImpl(UUID id, BookingItem bookingitem, Cart cart, int quantity, Date startDate, Date endDate, int amount) {
+	public CartItemImpl(UUID id, BookingItem bookingitem, Cart cart, int quantity, LocalDate startDate, LocalDate endDate, int amount) {
 		this.id = id;
 		this.bookingitem = bookingitem;
 		this.cart = cart;
@@ -29,7 +30,7 @@ public class CartItemImpl extends CartItemComponent {
 		this.amount = amount;
 	}
 
-	public CartItemImpl(BookingItem bookingitem, Cart cart, int quantity, Date startDate, Date endDate, int amount) {
+	public CartItemImpl(BookingItem bookingitem, Cart cart, int quantity, LocalDate startDate, LocalDate endDate, int amount) {
 		this.id =  id.randomUUID();;
 		this.bookingitem = bookingitem;
 		this.cart = cart;

@@ -24,7 +24,7 @@ public class CartFactory{
                     try {
                         constructor = constructorList[i];
                         System.out.println(constructor.toString());
-                        record = (Order) constructor.newInstance(base);
+                        record = (Cart) constructor.newInstance(base);
                         i = constructorList.length;
                     } catch (IllegalArgumentException e) {
                         if (i < constructorList.length - 1) {

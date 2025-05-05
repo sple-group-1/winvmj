@@ -15,7 +15,7 @@ import vmj.routing.route.Route;
 import vmj.routing.route.VMJExchange;
 import vmj.routing.route.exceptions.*;
 import OnlineTicketing.cart.CartFactory;
-import prices.auth.vmj.annotations.Restricted;
+import OnlineTicketing.customer.core.*;
 //add other required packages
 
 public class CartServiceImpl extends CartServiceComponent{
@@ -38,7 +38,7 @@ public class CartServiceImpl extends CartServiceComponent{
 		Customer customer = null;
 		if (customerIdStr != null) {
 			UUID customerId = UUID.fromString(customerIdStr);
-			customer = orderRepository.getProxyObject(OnlineTicketing.customer.core.CustomerComponent.class, customerId);
+			customer = cartRepository.getProxyObject(OnlineTicketing.customer.core.CustomerComponent.class, customerId);
 		}
 		
 		//to do: fix association attributes
@@ -73,7 +73,7 @@ public class CartServiceImpl extends CartServiceComponent{
 		String totalStr = (String) requestBody.get("total");
 		cart.setTotal(Integer.parseInt(totalStr));
 		
-		Repository.updateObject(cart);
+		cartRepository.updateObject(cart);
 		
 		//to do: fix association attributes
 		
@@ -115,7 +115,7 @@ public class CartServiceImpl extends CartServiceComponent{
 
     public List<HashMap<String,Object>> getAllCart(Map<String, Object> requestBody){
 		String table = (String) requestBody.get("table_name");
-		List<Cart> List = Repository.getAllObject(table);
+		List<Cart> List = cartRepository.getAllObject(table);
 		return transformListToHashMap(List);
 	}
 

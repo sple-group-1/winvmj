@@ -10,6 +10,7 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 import OnlineTicketing.customer.core.*;
+import javax.persistence.ManyToOne;
 
 @Entity
 @Table(name="cart_comp")

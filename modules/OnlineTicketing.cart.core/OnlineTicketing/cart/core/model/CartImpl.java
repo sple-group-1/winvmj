@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import OnlineTicketing.customer.core.*;
 
 
 @Entity(name="cart_impl")

@@ -10,7 +10,7 @@ public abstract class CartServiceDecorator extends CartServiceComponent{
         this.record = record;
     }
 
-	public CartImpl createCart(Map<String, Object> requestBody){
+	public Cart createCart(Map<String, Object> requestBody){
 		return record.createCart(requestBody);
 	}
 
@@ -42,7 +42,7 @@ public abstract class CartServiceDecorator extends CartServiceComponent{
 	// 	return record.deleteCart(requestBody);
 	// }
 
-	public HashMap<String, Object> getCartById(int id){
+	public HashMap<String, Object> getCartById(UUID id){
         return record.getCartById(id);
     }
 

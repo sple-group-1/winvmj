@@ -9,7 +9,7 @@ public abstract class CartServiceComponent implements CartService{
 	protected RepositoryUtil<Cart> cartRepository;
 
     public CartServiceComponent(){
-        this.Repository = new RepositoryUtil<Cart>(OnlineTicketing.cart.core.CartComponent.class);
+        this.cartRepository = new RepositoryUtil<Cart>(OnlineTicketing.cart.core.CartComponent.class);
     }	
 
 	public abstract Cart createCart(Map<String, Object> requestBody);    

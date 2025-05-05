@@ -16,7 +16,6 @@ import vmj.routing.route.Route;
 import vmj.routing.route.VMJExchange;
 import vmj.routing.route.exceptions.*;
 import OnlineTicketing.cart.CartItemFactory;
-import prices.auth.vmj.annotations.Restricted;
 //add other required packages
 
 import OnlineTicketing.bookingitem.core.*;
@@ -62,32 +61,30 @@ public class CartItemServiceImpl extends CartItemServiceComponent{
 		String cartIdStr = (String) requestBody.get("cartId");
 		String bookingitemIdStr = (String) requestBody.get("bookingItemId");
 
-		LocalDateTime createdAt = LocalDateTime.now();
-
-		CartItem cartitem = null;
+		Cart cart = null;
 		if (cartIdStr != null) {
 			UUID cartId = UUID.fromString(cartIdStr);
-			cartitem = cartItemRepository.getProxyObject(OnlineTicketing.cart.core.CartComponent.class, cartId);
+			cart = cartItemRepository.getProxyObject(OnlineTicketing.cart.core.CartComponent.class, cartId);
 		}
 
 		BookingItem bookingitem = null;
 		if (bookingitemIdStr != null){
-			UUID bookingitemId = UUID.from(bookingitemIdStr);
+			UUID bookingitemId = UUID.fromString(bookingitemIdStr);
 			bookingitem = cartItemRepository.getProxyObject(OnlineTicketing.bookingitem.core.BookingItemComponent.class, bookingitemId);
 		}
 		
 		//to do: fix association attributes
-		CartItem CartItem = CartItemFactory.createCartItem(
+		CartItem cartItem = CartItemFactory.createCartItem(
 			"OnlineTicketing.cart.core.CartItemImpl"
 		, bookingitem
-		, cartitem
+		, cart
 		, quantity
 		, startDate
 		, endDate
 		, amount
 		);
-		cartRepository.saveObject(cartitem);
-		return cartitem;
+		cartItemRepository.saveObject(cartItem);
+		return cartItem;
 	}
 
     // public CartItem createCartItem(Map<String, Object> requestBody, int id){
@@ -154,7 +151,7 @@ public class CartItemServiceImpl extends CartItemServiceComponent{
 	// 	return cartitem.toHashMap();
 	// }
 	public HashMap<String, Object> getCartItemById(UUID id){
-		CartItem cartitem = cartItemRespository.getObject(id);
+		CartItem cartitem = cartItemRepository.getObject(id);
 		return cartitem.toHashMap();
 	}
 
