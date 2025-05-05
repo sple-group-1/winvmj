@@ -10,13 +10,13 @@ public abstract class CartItemServiceDecorator extends CartItemServiceComponent{
         this.record = record;
     }
 
-	public CartItemImpl createCartItem(Map<String, Object> requestBody){
+	public CartItem createCartItem(Map<String, Object> requestBody){
 		return record.createCartItem(requestBody);
 	}
 
-    public CartItem createCartItem(Map<String, Object> requestBody, Map<String, Object> response){
-		return record.createCartItem(requestBody, response);
-	}
+    // public CartItem createCartItem(Map<String, Object> requestBody, Map<String, Object> response){
+	// 	return record.createCartItem(requestBody, response);
+	// }
 
 	public HashMap<String, Object> getCartItem(Map<String, Object> requestBody){
 		return record.getCartItem(requestBody);
@@ -26,9 +26,9 @@ public abstract class CartItemServiceDecorator extends CartItemServiceComponent{
 		return record.getAllCartItem(requestBody);
 	}
 
-    public List<HashMap<String,Object>> saveCartItem(VMJExchange vmjExchange){
-		return record.saveCartItem(vmjExchange);
-	}
+    // public List<HashMap<String,Object>> saveCartItem(VMJExchange vmjExchange){
+	// 	return record.saveCartItem(vmjExchange);
+	// }
 
     public HashMap<String, Object> updateCartItem(Map<String, Object> requestBody){
 		return record.updateCartItem(requestBody);
@@ -42,7 +42,11 @@ public abstract class CartItemServiceDecorator extends CartItemServiceComponent{
 		return record.deleteCartItem(requestBody);
 	}
 
-	public HashMap<String, Object> getCartItemById(int id){
+	// public HashMap<String, Object> getCartItemById(int id){
+    //     return record.getCartItemById(id);
+    // }
+
+	public HashMap<String, Object> getCartItemById(UUID id){
         return record.getCartItemById(id);
     }
 

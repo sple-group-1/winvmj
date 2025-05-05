@@ -14,7 +14,7 @@ public class CartItemResourceImpl extends CartItemResourceComponent{
 
 	// @Restriced(permission = "")
     @Route(url="call/cart")
-    public HashMap<String,Object> createcartitem(VMJExchange vmjExchange){
+    public HashMap<String,Object> createCartItem(VMJExchange vmjExchange){
 		if (vmjExchange.getHttpMethod().equals("POST")) {
 		    Map<String, Object> requestBody = vmjExchange.getPayload(); 
 			CartItem result = cartitemServiceImpl.createCartItem(requestBody);

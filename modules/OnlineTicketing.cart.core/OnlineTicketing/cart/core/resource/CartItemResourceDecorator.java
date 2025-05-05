@@ -11,7 +11,7 @@ public abstract class CartItemResourceDecorator extends CartItemResourceComponen
         this.record = record;
     }
 
-    public CartItem createCartItem(VMJExchange vmjExchange){
+    public HashMap<String,Object> createCartItem(VMJExchange vmjExchange){
 		return record.createCartItem(vmjExchange);
 	}
 
