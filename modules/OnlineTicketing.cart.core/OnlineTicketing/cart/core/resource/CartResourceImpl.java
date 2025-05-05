@@ -50,14 +50,14 @@ public class CartResourceImpl extends CartResourceComponent{
 
     
 	// @Restriced(permission = "")
-    @Route(url="call/cart/delete")
-    public List<HashMap<String,Object>> deleteCart(VMJExchange vmjExchange){
-		Map<String, Object> requestBody = vmjExchange.getPayload(); 
-		if (vmjExchange.getHttpMethod().equals("OPTIONS")) {
-			return null;
-		}
+    // @Route(url="call/cart/delete")
+    // public List<HashMap<String,Object>> deleteCart(VMJExchange vmjExchange){
+	// 	Map<String, Object> requestBody = vmjExchange.getPayload(); 
+	// 	if (vmjExchange.getHttpMethod().equals("OPTIONS")) {
+	// 		return null;
+	// 	}
 		
-		return cartServiceImpl.deleteCart(requestBody);
-	}
+	// 	return cartServiceImpl.deleteCart(requestBody);
+	// }
 
 }

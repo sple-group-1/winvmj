@@ -27,8 +27,8 @@ public abstract class CartResourceDecorator extends CartResourceComponent{
 		return record.getAllCart(vmjExchange);
 	}
 
-    public List<HashMap<String,Object>> deleteCart(VMJExchange vmjExchange){
-		return record.deleteCart(vmjExchange);
-	}
+    // public List<HashMap<String,Object>> deleteCart(VMJExchange vmjExchange){
+	// 	return record.deleteCart(vmjExchange);
+	// }
 
 }

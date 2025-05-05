@@ -9,7 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
-import OnlineTicketing.bookingitem.*;
+import OnlineTicketing.bookingitem.core.*;
 
 @Entity
 @Table(name="cartitem_comp")
@@ -18,12 +18,12 @@ public abstract class CartItemComponent implements CartItem{
 	@Id
 	public UUID id; 
 	@ManyToOne(targetEntity=OnlineTicketing.bookingitem.core.Component.class)
-	public BookingItem bookingitemimpl;
+	public BookingItem bookingitem;
 	@ManyToOne(targetEntity=OnlineTicketing.cart.core.CartComponent.class)
-	public Cart cartimpl;
+	public Cart cart;
 	public int quantity;
-	public Date startDate;
-	public Date endDate;
+	public LocalDate startDate;
+	public LocalDate endDate;
 	public int amount;
 	protected String objectName = CartItemComponent.class.getName();
 
@@ -32,37 +32,66 @@ public abstract class CartItemComponent implements CartItem{
 	} 
 
 	public CartItemComponent(
-        UUID id, BookingItemImpl bookingitemimpl, CartImpl cartimpl, int quantity, Date startDate, Date endDate, int amount
+        UUID id, BookingItem bookingitem, Cart cart, int quantity, Date startDate, Date endDate, int amount
     ) {
         this.id = id;
-        this.bookingitemimpl = bookingitemimpl;
-        this.cartimpl = cartimpl;
+        this.bookingitem = bookingitem;
+        this.cart = cart;
         this.quantity = quantity;
         this.startDate = startDate;
         this.endDate = endDate;
         this.amount = amount;
     }
 
-	public abstract UUID getId();
-	public abstract void setId(UUID id);
+	public UUID getId(){
+		return this.id;
+	}
+	public void setId(UUID id){
+		this.id = id;
+	}
 	
-	public abstract BookingItemImpl getBookingitemimpl();
-	public abstract void setBookingitemimpl(BookingItemImpl bookingitemimpl);
+	public BookingItem getBookingitem(){
+		return this.bookingitem; 
+	}
+	public void setBookingitem(BookingItem bookingitem){
+		this.bookingitem = bookingitem;
+	}
 	
-	public abstract CartImpl getCartimpl();
-	public abstract void setCartimpl(CartImpl cartimpl);
+	public Cart getCart(){
+		return this.cart;
+	}
+	public void setCart(Cart cart){
+		this.cart = cart;
+	}
 	
-	public abstract int getQuantity();
-	public abstract void setQuantity(int quantity);
+	public int getQuantity(){
+		return this.quantity;
+	}
+	public void setQuantity(int quantity){
+		this.quantity = quantity;
+	};
 	
-	public abstract Date getStartDate();
-	public abstract void setStartDate(Date startDate);
+	public LocalDate getStartDate(){
+		return this.startDate;
+	}
+	public void setStartDate(LocalDate startDate){
+		this.startDate = startDate;
+	}
 	
-	public abstract Date getEndDate();
-	public abstract void setEndDate(Date endDate);
+	public LocalDate getEndDate(){
+		return this.endDate;
+	}
+
+	public void setEndDate(LocalDate endDate){
+		this.endDate = endDate;
+	}
 	
-	public abstract int getAmount();
-	public abstract void setAmount(int amount);
+	public int getAmount(){
+		return this.amount;
+	}
+	public void setAmount(int amount){
+		this.amount = amount;
+	}
 	
  
 
@@ -70,8 +99,8 @@ public abstract class CartItemComponent implements CartItem{
     public String toString() {
         return "{" +
             " id='" + getId() + "'" +
-            " bookingitemimpl='" + getBookingitemimpl() + "'" +
-            " cartimpl='" + getCartimpl() + "'" +
+            " bookingitem='" + getBookingitem() + "'" +
+            " cart='" + getCart() + "'" +
             " quantity='" + getQuantity() + "'" +
             " startDate='" + getStartDate() + "'" +
             " endDate='" + getEndDate() + "'" +

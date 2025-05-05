@@ -19,16 +19,16 @@ import javax.persistence.OneToMany;
 @Table(name="cart_impl")
 public class CartImpl extends CartComponent {
 
-	public CartImpl(UUID id, int total, CustomerImpl customerimpl) {
+	public CartImpl(UUID id, int total, Customer customer) {
 		this.id = id;
 		this.total = total;
-		this.customerimpl = customerimpl;
+		this.customer = customer;
 	}
 
-	public CartImpl(int total, CustomerImpl customerimpl) {
+	public CartImpl(int total, Customer customer) {
 		this.id =  id.randomUUID();;
 		this.total = total;
-		this.customerimpl = customerimpl;
+		this.customer = customer;
 	}
 
 	public CartImpl() { }
@@ -39,7 +39,7 @@ public class CartImpl extends CartComponent {
         HashMap<String, Object> cartMap = new HashMap<String,Object>();
 		cartMap.put("id",getId());
 		cartMap.put("total",getTotal());
-		cartMap.put("customerimpl",getCustomerimpl());
+		cartMap.put("customer",getCustomer());
 
         return cartMap;
     }
