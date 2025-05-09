@@ -12,7 +12,7 @@ public abstract class BookingItemServiceComponent implements BookingItemService{
         this.Repository = new RepositoryUtil<BookingItem>(OnlineTicketing.bookingitem.core.BookingItemComponent.class);
     }	
 
-    public abstract HashMap<String, Object> createBookingItem(Map<String, Object> requestBodye);   
+    public abstract BookingItem createBookingItem(Map<String, Object> requestBodye);   
 	public abstract HashMap<String, Object> updateBookingItem(Map<String, Object> requestBody);
     public abstract HashMap<String, Object> getBookingItem(Map<String, Object> requestBody);
     public abstract List<HashMap<String,Object>> getAllBookingItem(Map<String, Object> requestBody);

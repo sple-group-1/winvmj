@@ -20,16 +20,15 @@ import OnlineTicketing.bookingitem.BookingItemFactory;
 
 public class BookingItemServiceImpl extends BookingItemServiceComponent {
 
-	public HashMap<String, Object> createBookingItem(Map<String, Object> requestBody) {
+	public BookingItem createBookingItem(Map<String, Object> requestBody) {
 		String bookingType = (String) requestBody.get("bookingType");
 
 		// to do: fix association attributes
 		BookingItem bookingItem = BookingItemFactory.createBookingItem(
 				"OnlineTicketing.bookingitem.core.BookingItemImpl", bookingType);
 		Repository.saveObject(bookingItem);
-		return bookingItem.toHashMap();
+		return bookingItem;
 	}
-
 
 	public HashMap<String, Object> updateBookingItem(Map<String, Object> requestBody) {
 		String idStr = (String) requestBody.get("id");
@@ -47,9 +46,11 @@ public class BookingItemServiceImpl extends BookingItemServiceComponent {
 	}
 
 	public HashMap<String, Object> getBookingItem(Map<String, Object> requestBody) {
-		Map<String, Object> map = new HashMap<>() {{
-			put("table_name", "bookingitem_impl");
-	}};
+		Map<String, Object> map = new HashMap<>() {
+			{
+				put("table_name", "bookingitem_impl");
+			}
+		};
 		List<HashMap<String, Object>> bookingitemList = getAllBookingItem(map);
 		for (HashMap<String, Object> bookingitem : bookingitemList) {
 			int record_id = ((Double) bookingitem.get("record_id")).intValue();
@@ -61,8 +62,6 @@ public class BookingItemServiceImpl extends BookingItemServiceComponent {
 	}
 
 	public HashMap<String, Object> getBookingItemById(int id) {
-		// String idStr = vmjExchange.getGETParam("id");
-		// int id = Integer.parseInt(idStr);
 		BookingItem bookingitem = Repository.getObject(id);
 		return bookingitem.toHashMap();
 	}

@@ -9,5 +9,6 @@
   "Wishlist": ["OnlineTicketing.wishlist.core"],
   "Blog": ["OnlineTicketing.blog.core"],
   "Cart": ["OnlineTicketing.cart.core"],
-  "Review": ["OnlineTicketing.review.core"]
+  "Review": ["OnlineTicketing.review.core"],
+  "Hotel": ["OnlineTicketing.bookingitem.hotel"]
 }
