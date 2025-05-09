@@ -1,4 +1,5 @@
 package OnlineTicketing.bookingavailability.core;
+
 import java.util.*;
 import com.google.gson.Gson;
 import java.util.*;
@@ -14,103 +15,87 @@ import java.nio.charset.StandardCharsets;
 import vmj.routing.route.Route;
 import vmj.routing.route.VMJExchange;
 import vmj.routing.route.exceptions.*;
-import OnlineTicketing.bookingavailability.BookingAvailbilityFactory;
-import prices.auth.vmj.annotations.Restricted;
+import OnlineTicketing.bookingavailability.BookingAvailabilityFactory;
+// import prices.auth.vmj.annotations.Restricted;
 //add other required packages
+import OnlineTicketing.bookingoption.core.BookingOption;
 
-public class BookingAvailbilityServiceImpl extends BookingAvailbilityServiceComponent{
+public class BookingAvailbilityServiceImpl extends BookingAvailbilityServiceComponent {
 
-    public List<HashMap<String,Object>> saveBookingAvailability(VMJExchange vmjExchange){
-		if (vmjExchange.getHttpMethod().equals("OPTIONS")) {
-			return null;
-		}
-		BookingAvailability bookingavailability = createBookingAvailability(vmjExchange);
-		bookingavailabilityRepository.saveObject(bookingavailability);
-		return getAllBookingAvailability(vmjExchange);
-	}
-
-    public BookingAvailability createBookingAvailability(Map<String, Object> requestBody){
+	public BookingAvailability createBookingAvailability(Map<String, Object> requestBody) {
 		String quotaStr = (String) requestBody.get("quota");
 		int quota = Integer.parseInt(quotaStr);
 		String availableStr = (String) requestBody.get("available");
 		int available = Integer.parseInt(availableStr);
-		
-		//to do: fix association attributes
-		BookingAvailability BookingAvailability = BookingAvailabilityFactory.createBookingAvailability(
-			"OnlineTicketing.bookingavailability.core.BookingAvailbilityImpl",
-		id
-		, quota
-		, available
-		, bookingoptionimpl
-		);
-		Repository.saveObject(bookingavailability);
-		return bookingavailability;
+		String bookingOptionIdStr = (String) requestBody.get("bookingOptionId");
+
+		BookingOption bookingOption = null;
+		if (bookingOptionIdStr != null) {
+			UUID bookingOptionId = UUID.fromString(bookingOptionIdStr);
+			bookingOption = Repository.getProxyObject(OnlineTicketing.bookingoption.core.BookingOptionComponent.class, bookingOptionId);
+		}
+		// to do: fix association attributes
+		BookingAvailability bookingAvailability = BookingAvailabilityFactory.createBookingAvailability(
+				"OnlineTicketing.bookingavailability.core.BookingAvailbilityImpl",
+				quota, available, bookingOption);
+		Repository.saveObject(bookingAvailability);
+		return bookingAvailability;
 	}
 
-    public BookingAvailability createBookingAvailability(Map<String, Object> requestBody, int id){
-		String quotaStr = (String) vmjExchange.getRequestBodyForm("quota");
-		int quota = Integer.parseInt(quotaStr);
-		String availableStr = (String) vmjExchange.getRequestBodyForm("available");
-		int available = Integer.parseInt(availableStr);
-		
-		//to do: fix association attributes
-		
-		BookingAvailability bookingavailability = BookingAvailabilityFactory.createBookingAvailability("OnlineTicketing.bookingavailability.core.BookingAvailbilityImpl", quota, available, bookingoptionimpl);
-		return bookingavailability;
-	}
-
-    public HashMap<String, Object> updateBookingAvailability(Map<String, Object> requestBody){
+	public HashMap<String, Object> updateBookingAvailability(Map<String, Object> requestBody) {
 		String idStr = (String) requestBody.get("id");
 		int id = Integer.parseInt(idStr);
 		BookingAvailability bookingavailability = Repository.getObject(id);
-		
+
 		String quotaStr = (String) requestBody.get("quota");
 		bookingavailability.setQuota(Integer.parseInt(quotaStr));
 		String availableStr = (String) requestBody.get("available");
 		bookingavailability.setAvailable(Integer.parseInt(availableStr));
-		
+
 		Repository.updateObject(bookingavailability);
-		
-		//to do: fix association attributes
-		
+
+		// to do: fix association attributes
+
 		return bookingavailability.toHashMap();
-		
+
 	}
 
-    public HashMap<String, Object> getBookingAvailability(Map<String, Object> requestBody){
-		List<HashMap<String, Object>> bookingavailabilityList = getAllBookingAvailability("bookingavailability_impl");
-		for (HashMap<String, Object> bookingavailability : bookingavailabilityList){
-			int record_id = ((Double) bookingavailability.get("record_id")).intValue();
-			if (record_id == id){
+	public HashMap<String, Object> getBookingAvailability(Map<String, Object> requestBody) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("table_name", "bookingavailability_impl");
+		List<HashMap<String, Object>> bookingavailabilityList = getAllBookingAvailability(map);
+		String idStr = (String) requestBody.get("id");
+		UUID id = UUID.fromString(idStr);
+		for (HashMap<String, Object> bookingavailability : bookingavailabilityList) {
+			UUID record_id = UUID.fromString(bookingavailability.get("record_id").toString());
+			if (record_id.equals(id)) {
 				return bookingavailability;
 			}
 		}
 		return null;
 	}
 
-	public HashMap<String, Object> getBookingAvailabilityById(int id){
-		String idStr = vmjExchange.getGETParam("id"); 
-		int id = Integer.parseInt(idStr);
-		BookingAvailability bookingavailability = bookingavailabilityRepository.getObject(id);
+	public HashMap<String, Object> getBookingAvailabilityById(UUID id) {
+		BookingAvailability bookingavailability = Repository.getObject(id);
 		return bookingavailability.toHashMap();
 	}
 
-    public List<HashMap<String,Object>> getAllBookingAvailability(Map<String, Object> requestBody){
+	public List<HashMap<String, Object>> getAllBookingAvailability(Map<String, Object> requestBody) {
 		String table = (String) requestBody.get("table_name");
 		List<BookingAvailability> List = Repository.getAllObject(table);
 		return transformListToHashMap(List);
 	}
 
-    public List<HashMap<String,Object>> transformListToHashMap(List<BookingAvailability> List){
-		List<HashMap<String,Object>> resultList = new ArrayList<HashMap<String,Object>>();
-        for(int i = 0; i < List.size(); i++) {
-            resultList.add(List.get(i).toHashMap());
-        }
+	public List<HashMap<String, Object>> transformListToHashMap(List<BookingAvailability> List) {
+		List<HashMap<String, Object>> resultList = new ArrayList<HashMap<String, Object>>();
+		for (int i = 0; i < List.size(); i++) {
+			resultList.add(List.get(i).toHashMap());
+		}
 
-        return resultList;
+		return resultList;
 	}
 
-    public List<HashMap<String,Object>> deleteBookingAvailability(Map<String, Object> requestBody){
+	public List<HashMap<String, Object>> deleteBookingAvailability(Map<String, Object> requestBody) {
 		String idStr = ((String) requestBody.get("id"));
 		int id = Integer.parseInt(idStr);
 		Repository.deleteObject(id);

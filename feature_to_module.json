@@ -1,5 +1,10 @@
 {
-  "Booking": ["OnlineTicketing.customer.core", "OnlineTicketing.bookingitem.core", "OnlineTicketing.bookingoption.core"],
+  "Booking": [
+    "OnlineTicketing.customer.core",
+    "OnlineTicketing.bookingitem.core",
+    "OnlineTicketing.bookingoption.core",
+    "OnlineTicketing.bookingavailability.core"
+  ],
   "Order": ["OnlineTicketing.order.core"],
   "Wishlist": ["OnlineTicketing.wishlist.core"],
   "Blog": ["OnlineTicketing.blog.core"],

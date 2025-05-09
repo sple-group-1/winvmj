@@ -5,7 +5,7 @@ ON CONFLICT DO NOTHING;
 
 INSERT INTO auth_user_impl (id, allowedPermissions, name, email) VALUES
 ('1ea9ff33-6dd2-4c0a-b113-a90ee32a01ca','','admin','admin@user.com'),
-('2ea9ff33-6dd2-4c0a-b113-a90ee32a01ca','','customer','customer@user.com')
+('2ea9ff33-6dd2-4c0a-b113-a90ee32a01ca','','Adit','adit@user.com')
 ON CONFLICT DO NOTHING;
 
 INSERT INTO auth_user_passworded (id, user_id, password) VALUES
@@ -33,10 +33,10 @@ INSERT INTO auth_user_role_impl (id, authRole, authUser) VALUES
 ('2af6727e-66f8-484f-b77f-83eeec82cd10','25f6727e-66f8-484f-b77f-83eeec82cd10','2ea9ff33-6dd2-4c0a-b113-a90ee32a01ca')
 ON CONFLICT DO NOTHING;
 
-INSERT INTO customer_comp (id, nama, email, modulesequence, objectname) VALUES
-('1bcc6aaa-38a0-4185-bccc-585c8acb6397','Adit','adit@user.com','customer_impl','siakreborn.dosen.core.CustomerImpl')
+INSERT INTO customer_comp (customerid, name, email, modulesequence, objectname) VALUES
+('2ea9ff33-6dd2-4c0a-b113-a90ee32a01ca','Adit','adit@user.com','customer_impl','siakreborn.dosen.core.CustomerImpl')
 ON CONFLICT DO NOTHING;
 
-INSERT INTO customer_impl (id) VALUES
-('1bcc6aaa-38a0-4185-bccc-585c8acb6397')
+INSERT INTO customer_impl (customerid) VALUES
+('2ea9ff33-6dd2-4c0a-b113-a90ee32a01ca')
 ON CONFLICT DO NOTHING;

@@ -14,23 +14,25 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import OnlineTicketing.bookingoption.core.BookingOption;
+
 
 @Entity(name="bookingavailability_impl")
 @Table(name="bookingavailability_impl")
 public class BookingAvailbilityImpl extends BookingAvailbilityComponent {
 
-	public BookingAvailbilityImpl(UUID id, int quota, int available, BookingOptionImpl bookingoptionimpl) {
+	public BookingAvailbilityImpl(UUID id, int quota, int available, BookingOption bookingOption) {
 		this.id = id;
 		this.quota = quota;
 		this.available = available;
-		this.bookingoptionimpl = bookingoptionimpl;
+		this.bookingOption = bookingOption;
 	}
 
-	public BookingAvailbilityImpl(int quota, int available, BookingOptionImpl bookingoptionimpl) {
+	public BookingAvailbilityImpl(int quota, int available, BookingOption bookingOption) {
 		this.id =  id.randomUUID();;
 		this.quota = quota;
 		this.available = available;
-		this.bookingoptionimpl = bookingoptionimpl;
+		this.bookingOption = bookingOption;
 	}
 
 	public BookingAvailbilityImpl() { }
@@ -63,7 +65,7 @@ public class BookingAvailbilityImpl extends BookingAvailbilityComponent {
 		bookingavailabilityMap.put("id",getId());
 		bookingavailabilityMap.put("quota",getQuota());
 		bookingavailabilityMap.put("available",getAvailable());
-		bookingavailabilityMap.put("bookingoptionimpl",getBookingoptionimpl());
+		bookingavailabilityMap.put("bookingoptionimpl",getBookingOption());
 
         return bookingavailabilityMap;
     }

@@ -2,15 +2,16 @@ package OnlineTicketing.bookingavailability.core;
 import vmj.routing.route.Route;
 import vmj.routing.route.VMJExchange;
 import java.util.*;
+import OnlineTicketing.bookingoption.core.BookingOption;
 
 public interface BookingAvailability {
-	public UUID getId();
-	public void setId(UUID id);
-	public int getQuota();
-	public void setQuota(int quota);
-	public int getAvailable();
-	public void setAvailable(int available);
-	public BookingOptionImpl getBookingoptionimpl();
-	public void setBookingoptionimpl(BookingOptionImpl bookingoptionimpl);
+	void setId(UUID id);
+	UUID getId();
+	void setQuota(int quota);
+	int getQuota();
+	void setAvailable(int available);
+	int getAvailable();
+	void setBookingOption(BookingOption bookingOption);
+	BookingOption getBookingOption();
 	HashMap<String, Object> toHashMap();
 }

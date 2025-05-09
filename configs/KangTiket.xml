@@ -2,7 +2,7 @@
 <configuration>
 	<feature automatic="selected" name="OnlineTicketing"/>
 	<feature automatic="selected" name="Booking"/>
-	<feature manual="selected" name="Hotel"/>
+	<feature name="Hotel"/>
 	<feature name="Flight"/>
 	<feature name="Event"/>
 	<feature automatic="selected" name="Order"/>

@@ -12,14 +12,12 @@ public abstract class BookingAvailbilityServiceComponent implements BookingAvail
         this.Repository = new RepositoryUtil<BookingAvailability>(OnlineTicketing.bookingavailability.core.BookingAvailbilityComponent.class);
     }	
 
-    public abstract List<HashMap<String,Object>> saveBookingAvailability(VMJExchange vmjExchange);
     public abstract BookingAvailability createBookingAvailability(Map<String, Object> requestBodye);
-	public abstract BookingAvailability createBookingAvailability(Map<String, Object> requestBody, Map<String, Object> response);    
 	public abstract HashMap<String, Object> updateBookingAvailability(Map<String, Object> requestBody);
     public abstract HashMap<String, Object> getBookingAvailability(Map<String, Object> requestBody);
     public abstract List<HashMap<String,Object>> getAllBookingAvailability(Map<String, Object> requestBody);
     public abstract List<HashMap<String,Object>> transformListToHashMap(List<BookingAvailability> List);
     public abstract List<HashMap<String,Object>> deleteBookingAvailability(Map<String, Object> requestBody);
-	public abstract HashMap<String, Object> getBookingAvailabilityById(int id);
+	public abstract HashMap<String, Object> getBookingAvailabilityById(UUID id);
 
 }

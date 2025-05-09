@@ -18,6 +18,7 @@ public abstract class BookingAvailbilityDecorator extends BookingAvailbilityComp
 		super();
 		this.record = record;
 		this.id =  id.randomUUID();
+	}
 		
 	public BookingAvailbilityDecorator (BookingAvailbilityComponent record) {
 		this.id =  id.randomUUID();
@@ -35,7 +36,7 @@ public abstract class BookingAvailbilityDecorator extends BookingAvailbilityComp
 		this.objectName=objectName;
 	}
 
-	public BookingAvailbilityDecorator() { }
+	
 
 	public UUID getId() {
 		return record.getId();

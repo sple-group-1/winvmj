@@ -9,7 +9,7 @@ public abstract class BookingAvailbilityResourceComponent implements BookingAvai
 	
 	public BookingAvailbilityResourceComponent() { }
  
-    public abstract BookingAvailability createBookingAvailability(VMJExchange vmjExchange);    
+    public abstract HashMap<String, Object> createBookingAvailability(VMJExchange vmjExchange);
 	public abstract HashMap<String, Object> updateBookingAvailability(VMJExchange vmjExchange);
     public abstract HashMap<String, Object> getBookingAvailability(VMJExchange vmjExchange);
     public abstract List<HashMap<String,Object>> getAllBookingAvailability(VMJExchange vmjExchange);
