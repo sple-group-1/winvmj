@@ -8,7 +8,6 @@ import OnlineTicketing.order.OrderFactory;
 import vmj.auth.annotations.Restricted;
 
 import OnlineTicketing.customer.core.*;
-//import prices.auth.vmj.annotations.Restricted;
 //add other required packages
 
 public class OrderResourceImpl extends OrderResourceComponent{
@@ -29,8 +28,12 @@ public class OrderResourceImpl extends OrderResourceComponent{
 	@Restricted(permissionName = "ReadOrder")
     @Route(url="call/order/detail")
     public HashMap<String, Object> getOrder(VMJExchange vmjExchange){
-		Map<String, Object> requestBody = vmjExchange.getPayload(); 
-		return orderService.getOrder(requestBody);
+		String idStr = vmjExchange.getGETParam("id");
+		if(idStr == null) {
+		throw new IllegalArgumentException("Invalid UUID");
+		}
+		UUID id = UUID.fromString(idStr);
+		return orderService.getOrderById(id);
 	}
 
 	@Restricted(permissionName = "ReadOrder")
@@ -64,7 +67,6 @@ public class OrderResourceImpl extends OrderResourceComponent{
 		return orderService.getUpcomingOrder(customerId, type);
 	}
 
-	// count payment
     @Route(url="call/order/count")
     public HashMap<String, Object> countPayment(VMJExchange vmjExchange){
 		Map<String, Object> requestBody = vmjExchange.getPayload(); 

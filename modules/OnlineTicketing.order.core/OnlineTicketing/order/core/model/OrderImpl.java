@@ -20,10 +20,10 @@ import OnlineTicketing.bookingoption.core.*;
 @Table(name="order_impl")
 public class OrderImpl extends OrderComponent {
 
-	public OrderImpl(UUID orderId, LocalDateTime createdAt, int amount, int quantity, LocalDate startDate, LocalDate endDate, Customer customer, BookingOption bookingOption) {
+	public OrderImpl(UUID orderId, LocalDateTime createdAt, Long totalPrice, int quantity, LocalDate startDate, LocalDate endDate, Customer customer, BookingOption bookingOption) {
 		this.orderId = orderId;
 		this.createdAt = createdAt;
-		this.amount = amount;
+		this.totalPrice = totalPrice;
 		this.quantity = quantity;
 		this.startDate = startDate;
 		this.endDate = endDate;
@@ -31,10 +31,10 @@ public class OrderImpl extends OrderComponent {
 		this.bookingOption = bookingOption;
 	}
 
-	public OrderImpl(LocalDateTime createdAt, int amount, int quantity, LocalDate startDate, LocalDate endDate, Customer customer, BookingOption bookingOption) {
+	public OrderImpl(LocalDateTime createdAt, Long totalPrice, int quantity, LocalDate startDate, LocalDate endDate, Customer customer, BookingOption bookingOption) {
 		this.orderId =  UUID.randomUUID();
 		this.createdAt = createdAt;
-		this.amount = amount;
+		this.totalPrice = totalPrice;
 		this.quantity = quantity;
 		this.startDate = startDate;
 		this.endDate = endDate;
@@ -44,25 +44,11 @@ public class OrderImpl extends OrderComponent {
 
 	public OrderImpl() {
 		this.orderId = UUID.randomUUID();
-		this.createdAt = createdAt;
-		this.amount = amount;
-		this.quantity = quantity;
-		this.startDate = startDate;
-		this.endDate = endDate;
+		this.createdAt = null;
+		this.totalPrice = 0L;
+		this.quantity = 0;
+		this.startDate = null;
+		this.endDate = null;
 	}
-	
-	public HashMap<String, Object> toHashMap() {
-        HashMap<String, Object> orderMap = new HashMap<String,Object>();
-		orderMap.put("orderId",getOrderId());
-		orderMap.put("createdAt",getCreatedAt());
-		orderMap.put("amount",getAmount());
-		orderMap.put("quantity",getQuantity());
-		orderMap.put("startDate",getStartDate());
-		orderMap.put("endDate",getEndDate());
-		orderMap.put("customer",getCustomer());
-		orderMap.put("bookingOption",getBookingOption());
-
-        return orderMap;
-    }
 
 }

@@ -12,8 +12,8 @@ public interface Order {
 	public void setOrderId(UUID orderId);
 	public LocalDateTime getCreatedAt();
 	public void setCreatedAt(LocalDateTime createdAt);
-	public int getAmount();
-	public void setAmount(int amount);
+	public Long getTotalPrice();
+	public void setTotalPrice(Long totalPrice);
 	public int getQuantity();
 	public void setQuantity(int quantity);
 	public LocalDate getStartDate();
