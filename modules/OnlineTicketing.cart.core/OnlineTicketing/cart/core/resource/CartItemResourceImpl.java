@@ -13,7 +13,7 @@ public class CartItemResourceImpl extends CartItemResourceComponent{
 	private CartItemServiceImpl cartitemServiceImpl = new CartItemServiceImpl();
 
 	// @Restriced(permission = "")
-    @Route(url="call/cart")
+    @Route(url="call/cartitem")
     public HashMap<String,Object> createCartItem(VMJExchange vmjExchange){
 		if (vmjExchange.getHttpMethod().equals("POST")) {
 		    Map<String, Object> requestBody = vmjExchange.getPayload(); 
@@ -24,7 +24,7 @@ public class CartItemResourceImpl extends CartItemResourceComponent{
 	}
 
     // @Restriced(permission = "")
-    @Route(url="call/cart/update")
+    @Route(url="call/cartitem/update")
     public HashMap<String, Object> updateCartItem(VMJExchange vmjExchange){
 		Map<String, Object> requestBody = vmjExchange.getPayload(); 
 		if (vmjExchange.getHttpMethod().equals("OPTIONS")){
@@ -35,14 +35,14 @@ public class CartItemResourceImpl extends CartItemResourceComponent{
 	}
 
 	// @Restriced(permission = "")
-    @Route(url="call/cart/detail")
+    @Route(url="call/cartitem/detail")
     public HashMap<String, Object> getCartItem(VMJExchange vmjExchange){
 		Map<String, Object> requestBody = vmjExchange.getPayload(); 
 		return cartitemServiceImpl.getCartItem(requestBody);
 	}
 
 	// @Restriced(permission = "")
-    @Route(url="call/cart/list")
+    @Route(url="call/cartitem/list")
     public List<HashMap<String,Object>> getAllCartItem(VMJExchange vmjExchange){
 		Map<String, Object> requestBody = vmjExchange.getPayload(); 
 		return cartitemServiceImpl.getAllCartItem(requestBody);
@@ -50,7 +50,7 @@ public class CartItemResourceImpl extends CartItemResourceComponent{
 
     
 	// @Restriced(permission = "")
-    @Route(url="call/cart/delete")
+    @Route(url="call/cartitem/delete")
     public List<HashMap<String,Object>> deleteCartItem(VMJExchange vmjExchange){
 		Map<String, Object> requestBody = vmjExchange.getPayload(); 
 		if (vmjExchange.getHttpMethod().equals("OPTIONS")) {

@@ -10,13 +10,13 @@ public abstract class ReviewServiceDecorator extends ReviewServiceComponent{
         this.record = record;
     }
 
-	public ReviewImpl createReview(Map<String, Object> requestBody){
+	public Review createReview(Map<String, Object> requestBody){
 		return record.createReview(requestBody);
 	}
 
-    public Review createReview(Map<String, Object> requestBody, Map<String, Object> response){
-		return record.createReview(requestBody, response);
-	}
+    // public Review createReview(Map<String, Object> requestBody, Map<String, Object> response){
+	// 	return record.createReview(requestBody, response);
+	// }
 
 	public HashMap<String, Object> getReview(Map<String, Object> requestBody){
 		return record.getReview(requestBody);
@@ -26,9 +26,9 @@ public abstract class ReviewServiceDecorator extends ReviewServiceComponent{
 		return record.getAllReview(requestBody);
 	}
 
-    public List<HashMap<String,Object>> saveReview(VMJExchange vmjExchange){
-		return record.saveReview(vmjExchange);
-	}
+    // public List<HashMap<String,Object>> saveReview(VMJExchange vmjExchange){
+	// 	return record.saveReview(vmjExchange);
+	// }
 
     public HashMap<String, Object> updateReview(Map<String, Object> requestBody){
 		return record.updateReview(requestBody);
