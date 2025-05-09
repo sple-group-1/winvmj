@@ -14,8 +14,8 @@ public class OrderServiceImpl extends OrderServiceComponent{
 	// private CustomerService customerService = new CustomerServiceImpl();
 
     public Order createOrder(Map<String, Object> requestBody){
-		String amountStr = (String) requestBody.get("amount");
-		int amount = Integer.parseInt(amountStr);
+		String totalPriceStr = (String) requestBody.get("totalPrice");
+		Long totalPrice = Long.valueOf(totalPriceStr);
 		String quantityStr = (String) requestBody.get("quantity");
 		int quantity = Integer.parseInt(quantityStr);
 		String startStr = (String) requestBody.get("start_date");
@@ -41,7 +41,7 @@ public class OrderServiceImpl extends OrderServiceComponent{
 		
 		Order order = OrderFactory.createOrder("OnlineTicketing.order.core.OrderImpl"
 		, createdAt
-		, amount
+		, totalPrice
 		, quantity
 		, startDate
 		, endDate
@@ -143,11 +143,19 @@ public class OrderServiceImpl extends OrderServiceComponent{
 			UUID bookingOptionId = UUID.fromString(bookingOptionIdStr);
 			bookingOption = orderRepository.getProxyObject(OnlineTicketing.bookingoption.core.BookingOptionComponent.class, bookingOptionId);
 		}
-		int total = 0;
+		Long total = 0L;
 		if (bookingOption.getBookingType().equals("hotel")) {
 			long days = endDate.toEpochDay() - startDate.toEpochDay();
 			total = bookingOption.getPrice() * days * roomCount;
 		}
+
+		HashMap<String, Object> result = new HashMap<>();
+		result.put("startDate", startDate);
+		result.put("endDate", endDate);
+		result.put("roomCount", roomCount);
+		result.put("totalPayment", total);
+
+		return result;
 	}
 
 }

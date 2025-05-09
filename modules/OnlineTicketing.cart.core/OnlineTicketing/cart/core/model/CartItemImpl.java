@@ -13,26 +13,27 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-
+import OnlineTicketing.bookingitem.core.*;
+import java.time.*;
 
 @Entity(name="cartitem_impl")
 @Table(name="cartitem_impl")
 public class CartItemImpl extends CartItemComponent {
 
-	public CartItemImpl(UUID id, BookingItemImpl bookingitemimpl, CartImpl cartimpl, int quantity, Date startDate, Date endDate, int amount) {
+	public CartItemImpl(UUID id, BookingItem bookingitem, Cart cart, int quantity, LocalDate startDate, LocalDate endDate, int amount) {
 		this.id = id;
-		this.bookingitemimpl = bookingitemimpl;
-		this.cartimpl = cartimpl;
+		this.bookingitem = bookingitem;
+		this.cart = cart;
 		this.quantity = quantity;
 		this.startDate = startDate;
 		this.endDate = endDate;
 		this.amount = amount;
 	}
 
-	public CartItemImpl(BookingItemImpl bookingitemimpl, CartImpl cartimpl, int quantity, Date startDate, Date endDate, int amount) {
+	public CartItemImpl(BookingItem bookingitem, Cart cart, int quantity, LocalDate startDate, LocalDate endDate, int amount) {
 		this.id =  id.randomUUID();;
-		this.bookingitemimpl = bookingitemimpl;
-		this.cartimpl = cartimpl;
+		this.bookingitem = bookingitem;
+		this.cart = cart;
 		this.quantity = quantity;
 		this.startDate = startDate;
 		this.endDate = endDate;
@@ -46,8 +47,8 @@ public class CartItemImpl extends CartItemComponent {
 	public HashMap<String, Object> toHashMap() {
         HashMap<String, Object> cartitemMap = new HashMap<String,Object>();
 		cartitemMap.put("id",getId());
-		cartitemMap.put("bookingitemimpl",getBookingitemimpl());
-		cartitemMap.put("cartimpl",getCartimpl());
+		cartitemMap.put("bookingitem",getBookingitem());
+		cartitemMap.put("cart",getCart());
 		cartitemMap.put("quantity",getQuantity());
 		cartitemMap.put("startDate",getStartDate());
 		cartitemMap.put("endDate",getEndDate());

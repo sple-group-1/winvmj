@@ -10,97 +10,154 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDate;
 
 import vmj.routing.route.Route;
 import vmj.routing.route.VMJExchange;
 import vmj.routing.route.exceptions.*;
 import OnlineTicketing.cart.CartItemFactory;
-import prices.auth.vmj.annotations.Restricted;
 //add other required packages
+
+import OnlineTicketing.bookingitem.core.*;
 
 public class CartItemServiceImpl extends CartItemServiceComponent{
 
-    public List<HashMap<String,Object>> saveCartItem(VMJExchange vmjExchange){
-		if (vmjExchange.getHttpMethod().equals("OPTIONS")) {
-			return null;
-		}
-		CartItem cartitem = createCartItem(vmjExchange);
-		cartitemRepository.saveObject(cartitem);
-		return getAllCartItem(vmjExchange);
-	}
+	private CartItemFactory cartItemFactory = new CartItemFactory();
+
+    // public List<HashMap<String,Object>> saveCartItem(VMJExchange vmjExchange){
+	// 	if (vmjExchange.getHttpMethod().equals("OPTIONS")) {
+	// 		return null;
+	// 	}
+	// 	CartItem cartitem = createCartItem(vmjExchange);
+	// 	cartitemRepository.saveObject(cartitem);
+	// 	return getAllCartItem(vmjExchange);
+	// }
+
+	// public List<HashMap<String,Object>> saveCartItem(Map<String, Object> requestBody){
+	// 	String quantityStr = (String) requestBody.get("quantity");
+	// 	int quantity = Integer.parseInt(quantityStr);
+	// 	String startStr = (String) requestBody.get("start_date");
+	// 	LocalDate startDate = LocalDate.parse(startStr);
+	// 	String endStr = (String) requestBody.get("end_date");
+	// 	LocalDate endDate = LocalDate.parse(endStr);
+	// 	String cartIdStr = (String) requestBody.get("cartId");
+
+
+	// 	CartItem cartitem = cartItemFactory.createCartItem();
+	// 	cartitemRepository.saveObject(cartitem);
+	// 	return getAllCartItem(requestBody);
+	// }
 
     public CartItem createCartItem(Map<String, Object> requestBody){
 		String quantityStr = (String) requestBody.get("quantity");
 		int quantity = Integer.parseInt(quantityStr);
+		String startStr = (String) requestBody.get("start_date");
+		LocalDate startDate = LocalDate.parse(startStr);
+		String endStr = (String) requestBody.get("end_date");
+		LocalDate endDate = LocalDate.parse(endStr);
 		String amountStr = (String) requestBody.get("amount");
 		int amount = Integer.parseInt(amountStr);
+
+		String cartIdStr = (String) requestBody.get("cartId");
+		String bookingitemIdStr = (String) requestBody.get("bookingItemId");
+
+		Cart cart = null;
+		if (cartIdStr != null) {
+			UUID cartId = UUID.fromString(cartIdStr);
+			cart = cartItemRepository.getProxyObject(OnlineTicketing.cart.core.CartComponent.class, cartId);
+		}
+
+		BookingItem bookingitem = null;
+		if (bookingitemIdStr != null){
+			UUID bookingitemId = UUID.fromString(bookingitemIdStr);
+			bookingitem = cartItemRepository.getProxyObject(OnlineTicketing.bookingitem.core.BookingItemComponent.class, bookingitemId);
+		}
 		
 		//to do: fix association attributes
-		CartItem CartItem = CartItemFactory.createCartItem(
-			"OnlineTicketing.cart.core.CartItemImpl",
-		id
-		, bookingitemimpl
-		, cartimpl
+		CartItem cartItem = CartItemFactory.createCartItem(
+			"OnlineTicketing.cart.core.CartItemImpl"
+		, bookingitem
+		, cart
 		, quantity
 		, startDate
 		, endDate
 		, amount
 		);
-		Repository.saveObject(cartitem);
-		return cartitem;
+		cartItemRepository.saveObject(cartItem);
+		return cartItem;
 	}
 
-    public CartItem createCartItem(Map<String, Object> requestBody, int id){
-		String quantityStr = (String) vmjExchange.getRequestBodyForm("quantity");
-		int quantity = Integer.parseInt(quantityStr);
-		String amountStr = (String) vmjExchange.getRequestBodyForm("amount");
-		int amount = Integer.parseInt(amountStr);
+    // public CartItem createCartItem(Map<String, Object> requestBody, int id){
+	// 	String quantityStr = (String) vmjExchange.getRequestBodyForm("quantity");
+	// 	int quantity = Integer.parseInt(quantityStr);
+	// 	String amountStr = (String) vmjExchange.getRequestBodyForm("amount");
+	// 	int amount = Integer.parseInt(amountStr);
 		
-		//to do: fix association attributes
+	// 	//to do: fix association attributes
 		
-		CartItem cartitem = CartItemFactory.createCartItem("OnlineTicketing.cart.core.CartItemImpl", bookingitemimpl, cartimpl, quantity, startDate, endDate, amount);
-		return cartitem;
-	}
+	// 	CartItem cartitem = CartItemFactory.createCartItem("OnlineTicketing.cart.core.CartItemImpl", bookingitemimpl, cartimpl, quantity, startDate, endDate, amount);
+	// 	return cartitem;
+	// }
 
     public HashMap<String, Object> updateCartItem(Map<String, Object> requestBody){
-		String idStr = (String) requestBody.get("id");
-		int id = Integer.parseInt(idStr);
-		CartItem cartitem = Repository.getObject(id);
-		
+		String idStr = (String) requestBody.get("cartItemId");
+		UUID id = UUID.fromString(idStr);
+
+		CartItem cartItem = cartItemRepository.getObject(id);
+		if (cartItem == null) {
+			throw new NotFoundException("CartItem not found for ID: " + id);
+		}
+
 		String quantityStr = (String) requestBody.get("quantity");
-		cartitem.setQuantity(Integer.parseInt(quantityStr));
+		cartItem.setQuantity(Integer.parseInt(quantityStr));
+		String startStr = (String) requestBody.get("start_date");
+		cartItem.setStartDate(LocalDate.parse(startStr));
+		String endStr = (String) requestBody.get("end_date");
+		cartItem.setEndDate(LocalDate.parse(endStr));
 		String amountStr = (String) requestBody.get("amount");
-		cartitem.setAmount(Integer.parseInt(amountStr));
+		cartItem.setAmount(Integer.parseInt(amountStr));
 		
-		Repository.updateObject(cartitem);
+		cartItemRepository.updateObject(cartItem);
+		// to do: ngerjain total
 		
-		//to do: fix association attributes
-		
-		return cartitem.toHashMap();
+		return cartItem.toHashMap();
 		
 	}
 
     public HashMap<String, Object> getCartItem(Map<String, Object> requestBody){
-		List<HashMap<String, Object>> cartitemList = getAllCartItem("cartitem_impl");
+		Map<String, Object> map = new HashMap<>();
+		map.put("table_name", "cartitem_impl");
+		List<HashMap<String, Object>> cartitemList = getAllCartItem(map);
+		String idStr = (String) requestBody.get("id");
+		UUID id = UUID.fromString(idStr);
 		for (HashMap<String, Object> cartitem : cartitemList){
-			int record_id = ((Double) cartitem.get("record_id")).intValue();
-			if (record_id == id){
+			// int record_id = ((Double) cartitem.get("record_id")).intValue();
+			// if (record_id == id){
+			// 	return cartitem;
+			// }
+
+			UUID record_id = UUID.fromString(cartitem.get("record_id").toString());
+			if (record_id.equals(id)){
 				return cartitem;
 			}
 		}
 		return null;
 	}
 
-	public HashMap<String, Object> getCartItemById(int id){
-		String idStr = vmjExchange.getGETParam("id"); 
-		id = Integer.parseInt(idStr);
-		CartItem cartitem = cartitemRepository.getObject(id);
+	// public HashMap<String, Object> getCartItemById(int id){
+	// 	String idStr = vmjExchange.getGETParam("id"); 
+	// 	id = Integer.parseInt(idStr);
+	// 	CartItem cartitem = cartitemRepository.getObject(id);
+	// 	return cartitem.toHashMap();
+	// }
+	public HashMap<String, Object> getCartItemById(UUID id){
+		CartItem cartitem = cartItemRepository.getObject(id);
 		return cartitem.toHashMap();
 	}
 
     public List<HashMap<String,Object>> getAllCartItem(Map<String, Object> requestBody){
 		String table = (String) requestBody.get("table_name");
-		List<CartItem> List = Repository.getAllObject(table);
+		List<CartItem> List = cartItemRepository.getAllObject(table);
 		return transformListToHashMap(List);
 	}
 
@@ -115,9 +172,8 @@ public class CartItemServiceImpl extends CartItemServiceComponent{
 
     public List<HashMap<String,Object>> deleteCartItem(Map<String, Object> requestBody){
 		String idStr = ((String) requestBody.get("id"));
-		int id = Integer.parseInt(idStr);
-		Repository.deleteObject(id);
+		UUID id = UUID.fromString(idStr);
+		cartItemRepository.deleteObject(id);
 		return getAllCartItem(requestBody);
 	}
-
 }

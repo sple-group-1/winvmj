@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
+import OnlineTicketing.customer.core.*;
+import javax.persistence.ManyToOne;
 
 @Entity
 @Table(name="cart_comp")
@@ -18,7 +20,7 @@ public abstract class CartComponent implements Cart{
 	public UUID id; 
 	public int total;
 	@ManyToOne(targetEntity=OnlineTicketing.customer.core.CustomerComponent.class)
-	public Customer customerimpl;
+	public Customer customer;
 	protected String objectName = CartComponent.class.getName();
 
 	public CartComponent() {
@@ -26,21 +28,35 @@ public abstract class CartComponent implements Cart{
 	} 
 
 	public CartComponent(
-        UUID id, int total, CustomerImpl customerimpl
+        UUID id, int total, Customer customer
     ) {
         this.id = id;
         this.total = total;
-        this.customerimpl = customerimpl;
+        this.customer = customer;
     }
 
-	public abstract UUID getId();
-	public abstract void setId(UUID id);
+	public UUID getId(){
+		return this.id;
+	};
+
+	public void setId(UUID id){
+		this.id = id;
+	};
 	
-	public abstract int getTotal();
-	public abstract void setTotal(int total);
+	public int getTotal(){
+		return this.total;
+	};
+
+	public void setTotal(int total){
+		this.total = total;
+	};
 	
-	public abstract CustomerImpl getCustomerimpl();
-	public abstract void setCustomerimpl(CustomerImpl customerimpl);
+	public Customer getCustomer(){
+		return this.customer;
+	}
+	public void setCustomer(Customer customer){
+		this.customer = customer;
+	}
 	
  
 
@@ -49,7 +65,7 @@ public abstract class CartComponent implements Cart{
         return "{" +
             " id='" + getId() + "'" +
             " total='" + getTotal() + "'" +
-            " customerimpl='" + getCustomerimpl() + "'" +
+            " customer='" + getCustomer() + "'" +
             "}";
     }
 	

@@ -1,20 +1,20 @@
 package OnlineTicketing.cart;
 
-import OnlineTicketing.cart.core.Cart;
+import OnlineTicketing.cart.core.CartItem;
 import java.lang.reflect.Constructor;
 import java.util.logging.Logger;
 
-public class CartFactory{
-    private static final Logger LOGGER = Logger.getLogger(CartFactory.class.getName());
+public class CartItemFactory{
+    private static final Logger LOGGER = Logger.getLogger(CartItemFactory.class.getName());
 
-    public CartFactory()
+    public CartItemFactory()
     {
 
     }
 
-    public static Cart createCart(String fullyQualifiedName, Object ... base)
+    public static CartItem createCartItem(String fullyQualifiedName, Object ... base)
     {
-        Cart record = null;
+        CartItem record = null;
         if(true){
             try {
                 Class<?> clz = Class.forName(fullyQualifiedName);
@@ -24,7 +24,7 @@ public class CartFactory{
                     try {
                         constructor = constructorList[i];
                         System.out.println(constructor.toString());
-                        record = (Cart) constructor.newInstance(base);
+                        record = (CartItem) constructor.newInstance(base);
                         i = constructorList.length;
                     } catch (IllegalArgumentException e) {
                         if (i < constructorList.length - 1) {
@@ -38,27 +38,27 @@ public class CartFactory{
             } 
             catch (IllegalArgumentException e)
             {
-                LOGGER.severe("Failed to create instance of Cart.");
+                LOGGER.severe("Failed to create instance of CartItem.");
                 LOGGER.severe("Given FQN: " + fullyQualifiedName);
                 LOGGER.severe("Failed to run: Check your constructor argument");
                 System.exit(20);
             }
             catch (ClassCastException e)
-            {   LOGGER.severe("Failed to create instance of Cart.");
+            {   LOGGER.severe("Failed to create instance of CartItem.");
                 LOGGER.severe("Given FQN: " + fullyQualifiedName);
                 LOGGER.severe("Failed to cast the object");
                 System.exit(30);
             }
             catch (ClassNotFoundException e)
             {
-                LOGGER.severe("Failed to create instance of Cart.");
+                LOGGER.severe("Failed to create instance of CartItem.");
                 LOGGER.severe("Given FQN: " + fullyQualifiedName);
                 LOGGER.severe("Decorator can't be applied to the object");
                 System.exit(40);
             }
             catch (Exception e)
             {
-                LOGGER.severe("Failed to create instance of Cart.");
+                LOGGER.severe("Failed to create instance of CartItem.");
                 LOGGER.severe("Given FQN: " + fullyQualifiedName);
                 System.exit(50);
             }

@@ -12,6 +12,7 @@ import javax.persistence.ManyToOne;
 
 import OnlineTicketing.customer.core.*;
 import OnlineTicketing.bookingoption.core.*;
+import OnlineTicketing.util.core.*;
 
 @Entity(name="order_comp")
 @Table(name="order_comp")
@@ -20,7 +21,7 @@ public abstract class OrderComponent implements Order{
 	@Id
 	public UUID orderId; 
 	public LocalDateTime createdAt;
-	public int amount;
+	public Long totalPrice;
 	public int quantity;
 	public LocalDate startDate;
 	public LocalDate endDate;
@@ -35,11 +36,11 @@ public abstract class OrderComponent implements Order{
 	} 
 
 	public OrderComponent(
-        UUID orderId, LocalDateTime createdAt, int amount, int quantity, LocalDate startDate, LocalDate endDate, Customer customer, BookingOption bookingOption
+        UUID orderId, LocalDateTime createdAt, Long totalPrice, int quantity, LocalDate startDate, LocalDate endDate, Customer customer, BookingOption bookingOption
     ) {
         this.orderId = orderId;
         this.createdAt = createdAt;
-        this.amount = amount;
+        this.totalPrice = totalPrice;
         this.quantity = quantity;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -63,12 +64,12 @@ public abstract class OrderComponent implements Order{
         this.createdAt = createdAt;
     }
 
-    public int getAmount() {
-        return this.amount;
+    public Long getTotalPrice() {
+        return this.totalPrice;
     }
 
-    public void setAmount(int amount) {
-        this.amount = amount;
+    public void setTotalPrice(Long totalPrice) {
+        this.totalPrice = totalPrice;
     }
 
     public int getQuantity() {
@@ -116,13 +117,26 @@ public abstract class OrderComponent implements Order{
         return "{" +
             " orderId='" + getOrderId() + "'" +
             " createdAt='" + getCreatedAt() + "'" +
-            " amount='" + getAmount() + "'" +
+            " totalPrice=" + getTotalPrice() + "'" +
             " quantity='" + getQuantity() + "'" +
             " startDate='" + getStartDate() + "'" +
             " endDate='" + getEndDate() + "'" +
             " customer='" + getCustomer() + "'" +
             " bookingOption='" + getBookingOption() + "'" +
             "}";
+    }
+
+    public HashMap<String, Object> toHashMap() {
+        HashMap<String, Object> orderMap = new HashMap<String,Object>();
+		orderMap.put("orderId",getOrderId());
+		orderMap.put("createdAt",getCreatedAt().toString());
+		orderMap.put("totalPrice",getTotalPrice());
+		orderMap.put("quantity",getQuantity());
+		orderMap.put("startDate",getStartDate().toString());
+		orderMap.put("endDate",getEndDate().toString());
+        orderMap = Util.combine(orderMap, getCustomer().toHashMap(), "customer");
+        orderMap = Util.combine(orderMap, getBookingOption().toHashMap(), "bookingOption");
+        return orderMap;
     }
 	
 }

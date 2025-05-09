@@ -11,11 +11,11 @@ public interface WishlistService {
 
   HashMap<String, Object> getWishlist(Map<String, Object> requestBody);
 
-  List<HashMap<String, Object>> saveWishlist(Map<String, Object> requestBody);
+  // List<HashMap<String, Object>> saveWishlist(Map<String, Object> requestBody);
 
   HashMap<String, Object> updateWishlist(Map<String, Object> requestBody);
 
-  HashMap<String, Object> getWishlistById(int id);
+  // HashMap<String, Object> getWishlistById(int id);
 
   List<HashMap<String, Object>> getAllWishlist(Map<String, Object> requestBody);
 

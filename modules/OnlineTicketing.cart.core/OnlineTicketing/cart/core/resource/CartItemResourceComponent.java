@@ -9,7 +9,7 @@ public abstract class CartItemResourceComponent implements CartItemResource{
 	
 	public CartItemResourceComponent() { }
  
-    public abstract CartItem createCartItem(VMJExchange vmjExchange);    
+    public abstract HashMap<String,Object> createCartItem(VMJExchange vmjExchange);    
 	public abstract HashMap<String, Object> updateCartItem(VMJExchange vmjExchange);
     public abstract HashMap<String, Object> getCartItem(VMJExchange vmjExchange);
     public abstract List<HashMap<String,Object>> getAllCartItem(VMJExchange vmjExchange);
