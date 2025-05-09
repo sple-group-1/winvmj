@@ -5,9 +5,9 @@ import vmj.hibernate.integrator.RepositoryUtil;
 import vmj.routing.route.VMJExchange;
 //add other required packages
 
-public abstract class BookingAvailbilityResourceComponent implements BookingAvailabilityResource{
+public abstract class BookingAvailabilityResourceComponent implements BookingAvailabilityResource{
 	
-	public BookingAvailbilityResourceComponent() { }
+	public BookingAvailabilityResourceComponent() { }
  
     public abstract HashMap<String, Object> createBookingAvailability(VMJExchange vmjExchange);
 	public abstract HashMap<String, Object> updateBookingAvailability(VMJExchange vmjExchange);

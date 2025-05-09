@@ -5,10 +5,10 @@ import java.util.*;
 import vmj.routing.route.Route;
 import vmj.routing.route.VMJExchange;
 
-public abstract class BookingAvailbilityResourceDecorator extends BookingAvailbilityResourceComponent {
-	protected BookingAvailbilityResourceComponent record;
+public abstract class BookingAvailabilityResourceDecorator extends BookingAvailabilityResourceComponent {
+	protected BookingAvailabilityResourceComponent record;
 
-	public BookingAvailbilityResourceDecorator(BookingAvailbilityResourceComponent record) {
+	public BookingAvailabilityResourceDecorator(BookingAvailabilityResourceComponent record) {
 		this.record = record;
 	}
 

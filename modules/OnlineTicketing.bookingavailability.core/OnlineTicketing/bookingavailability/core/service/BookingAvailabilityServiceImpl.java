@@ -20,7 +20,7 @@ import OnlineTicketing.bookingavailability.BookingAvailabilityFactory;
 //add other required packages
 import OnlineTicketing.bookingoption.core.BookingOption;
 
-public class BookingAvailbilityServiceImpl extends BookingAvailbilityServiceComponent {
+public class BookingAvailabilityServiceImpl extends BookingAvailabilityServiceComponent {
 
 	public BookingAvailability createBookingAvailability(Map<String, Object> requestBody) {
 		String quotaStr = (String) requestBody.get("quota");
@@ -36,7 +36,7 @@ public class BookingAvailbilityServiceImpl extends BookingAvailbilityServiceComp
 		}
 		// to do: fix association attributes
 		BookingAvailability bookingAvailability = BookingAvailabilityFactory.createBookingAvailability(
-				"OnlineTicketing.bookingavailability.core.BookingAvailbilityImpl",
+				"OnlineTicketing.bookingavailability.core.BookingAvailabilityImpl",
 				quota, available, bookingOption);
 		Repository.saveObject(bookingAvailability);
 		return bookingAvailability;

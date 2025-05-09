@@ -4,10 +4,10 @@ import java.util.*;
 
 import vmj.routing.route.VMJExchange;
 
-public abstract class BookingAvailbilityServiceDecorator extends BookingAvailbilityServiceComponent {
-	protected BookingAvailbilityServiceComponent record;
+public abstract class BookingAvailabilityServiceDecorator extends BookingAvailabilityServiceComponent {
+	protected BookingAvailabilityServiceComponent record;
 
-	public BookingAvailbilityServiceDecorator(BookingAvailbilityServiceComponent record) {
+	public BookingAvailabilityServiceDecorator(BookingAvailabilityServiceComponent record) {
 		this.record = record;
 	}
 

@@ -5,11 +5,11 @@ import vmj.hibernate.integrator.RepositoryUtil;
 import vmj.routing.route.VMJExchange;
 //add other required packages
 
-public abstract class BookingAvailbilityServiceComponent implements BookingAvailabilityService{
+public abstract class BookingAvailabilityServiceComponent implements BookingAvailabilityService{
 	protected RepositoryUtil<BookingAvailability> Repository;
 
-    public BookingAvailbilityServiceComponent(){
-        this.Repository = new RepositoryUtil<BookingAvailability>(OnlineTicketing.bookingavailability.core.BookingAvailbilityComponent.class);
+    public BookingAvailabilityServiceComponent(){
+        this.Repository = new RepositoryUtil<BookingAvailability>(OnlineTicketing.bookingavailability.core.BookingAvailabilityComponent.class);
     }	
 
     public abstract BookingAvailability createBookingAvailability(Map<String, Object> requestBodye);

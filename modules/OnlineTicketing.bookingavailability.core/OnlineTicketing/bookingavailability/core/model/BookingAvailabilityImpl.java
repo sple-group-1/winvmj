@@ -19,23 +19,23 @@ import OnlineTicketing.bookingoption.core.BookingOption;
 
 @Entity(name="bookingavailability_impl")
 @Table(name="bookingavailability_impl")
-public class BookingAvailbilityImpl extends BookingAvailbilityComponent {
+public class BookingAvailabilityImpl extends BookingAvailabilityComponent {
 
-	public BookingAvailbilityImpl(UUID id, int quota, int available, BookingOption bookingOption) {
+	public BookingAvailabilityImpl(UUID id, int quota, int available, BookingOption bookingOption) {
 		this.id = id;
 		this.quota = quota;
 		this.available = available;
 		this.bookingOption = bookingOption;
 	}
 
-	public BookingAvailbilityImpl(int quota, int available, BookingOption bookingOption) {
+	public BookingAvailabilityImpl(int quota, int available, BookingOption bookingOption) {
 		this.id =  id.randomUUID();;
 		this.quota = quota;
 		this.available = available;
 		this.bookingOption = bookingOption;
 	}
 
-	public BookingAvailbilityImpl() { }
+	public BookingAvailabilityImpl() { }
 
 	public UUID getId() {
 		return this.id;

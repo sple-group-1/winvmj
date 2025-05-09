@@ -5,13 +5,13 @@ import java.util.*;
 import vmj.routing.route.Route;
 import vmj.routing.route.VMJExchange;
 import vmj.routing.route.exceptions.*;
-// import OnlineTicketing.bookingavailability.BookingAvailbilityFactory;
+// import OnlineTicketing.bookingavailability.BookingAvailabilityFactory;
 // import prices.auth.vmj.annotations.Restricted;
 //add other required packages
 
-public class BookingAvailbilityResourceImpl extends BookingAvailbilityResourceComponent {
+public class BookingAvailabilityResourceImpl extends BookingAvailabilityResourceComponent {
 
-	private BookingAvailbilityServiceImpl bookingavailabilityServiceImpl = new BookingAvailbilityServiceImpl();
+	private BookingAvailabilityServiceImpl bookingavailabilityServiceImpl = new BookingAvailabilityServiceImpl();
 
 
 	// @Restriced(permission = "")
