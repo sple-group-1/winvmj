@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<configuration>
+	<feature automatic="selected" name="OnlineTicketing"/>
+	<feature automatic="selected" name="Booking"/>
+	<feature automatic="selected" name="Hotel"/>
+	<feature name="Flight"/>
+	<feature name="Event"/>
+	<feature automatic="selected" name="Order"/>
+	<feature name="Blog"/>
+	<feature name="LikeBlog"/>
+	<feature name="Wishlist"/>
+	<feature name="RegularWishlist"/>
+	<feature name="CollectionWishlist"/>
+	<feature manual="selected" name="Review"/>
+	<feature name="ReviewRating"/>
+	<feature name="Cart"/>
+</configuration>
