@@ -5,7 +5,7 @@
     "OnlineTicketing.bookingoption.core",
     "OnlineTicketing.bookingavailability.core"
   ],
-  "Order": ["OnlineTicketing.order.core"],
+  "Order": ["OnlineTicketing.util.core", "OnlineTicketing.order.core"],
   "Wishlist": ["OnlineTicketing.wishlist.core"],
   "Blog": ["OnlineTicketing.blog.core"],
   "Cart": ["OnlineTicketing.cart.core"],

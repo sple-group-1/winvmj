@@ -11,6 +11,7 @@ import java.net.http.HttpResponse;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
+import java.time.*;
 
 import vmj.routing.route.Route;
 import vmj.routing.route.VMJExchange;
@@ -156,17 +157,19 @@ public class CartItemServiceImpl extends CartItemServiceComponent{
 	}
 
     public List<HashMap<String,Object>> getAllCartItem(Map<String, Object> requestBody){
-		String table = (String) requestBody.get("table_name");
-		List<CartItem> List = cartItemRepository.getAllObject(table);
-		return transformListToHashMap(List);
+		String table = "cartitem_impl";
+		List<CartItem> list = cartItemRepository.getAllObject(table);
+		return transformListToHashMap(list);
 	}
 
-    public List<HashMap<String,Object>> transformListToHashMap(List<CartItem> List){
+    public List<HashMap<String,Object>> transformListToHashMap(List<CartItem> list){
 		List<HashMap<String,Object>> resultList = new ArrayList<HashMap<String,Object>>();
-        for(int i = 0; i < List.size(); i++) {
-            resultList.add(List.get(i).toHashMap());
+        for(int i = 0; i < list.size(); i++) {
+			HashMap<String, Object> cartItem = list.get(i).toHashMap();
+			cartItem.put("startDate", cartItem.get("startDate").toString());
+			cartItem.put("endDate", cartItem.get("endDate").toString());
+            resultList.add(cartItem);
         }
-
         return resultList;
 	}
 
