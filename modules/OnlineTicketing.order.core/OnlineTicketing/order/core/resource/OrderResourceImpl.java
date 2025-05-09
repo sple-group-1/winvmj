@@ -28,7 +28,7 @@ public class OrderResourceImpl extends OrderResourceComponent{
 	@Restricted(permissionName = "ReadOrder")
     @Route(url="call/order/detail")
     public HashMap<String, Object> getOrder(VMJExchange vmjExchange){
-		String idStr = vmjExchange.getGETParam("id");
+		String idStr = vmjExchange.getGETParam("orderId");
 		if(idStr == null) {
 		throw new IllegalArgumentException("Invalid UUID");
 		}

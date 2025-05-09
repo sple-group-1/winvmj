@@ -2,6 +2,7 @@ package OnlineTicketing.order.core;
 
 import java.util.*;
 import java.time.*;
+import java.time.format.*;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -127,13 +128,16 @@ public abstract class OrderComponent implements Order{
     }
 
     public HashMap<String, Object> toHashMap() {
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MMM dd, yyyy HH:mm");
+
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MMM dd, yyyy");
         HashMap<String, Object> orderMap = new HashMap<String,Object>();
 		orderMap.put("orderId",getOrderId());
-		orderMap.put("createdAt",getCreatedAt().toString());
+		orderMap.put("createdAt",getCreatedAt().format(dateTimeFormatter));
 		orderMap.put("totalPrice",getTotalPrice());
 		orderMap.put("quantity",getQuantity());
-		orderMap.put("startDate",getStartDate().toString());
-		orderMap.put("endDate",getEndDate().toString());
+		orderMap.put("startDate",getStartDate().format(dateFormatter));
+		orderMap.put("endDate",getEndDate().format(dateFormatter));
         orderMap = Util.combine(orderMap, getCustomer().toHashMap(), "customer");
         orderMap = Util.combine(orderMap, getBookingOption().toHashMap(), "bookingOption");
         return orderMap;
