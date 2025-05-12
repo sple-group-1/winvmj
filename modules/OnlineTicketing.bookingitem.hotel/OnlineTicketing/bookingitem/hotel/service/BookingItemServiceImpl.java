@@ -25,8 +25,7 @@ public class BookingItemServiceImpl extends BookingItemServiceDecorator {
         String location = (String) requestBody.get("location");
         String facilities = (String) requestBody.get("facilities");
         BookingItemImpl deco = (BookingItemImpl) BookingItemFactory.createBookingItem(
-                "OnlineTicketing.hotel.core.BookingItemImpl", wrappee, title,
-                imageUrl, location, facilities);
+                "OnlineTicketing.bookingitem.hotel.BookingItemImpl", wrappee, title, imageUrl, location, facilities);
         this.Repository.saveObject(deco);
         return deco;
     }
