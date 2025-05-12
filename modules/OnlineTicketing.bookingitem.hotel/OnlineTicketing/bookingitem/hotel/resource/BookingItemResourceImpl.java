@@ -27,7 +27,7 @@ public class BookingItemResourceImpl extends BookingItemResourceDecorator {
 	public HashMap<String, Object> createBookingItem(VMJExchange vmjExchange) {
 		if (vmjExchange.getHttpMethod().equals("POST")) {
 			Map<String, Object> requestBody = vmjExchange.getPayload();
-			BookingItem result = this.bookingItemService.createBookingItem(requestBody);
+			BookingItem result = bookingItemService.createBookingItem(requestBody);
 			return result.toHashMap();
 		}
 		throw new NotFoundException("Route tidak ditemukan");

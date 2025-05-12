@@ -45,6 +45,16 @@ public class BookingItemImpl extends BookingItemDecorator {
 		this.objectName = BookingItemImpl.class.getName();
 	}
 
+	public BookingItemImpl(UUID id, BookingItemComponent record, String title, String imageUrl, String location,
+			String facilities) {
+		super(id, record);
+		this.title = title;
+		this.imageUrl = imageUrl;
+		this.location = location;
+		this.facilities = facilities;
+		this.objectName = BookingItemImpl.class.getName();
+	}
+
 	public String getTitle() {
 		return this.title;
 	}

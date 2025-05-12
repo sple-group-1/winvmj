@@ -36,6 +36,14 @@ public abstract class BookingItemDecorator extends BookingItemComponent{
 		this.objectName=objectName;
 	}
 
+	public BookingItemComponent getRecord() {
+		return this.record;
+	}
+
+	public void setRecord(BookingItemComponent record) {
+		this.record = record;
+	}
+
 	public UUID getId() {
 		return record.getId();
 	}

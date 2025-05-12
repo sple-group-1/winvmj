@@ -7,15 +7,15 @@ import vmj.hibernate.integrator.RepositoryUtil;
 
 import OnlineTicketing.bookingitem.core.BookingItemServiceDecorator;
 import OnlineTicketing.bookingitem.core.BookingItem;
+import OnlineTicketing.bookingitem.core.BookingItemDecorator;
 import OnlineTicketing.bookingitem.core.BookingItemServiceComponent;
 import OnlineTicketing.bookingitem.BookingItemFactory;
 
 public class BookingItemServiceImpl extends BookingItemServiceDecorator {
-    protected RepositoryUtil<BookingItemImpl> Repository;
+    private BookingItemFactory bookingItemFactory = new BookingItemFactory();
 
     public BookingItemServiceImpl(BookingItemServiceComponent record) {
         super(record);
-        this.Repository = new RepositoryUtil<BookingItemImpl>(OnlineTicketing.bookingitem.hotel.BookingItemImpl.class);
     }
 
     public BookingItem createBookingItem(Map<String, Object> requestBody) {
@@ -24,30 +24,38 @@ public class BookingItemServiceImpl extends BookingItemServiceDecorator {
         String imageUrl = (String) requestBody.get("imageUrl");
         String location = (String) requestBody.get("location");
         String facilities = (String) requestBody.get("facilities");
-        BookingItemImpl deco = (BookingItemImpl) BookingItemFactory.createBookingItem(
+        BookingItemImpl deco = (BookingItemImpl) bookingItemFactory.createBookingItem(
                 "OnlineTicketing.bookingitem.hotel.BookingItemImpl", wrappee, title, imageUrl, location, facilities);
-        this.Repository.saveObject(deco);
+        Repository.saveObject(deco);
         return deco;
     }
 
     public HashMap<String, Object> getBookingItem(Map<String, Object> requestBody) {
         UUID id = UUID.fromString(requestBody.get("id").toString());
-        BookingItem deco = this.Repository.getObject(id);
+        BookingItem deco = Repository.getObject(id);
         return deco.toHashMap();
     }
 
+    // TODO cek lagi
     public HashMap<String, Object> updateBookingItem(Map<String, Object> requestBody) {
         String idStr = (String) requestBody.get("id");
         UUID id = UUID.fromString(idStr);
-        BookingItemImpl bookingitem = this.Repository.getObject(id);
+        BookingItem bookingitem = Repository.getObject(id);
+        UUID recordBookingItemId = ((BookingItemDecorator) bookingitem).getRecord().getId();
 
-        bookingitem.setBookingType((String) requestBody.get("bookingType"));
-        bookingitem.setTitle((String) requestBody.get("title"));
-        bookingitem.setImageUrl((String) requestBody.get("imageUrl"));
-        bookingitem.setLocation((String) requestBody.get("location"));
-        bookingitem.setFacilities((String) requestBody.get("facilities"));
+        String title = (String) requestBody.get("title");
+        String imageUrl = (String) requestBody.get("imageUrl");
+        String location = (String) requestBody.get("location");
+        String facilities = (String) requestBody.get("facilities");
+        BookingItem wrappee = bookingItemFactory.createBookingItem("OnlineTicketing.bookingitem.core.BookingItemImpl",recordBookingItemId, "hotel");
 
-        this.Repository.updateObject(bookingitem);
+        BookingItemImpl deco = (BookingItemImpl) bookingItemFactory.createBookingItem(
+                "OnlineTicketing.bookingitem.hotel.BookingItemImpl", id, wrappee, title, imageUrl, location, facilities);
+
+
+        Repository.updateObject(wrappee);
+        Repository.updateObject(deco);
+
         return bookingitem.toHashMap();
     }
 
