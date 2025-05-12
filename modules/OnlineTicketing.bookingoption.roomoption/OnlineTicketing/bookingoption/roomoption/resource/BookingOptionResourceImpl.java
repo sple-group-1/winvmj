@@ -8,19 +8,19 @@ import vmj.routing.route.exceptions.*;
 
 import OnlineTicketing.bookingoption.core.BookingOptionResourceDecorator;
 import OnlineTicketing.bookingoption.core.BookingOptionResourceComponent;
+import OnlineTicketing.bookingoption.core.BookingOptionServiceComponent;
+import OnlineTicketing.bookingoption.core.BookingOptionService;
 import OnlineTicketing.bookingoption.core.BookingOption;
 
 
 import OnlineTicketing.bookingoption.roomoption.BookingOptionImpl;
 
 public class BookingOptionResourceImpl extends BookingOptionResourceDecorator {
+	private BookingOptionService roomOptionService;
 
-	private BookingOptionServiceImpl roomOptionService;
-
-	public BookingOptionResourceImpl(BookingOptionResourceComponent record) {
-		super(record);
-		this.roomOptionService = new BookingOptionServiceImpl(
-				new OnlineTicketing.bookingoption.core.BookingOptionServiceImpl());
+	public BookingOptionResourceImpl(BookingOptionResourceComponent recordController, BookingOptionServiceComponent recordService) {
+		super(recordController);
+		this.roomOptionService = new BookingOptionServiceImpl(recordService);
 	}
 
 	// @Restriced(permission = "")
@@ -76,7 +76,7 @@ public class BookingOptionResourceImpl extends BookingOptionResourceDecorator {
 		return this.roomOptionService.getAllBookingOption(vmjExchange.getPayload());
 	}
 
-	public List<HashMap<String, Object>> transformListToHashMap(List<BookingOptionImpl> List) {
+	public List<HashMap<String, Object>> transformListToHashMap(List<BookingOption> List) {
 		List<HashMap<String, Object>> resultList = new ArrayList<HashMap<String, Object>>();
 		for (int i = 0; i < List.size(); i++) {
 			resultList.add(List.get(i).toHashMap());
