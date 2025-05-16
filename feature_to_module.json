@@ -10,5 +10,6 @@
   "Blog": ["OnlineTicketing.blog.core"],
   "Cart": ["OnlineTicketing.cart.core"],
   "Review": ["OnlineTicketing.review.core"],
-  "Hotel": ["OnlineTicketing.bookingitem.hotel", "OnlineTicketing.bookingoption.roomoption"]
+  "Hotel": ["OnlineTicketing.bookingitem.hotel", "OnlineTicketing.bookingoption.roomoption"],
+  "Event": ["OnlineTicketing.bookingitem.event", "OnlineTicketing.bookingoption.packageoption"]
 }

@@ -31,6 +31,14 @@ INSERT INTO bookingoption_impl (id) VALUES
 ('6af6727e-66f8-484f-b77f-83eeec82cd10')
 ON CONFLICT DO NOTHING;
 
+INSERT INTO bookingitem_hotel (id, title, imageurl, location, facilities, record_id, base_component_id, recordname) VALUES
+('1ea9ff33-6dd2-4c0a-b113-a90ee32a01ca', 'Aston Manila', 'https://picsum.photos/seed/random123/600/400', 'Manila', 'spa', '2ea9ff33-6dd2-4c0a-b113-a90ee32a01ca', '2ea9ff33-6dd2-4c0a-b113-a90ee32a01ca', 'OnlineTicketing.bookingitem.hotel.BookingItemImpl')
+ON CONFLICT DO NOTHING;
+
+INSERT INTO bookingoption_roomoption (id, roomtype, record_id, base_component_id, recordname) VALUES
+('1af6727e-66f8-484f-b77f-83eeec82cd10', 'vip', '2af6727e-66f8-484f-b77f-83eeec82cd10', '2af6727e-66f8-484f-b77f-83eeec82cd10', 'OnlineTicketing.bookingoption.roomoption.BookingOptionImpl')
+ON CONFLICT DO NOTHING;
+
 INSERT INTO order_comp (orderid, createdat, startdate, enddate, totalprice, quantity, bookingoption_id, customer_customerid, modulesequence, objectname) VALUES
 ('a2e6727e-66f8-484f-b77f-83eeec82cd10', CURRENT_TIMESTAMP, '2025-07-01', '2025-07-03', 15000000, 3, '2af6727e-66f8-484f-b77f-83eeec82cd10', '2ea9ff33-6dd2-4c0a-b113-a90ee32a01ca', 'order_impl, order_hotel', 'OnlineTicketing.order.core.OrderImpl'),
 ('b2e6727e-66f8-484f-b77f-83eeec82cd10', CURRENT_TIMESTAMP - INTERVAL '60 days', '2025-03-01', '2025-03-02', 10000000, 2, '2af6727e-66f8-484f-b77f-83eeec82cd10', '2ea9ff33-6dd2-4c0a-b113-a90ee32a01ca', 'order_impl, order_hotel', 'OnlineTicketing.order.core.OrderImpl'),
@@ -48,11 +56,3 @@ INSERT INTO order_comp (orderid, createdat, startdate, enddate, totalprice, quan
  ('e2e6727e-66f8-484f-b77f-83eeec82cd10'),
  ('f2e6727e-66f8-484f-b77f-83eeec82cd10')
  ON CONFLICT DO NOTHING;
-
-INSERT INTO bookingitem_hotel (id, title, imageurl, location, facilities, record_id, base_component_id, recordname) VALUES
-('2ea9ff33-6dd2-4c0a-b113-a90ee32a01ca', 'Aston Manila', 'https://picsum.photos/seed/random123/600/400', 'Manila', 'spa', '2ea9ff33-6dd2-4c0a-b113-a90ee32a01ca', '2ea9ff33-6dd2-4c0a-b113-a90ee32a01ca', 'OnlineTicketing.bookingitem.hotel.BookingItemImpl')
-ON CONFLICT DO NOTHING;
-
-INSERT INTO bookingoption_roomoption (id, roomtype, record_id, base_component_id, recordname) VALUES
-('1af6727e-66f8-484f-b77f-83eeec82cd10', 'vip', '1af6727e-66f8-484f-b77f-83eeec82cd10', '1af6727e-66f8-484f-b77f-83eeec82cd10', 'OnlineTicketing.bookingoption.roomoption.BookingOptionImpl')
-ON CONFLICT DO NOTHING;

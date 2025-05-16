@@ -16,7 +16,7 @@ public abstract class BookingItemDecorator extends BookingItemComponent{
 
 	public BookingItemDecorator () {
 		super();
-		this.record = record;
+		this.record = new BookingItemImpl();
 		this.id =  id.randomUUID();
 	}
 		

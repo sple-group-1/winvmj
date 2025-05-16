@@ -3,98 +3,95 @@ import java.util.*;
 
 import vmj.routing.route.Route;
 import vmj.routing.route.VMJExchange;
+import vmj.auth.annotations.Restricted;
 
-import OnlineTicketing.bookingoption.core.BookingOptionResourceDecorator;
-import OnlineTicketing.bookingoption.core.BookingOptionImpl;
-import OnlineTicketing.bookingoption.core.BookingOptionResourceComponent;
+import OnlineTicketing.bookingoption.core.*;
 
 public class BookingOptionResourceImpl extends BookingOptionResourceDecorator {
-    public BookingOptionResourceImpl (BookingOptionResourceComponent record) {
-        super(record);
+	private BookingOptionService bookingOptionService;
+
+    public BookingOptionResourceImpl (BookingOptionResourceComponent recordController, BookingOptionServiceComponent recordService) {
+        super(recordController);
+		this.bookingOptionService = new BookingOptionServiceImpl(recordService);
     }
 
-    // @Restriced(permission = "")
-    @Route(url="call/packageoption/save")
-    public List<HashMap<String,Object>> save(VMJExchange vmjExchange){
-		if (vmjExchange.getHttpMethod().equals("OPTIONS")) {
+  	@Restricted(permissionName = "CreatePackage")
+  	@Route(url="call/package/save")
+    public HashMap<String,Object> createBookingOption(VMJExchange vmjExchange){
+		if (vmjExchange.getHttpMethod().equals("POST")) {
+		    Map<String, Object> requestBody = vmjExchange.getPayload(); 
+			BookingOption result = bookingOptionService.createBookingOption(requestBody);
+			return result.toHashMap();
+		}
+		return null;
+	}
+
+    @Restricted(permissionName = "UpdatePackage")
+    @Route(url="call/package/update")
+    public HashMap<String, Object> updateBookingOption(VMJExchange vmjExchange){
+		Map<String, Object> requestBody = vmjExchange.getPayload(); 
+		if (vmjExchange.getHttpMethod().equals("OPTIONS")){
 			return null;
 		}
-		  = create(vmjExchange);
-		Repository.saveObject();
-		return getAll(vmjExchange);
-	}
-
-    public BookingOption create(VMJExchange vmjExchange){
-		String packageName = (String) vmjExchange.getRequestBodyForm("packageName");
+		BookingOption result = bookingOptionService.updateBookingOption(requestBody);
+		return result.toHashMap();
 		
-		  = record.create(vmjExchange);
-		 deco = Factory.create("OnlineTicketing.packageoption.core.BookingOptionImpl", , packageName);
-			return deco;
 	}
 
-    public BookingOption create(VMJExchange vmjExchange, int id){
-		String packageName = (String) vmjExchange.getRequestBodyForm("packageName");
-		  = Repository.getObject(id);
-		int recordId = (((Decorator) saved.getRecord()).getId();
-		
-		  = record.create(vmjExchange);
-		 deco = Factory.create("OnlineTicketing.packageoption.core.BookingOptionImpl", id, , packageName);
-			return deco;
-	}
-
-    // @Restriced(permission = "")
-    @Route(url="call/packageoption/update")
-    public HashMap<String, Object> update(VMJExchange vmjExchange){
-		if (vmjExchange.getHttpMethod().equals("OPTIONS")) {
-			return null;
+  	@Restricted(permissionName = "ReadPackage")
+    @Route(url="call/package/detail")
+    public HashMap<String, Object> getBookingOption(VMJExchange vmjExchange){
+		String idStr = vmjExchange.getGETParam("packageId");
+		if(idStr == null) {
+		throw new IllegalArgumentException("Invalid UUID");
 		}
-		String idStr = (String) vmjExchange.getRequestBodyForm("");
-		int id = Integer.parseInt(idStr);
-		
-		  = Repository.getObject(id);
-		 = create(vmjExchange, id);
-		
-		Repository.updateObject();
-		 = Repository.getObject(id);
-		//to do: fix association attributes
-		
-		return .toHashMap();
-		
+		UUID id = UUID.fromString(idStr);
+
+		BookingOption result = bookingOptionService.getBookingOption(id);
+		return result.toHashMap();
 	}
 
-	// @Restriced(permission = "")
-    @Route(url="call/packageoption/detail")
-    public HashMap<String, Object> get(VMJExchange vmjExchange){
-		return record.getBookingOption(vmjExchange);
+  	@Restricted(permissionName = "ReadPackage")
+    @Route(url="call/package/list")
+    public List<HashMap<String,Object>> getAllBookingOption(VMJExchange vmjExchange){
+		List<BookingOption> result = bookingOptionService.getAllBookingOption();
+		return bookingOptionService.transformListToHashMap(result);
 	}
 
-	// @Restriced(permission = "")
-    @Route(url="call/packageoption/list")
-    public List<HashMap<String,Object>> getAll(VMJExchange vmjExchange){
-		List<> List = Repository.getAllObject("_impl");
-		return transformListToHashMap(List);
+	@Restricted(permissionName = "ReadPackage")
+  	@Route(url = "call/package/filter")
+  	public List<HashMap<String, Object>> filterBookingOption(VMJExchange vmjExchange) {
+		String by = (String) vmjExchange.getGETParam("by");
+
+		if (by.equals("event")) {
+		String idStr = (String) vmjExchange.getGETParam(by + "Id");
+		if(idStr == null) {
+			throw new IllegalArgumentException("Invalid UUID");
+		}
+
+		UUID id = UUID.fromString(idStr);
+
+		String columnName = by.toLowerCase() + "_id";
+
+		List<BookingOption> bookingOptionList = ((BookingOptionServiceImpl) bookingOptionService).filterCapaian(columnName, id);
+		return bookingOptionService.transformListToHashMap(bookingOptionList);
+		}
+
+		return new ArrayList<>();
 	}
 
-    public List<HashMap<String,Object>> transformListToHashMap(List<> List){
-		List<HashMap<String,Object>> resultList = new ArrayList<HashMap<String,Object>>();
-        for(int i = 0; i < List.size(); i++) {
-            resultList.add(List.get(i).toHashMap());
-        }
-
-        return resultList;
-	}
-
-	// @Restriced(permission = "")
-    @Route(url="call/packageoption/delete")
+  	@Restricted(permissionName = "DeletePackage")
+    @Route(url="call/package/delete")
     public List<HashMap<String,Object>> deleteBookingOption(VMJExchange vmjExchange){
 		if (vmjExchange.getHttpMethod().equals("OPTIONS")) {
 			return null;
 		}
+
+		String idStr = (String) vmjExchange.getRequestBodyForm("id");
+    	UUID id = UUID.fromString(idStr);
 		
-		String idStr = (String) vmjExchange.getRequestBodyForm("");
-		int id = Integer.parseInt(idStr);
-		Repository.deleteObject(id);
-		return getAll(vmjExchange);
+		List<BookingOption> result = bookingOptionService.deleteBookingOption(id);
+		return bookingOptionService.transformListToHashMap(result);
 	}
 
 }
