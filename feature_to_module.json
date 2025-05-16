@@ -5,10 +5,10 @@
     "OnlineTicketing.bookingoption.core",
     "OnlineTicketing.bookingavailability.core"
   ],
-  "Order": ["OnlineTicketing.order.core"],
+  "Order": ["OnlineTicketing.util.core", "OnlineTicketing.order.core"],
   "Wishlist": ["OnlineTicketing.wishlist.core"],
   "Blog": ["OnlineTicketing.blog.core"],
   "Cart": ["OnlineTicketing.cart.core"],
   "Review": ["OnlineTicketing.review.core"],
-  "Hotel": ["OnlineTicketing.bookingitem.hotel"]
+  "Hotel": ["OnlineTicketing.bookingitem.hotel", "OnlineTicketing.bookingoption.roomoption"]
 }
