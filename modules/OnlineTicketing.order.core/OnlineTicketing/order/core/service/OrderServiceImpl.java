@@ -11,33 +11,33 @@ import OnlineTicketing.bookingoption.core.*;
 
 public class OrderServiceImpl extends OrderServiceComponent{
 	private OrderFactory orderFactory = new OrderFactory();
-	// private CustomerService customerService = new CustomerServiceImpl();
+	private BookingOptionService bookingOptionService = new BookingOptionServiceImpl();
 
-    public Order createOrder(Map<String, Object> requestBody){
-		String totalPriceStr = (String) requestBody.get("totalPrice");
-		Long totalPrice = Long.valueOf(totalPriceStr);
+    public Order createOrder(Map<String, Object> requestBody, Customer customer){
 		String quantityStr = (String) requestBody.get("quantity");
 		int quantity = Integer.parseInt(quantityStr);
-		String startStr = (String) requestBody.get("start_date");
+		String startStr = (String) requestBody.get("startDate");
 		LocalDate startDate = LocalDate.parse(startStr);
-		String endStr = (String) requestBody.get("end_date");
-		LocalDate endDate = LocalDate.parse(endStr);
-		String customerIdStr = (String) requestBody.get("customerId");
-		String bookingOptionIdStr = (String) requestBody.get("bookingOptionId");
-
-		LocalDateTime createdAt = LocalDateTime.now();
-
-		Customer customer = null;
-		if (customerIdStr != null) {
-			UUID customerId = UUID.fromString(customerIdStr);
-			customer = orderRepository.getProxyObject(OnlineTicketing.customer.core.CustomerComponent.class, customerId);
+		LocalDate endDate;
+		if (requestBody.get("endDate") != null) {
+			String endStr = (String) requestBody.get("endDate");
+			endDate = LocalDate.parse(endStr);
 		}
+		else {
+			endDate = startDate;
+		}
+
+		String bookingOptionIdStr = (String) requestBody.get("bookingOptionId");
 
 		BookingOption bookingOption = null;
 		if (bookingOptionIdStr != null) {
 			UUID bookingOptionId = UUID.fromString(bookingOptionIdStr);
-			bookingOption = orderRepository.getProxyObject(OnlineTicketing.bookingoption.core.BookingOptionComponent.class, bookingOptionId);
+			bookingOption = bookingOptionService.getBookingOption(bookingOptionId);
 		}
+
+		LocalDateTime createdAt = LocalDateTime.now();
+
+		Long totalPrice = countTotal(startDate, endDate, quantity, bookingOption);
 		
 		Order order = OrderFactory.createOrder("OnlineTicketing.order.core.OrderImpl"
 		, createdAt
@@ -52,22 +52,7 @@ public class OrderServiceImpl extends OrderServiceComponent{
 		return order;
 	}
 
-    public HashMap<String, Object> getOrder(Map<String, Object> requestBody){
-		Map<String, Object> map = new HashMap<>();
-		map.put("table_name", "order_impl");
-		List<HashMap<String, Object>> orderList = getAllOrder(map);
-		String idStr = (String) requestBody.get("orderId");
-		UUID id = UUID.fromString(idStr);
-		for (HashMap<String, Object> order : orderList){
-			UUID record_id = UUID.fromString(order.get("record_id").toString());
-			if (record_id.equals(id)){
-				return order;
-			}
-		}
-		return null;
-	}
-
-	public HashMap<String, Object> getOrderById(UUID id){
+	public HashMap<String, Object> getOrder(UUID id){
 		Order order = orderRepository.getObject(id);
 		return order.toHashMap();
 	}
@@ -127,6 +112,20 @@ public class OrderServiceImpl extends OrderServiceComponent{
 			}
 		}
 		return filteredOrders;
+	}
+
+	public Long countTotal(LocalDate startDate, LocalDate endDate, int quantity, BookingOption bookingOption) {
+		HashMap<String, Object> optionMap = bookingOption.toHashMap();
+
+		String bookingType = (String) optionMap.get("bookingType");
+		Long price = (Long) optionMap.get("price");
+		if (bookingType.equals("hotel")) {
+			return 0L;
+		}
+		else if (bookingType.equals("event")) {
+			return quantity * price;
+		}
+		return 0L;
 	}
 
 	public HashMap<String, Object> countPayment(Map<String, Object> requestBody){

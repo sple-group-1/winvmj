@@ -15,11 +15,14 @@ public class OrderResourceImpl extends OrderResourceComponent{
 	private CustomerService customerService = new CustomerServiceImpl();
 
 	@Restricted(permissionName = "CreateOrder")
-    @Route(url="call/order/create")
+    @Route(url="call/order/save")
     public HashMap<String,Object> createOrder(VMJExchange vmjExchange){
 		if (vmjExchange.getHttpMethod().equals("POST")) {
+			String email = vmjExchange.getAuthPayload().getEmail();
+			Customer customer = customerService.getCustomerByEmail(email);
+			UUID customerId = customer.getCustomerId();
 		    Map<String, Object> requestBody = vmjExchange.getPayload(); 
-			Order result = orderService.createOrder(requestBody);
+			Order result = orderService.createOrder(requestBody, customer);
 			return result.toHashMap();
 		}
 		throw new NotFoundException("Route tidak ditemukan");
@@ -33,7 +36,7 @@ public class OrderResourceImpl extends OrderResourceComponent{
 		throw new IllegalArgumentException("Invalid UUID");
 		}
 		UUID id = UUID.fromString(idStr);
-		return orderService.getOrderById(id);
+		return orderService.getOrder(id);
 	}
 
 	@Restricted(permissionName = "ReadOrder")
