@@ -10,7 +10,7 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 
-@Entity
+@Entity(name="bookingitem_comp")
 @Table(name="bookingitem_comp")
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class BookingItemComponent implements BookingItem{
@@ -23,12 +23,12 @@ public abstract class BookingItemComponent implements BookingItem{
 
 	} 
 
-	public BookingItemComponent(
-        UUID id, String bookingType
-    ) {
-        this.id = id;
-        this.bookingType = bookingType;
-    }
+	// public BookingItemComponent(
+    //     UUID id, String bookingType
+    // ) {
+    //     this.id = id;
+    //     this.bookingType = bookingType;
+    // }
 
 	public UUID getId() {
 		return this.id;
@@ -53,5 +53,14 @@ public abstract class BookingItemComponent implements BookingItem{
             " bookingType='" + getBookingType() + "'" +
             "}";
     }
+
+	public HashMap<String, Object> toHashMap() {
+        HashMap<String, Object> bookingitemMap = new HashMap<String,Object>();
+		bookingitemMap.put("id",getId());
+		bookingitemMap.put("bookingType",getBookingType());
+
+        return bookingitemMap;
+    }
+
 	
 }

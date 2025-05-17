@@ -1,5 +1,6 @@
 module OnlineTicketing.bookingoption.core {
 	requires OnlineTicketing.bookingitem.core;
+	requires OnlineTicketing.util.core;
 	exports OnlineTicketing.bookingoption;
     exports OnlineTicketing.bookingoption.core;
 	requires vmj.routing.route;

@@ -22,13 +22,13 @@ public class BookingAvailabilityImpl extends BookingAvailabilityDecorator {
         this.objectName = BookingAvailabilityImpl.class.getName();
     }
     
-    public BookingAvailabilityImpl(Date date, BookingAvailbilityImpl , BookingOptionImpl bookingoptionimpl, BookingOptionImpl bookingoptionimpl) {
+    public BookingAvailabilityImpl(Date date, BookingAvailabilityImpl , BookingOptionImpl bookingoptionimpl, BookingOptionImpl bookingoptionimpl) {
     	super();
 		this.date = date;
 		this.objectName = BookingAvailabilityImpl.class.getName();
     }
 	
-	public BookingAvailabilityImpl(BookingAvailabilityComponent record, Date date, BookingAvailbilityImpl , BookingOptionImpl bookingoptionimpl, BookingOptionImpl bookingoptionimpl) {
+	public BookingAvailabilityImpl(BookingAvailabilityComponent record, Date date, BookingAvailabilityImpl , BookingOptionImpl bookingoptionimpl, BookingOptionImpl bookingoptionimpl) {
 		super(record);
 		this.date = date;
 		this.objectName = BookingAvailabilityImpl.class.getName();

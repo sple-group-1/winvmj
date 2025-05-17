@@ -10,27 +10,27 @@ import javax.persistence.CascadeType;
 //add other required packages
 
 @MappedSuperclass
-public abstract class BookingAvailbilityDecorator extends BookingAvailbilityComponent{
+public abstract class BookingAvailabilityDecorator extends BookingAvailabilityComponent{
     @OneToOne(cascade=CascadeType.ALL)
-	protected BookingAvailbilityComponent record;
+	protected BookingAvailabilityComponent record;
 
-	public BookingAvailbilityDecorator () {
+	public BookingAvailabilityDecorator () {
 		super();
 		this.record = record;
 		this.id =  id.randomUUID();
 	}
 		
-	public BookingAvailbilityDecorator (BookingAvailbilityComponent record) {
+	public BookingAvailabilityDecorator (BookingAvailabilityComponent record) {
 		this.id =  id.randomUUID();
 		this.record = record;
 	}
 
-	public BookingAvailbilityDecorator (UUID id, BookingAvailbilityComponent record) {
+	public BookingAvailabilityDecorator (UUID id, BookingAvailabilityComponent record) {
 		this.id =  id;
 		this.record = record;
 	}
 	
-	public BookingAvailbilityDecorator (BookingAvailbilityComponent record, String objectName) {
+	public BookingAvailabilityDecorator (BookingAvailabilityComponent record, String objectName) {
 		this.id =  id.randomUUID();
 		this.record = record;	
 		this.objectName=objectName;

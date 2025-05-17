@@ -1,42 +1,38 @@
 package OnlineTicketing.bookingitem.core;
+
 import java.util.*;
 
 import vmj.routing.route.VMJExchange;
 
-public abstract class BookingItemServiceDecorator extends BookingItemServiceComponent{
+public abstract class BookingItemServiceDecorator extends BookingItemServiceComponent {
 	protected BookingItemServiceComponent record;
 
-    public BookingItemServiceDecorator(BookingItemServiceComponent record) {
-        this.record = record;
-    }
+	public BookingItemServiceDecorator(BookingItemServiceComponent record) {
+		this.record = record;
+	}
 
-	public HashMap<String, Object> createBookingItem(Map<String, Object> requestBody){
+	public BookingItem createBookingItem(Map<String, Object> requestBody) {
 		return record.createBookingItem(requestBody);
 	}
 
-
-	public HashMap<String, Object> getBookingItem(Map<String, Object> requestBody){
-		return record.getBookingItem(requestBody);
-	}
-
-	public List<HashMap<String,Object>> getAllBookingItem(Map<String, Object> requestBody){
-		return record.getAllBookingItem(requestBody);
-	}
-
-    public HashMap<String, Object> updateBookingItem(Map<String, Object> requestBody){
+    public BookingItem updateBookingItem(Map<String, Object> requestBody) {
 		return record.updateBookingItem(requestBody);
 	}
 
-    public List<HashMap<String,Object>> transformListToHashMap(List<BookingItem> List){
-		return record.transformListToHashMap(List);
+    public BookingItem getBookingItem(UUID id) {
+		return record.getBookingItem(id);
 	}
 
-    public List<HashMap<String,Object>> deleteBookingItem(Map<String, Object> requestBody){
-		return record.deleteBookingItem(requestBody);
+    public List<BookingItem> getAllBookingItem() {
+		return record.getAllBookingItem();
 	}
 
-	public HashMap<String, Object> getBookingItemById(int id){
-        return record.getBookingItemById(id);
-    }
+    public List<BookingItem> deleteBookingItem(UUID id) {
+		return record.deleteBookingItem(id);
+	}
+
+	public List<HashMap<String, Object>> transformListToHashMap(List<BookingItem> list) {
+		return record.transformListToHashMap(list);
+	}
 
 }

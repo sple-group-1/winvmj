@@ -16,20 +16,20 @@ import OnlineTicketing.bookingoption.core.BookingOption;
 @Entity
 @Table(name = "bookingavailability_comp")
 @Inheritance(strategy = InheritanceType.JOINED)
-public abstract class BookingAvailbilityComponent implements BookingAvailability {
+public abstract class BookingAvailabilityComponent implements BookingAvailability {
 	@Id
 	protected UUID id;
 	protected int quota;
 	protected int available;
 	@ManyToOne(targetEntity = OnlineTicketing.bookingoption.core.BookingOptionComponent.class)
 	public BookingOption bookingOption;
-	protected String objectName = BookingAvailbilityComponent.class.getName();
+	protected String objectName = BookingAvailabilityComponent.class.getName();
 
-	public BookingAvailbilityComponent() {
+	public BookingAvailabilityComponent() {
 
 	}
 
-	public BookingAvailbilityComponent(
+	public BookingAvailabilityComponent(
 			UUID id, int quota, int available, BookingOption bookingoptionimpl) {
 		this.id = id;
 		this.quota = quota;
