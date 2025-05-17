@@ -43,7 +43,7 @@ public class BookingOptionServiceImpl extends BookingOptionServiceDecorator {
 	}
 
 	public BookingOption updateBookingOption(Map<String, Object> requestBody) {
-		String idStr = (String) requestBody.get("id");
+		String idStr = (String) requestBody.get("packageId");
 		UUID id = UUID.fromString(idStr);
 
 		String priceStr = (String) requestBody.get("price");

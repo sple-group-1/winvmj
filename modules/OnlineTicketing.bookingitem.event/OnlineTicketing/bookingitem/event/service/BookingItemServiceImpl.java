@@ -4,9 +4,9 @@ import java.util.*;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.net.URLConnection;
 import java.lang.RuntimeException;
 import vmj.routing.route.exceptions.*;
+import java.nio.charset.StandardCharsets;
 
 import OnlineTicketing.bookingitem.BookingItemFactory;
 import OnlineTicketing.bookingitem.core.BookingItem;
@@ -24,23 +24,26 @@ public class BookingItemServiceImpl extends BookingItemServiceDecorator {
 	public BookingItem createBookingItem(Map<String, Object> requestBody) {
 		String title = (String) requestBody.get("title");
 		String location = (String) requestBody.get("location");
-		Map<String, byte[]> uploadedFile = (HashMap<String, byte[]>) requestBody.get("imageUrls");
-		
-        String imageUrls = "data:" + (new String(uploadedFile.get("type"))).split(" ")[1].replaceAll("\\s+", "")
-                + ";base64," + Base64.getEncoder().encodeToString(uploadedFile.get("content"));
-        int fileSize = uploadedFile.get("content").length;
-        if (fileSize > 4000000)
-            throw new FileSizeException(4.0, ((double) fileSize) / 1000000, "megabyte");
-        try {
-            String type = URLConnection
-                    .guessContentTypeFromStream(new ByteArrayInputStream(uploadedFile.get("content")));
-            if (type == null || !type.startsWith("image"))
-                throw new FileTypeException("image");
-        } catch (IOException e) {
-            throw new FileNotFoundException();
-        }
 
-		imageUrls = "a";
+		Map<String, byte[]> uploadedFile = (HashMap<String, byte[]>) requestBody.get("imageUrls");
+
+		byte[] fileContent = uploadedFile.get("content");
+
+		int fileSize = fileContent.length;
+
+		if (fileSize > 15000000)
+			throw new FileSizeException(15.0, ((double) fileSize) / 1000000, "megabyte");
+
+		// Check for PNG or JPEG
+		boolean isPng = fileContent[0] == (byte)0x89 && fileContent[1] == 0x50 && fileContent[2] == 0x4E && fileContent[3] == 0x47;
+		boolean isJpeg = fileContent[0] == (byte)0xFF && fileContent[1] == (byte)0xD8;
+
+		if (!isPng && !isJpeg) {
+			throw new FileTypeException("Image (PNG or JPEG)");
+		}
+
+		String base64Encoded  = Base64.getEncoder().encodeToString(fileContent);
+		byte[] imageUrls = base64Encoded.getBytes(StandardCharsets.UTF_8);
 
 		String facilities = (String) requestBody.get("facilities");
 		String description = (String) requestBody.get("description");
@@ -50,31 +53,34 @@ public class BookingItemServiceImpl extends BookingItemServiceDecorator {
 		
         bookingItemRepository.saveObject(bookingItem);
 		bookingItemRepository.saveObject(event);
-
+		
 		return event;
 	}
 
 	public BookingItem updateBookingItem(Map<String, Object> requestBody) {
-		String idStr = (String) requestBody.get("id");
+		String idStr = (String) requestBody.get("eventId");
 		UUID id = UUID.fromString(idStr);
 
 		String title = (String) requestBody.get("title");
 		String location = (String) requestBody.get("location");
 		Map<String, byte[]> uploadedFile = (HashMap<String, byte[]>) requestBody.get("imageUrls");
-		
-        String imageUrls = "data:" + (new String(uploadedFile.get("type"))).split(" ")[1].replaceAll("\\s+", "")
-                + ";base64," + Base64.getEncoder().encodeToString(uploadedFile.get("content"));
-        int fileSize = uploadedFile.get("content").length;
-        if (fileSize > 4000000)
-            throw new FileSizeException(4.0, ((double) fileSize) / 1000000, "megabyte");
-        try {
-            String type = URLConnection
-                    .guessContentTypeFromStream(new ByteArrayInputStream(uploadedFile.get("content")));
-            if (type == null || !type.startsWith("image"))
-                throw new FileTypeException("image");
-        } catch (IOException e) {
-            throw new FileNotFoundException();
-        }
+
+		byte[] fileContent = uploadedFile.get("content");
+
+		int fileSize = fileContent.length;
+
+		if (fileSize > 15000000)
+			throw new FileSizeException(15.0, ((double) fileSize) / 1000000, "megabyte");
+
+		boolean isPng = fileContent[0] == (byte)0x89 && fileContent[1] == 0x50 && fileContent[2] == 0x4E && fileContent[3] == 0x47;
+		boolean isJpeg = fileContent[0] == (byte)0xFF && fileContent[1] == (byte)0xD8;
+
+		if (!isPng && !isJpeg) {
+			throw new FileTypeException("Image (PNG or JPEG)");
+		}
+
+		String base64Encoded  = Base64.getEncoder().encodeToString(fileContent);
+		byte[] imageUrls = base64Encoded.getBytes(StandardCharsets.UTF_8);
 
 		String facilities = (String) requestBody.get("facilities");
 		String description = (String) requestBody.get("description");

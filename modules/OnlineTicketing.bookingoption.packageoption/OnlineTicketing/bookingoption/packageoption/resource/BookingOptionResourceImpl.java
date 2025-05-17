@@ -87,7 +87,7 @@ public class BookingOptionResourceImpl extends BookingOptionResourceDecorator {
 			return null;
 		}
 
-		String idStr = (String) vmjExchange.getRequestBodyForm("id");
+		String idStr = (String) vmjExchange.getRequestBodyForm("packageId");
     	UUID id = UUID.fromString(idStr);
 		
 		List<BookingOption> result = bookingOptionService.deleteBookingOption(id);
