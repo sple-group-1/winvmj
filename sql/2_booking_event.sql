@@ -60,8 +60,8 @@ INSERT INTO bookingoption_packageoption (id, packagename, event_id, record_id, b
 ('11f6727e-66f8-484f-b77f-83eeec82cd10', 'Premium Ticket','7ea9ff33-6dd2-4c0a-b113-a90ee32a01ca','12f6727e-66f8-484f-b77f-83eeec82cd10', '12f6727e-66f8-484f-b77f-83eeec82cd10', 'OnlineTicketing.bookingoption.roomoption.BookingOptionImpl'),
 ('13f6727e-66f8-484f-b77f-83eeec82cd10', 'Regular Ticket','9ea9ff33-6dd2-4c0a-b113-a90ee32a01ca','14f6727e-66f8-484f-b77f-83eeec82cd10', '14f6727e-66f8-484f-b77f-83eeec82cd10', 'OnlineTicketing.bookingoption.roomoption.BookingOptionImpl'),
 ('15f6727e-66f8-484f-b77f-83eeec82cd10', 'Premium Ticket','9ea9ff33-6dd2-4c0a-b113-a90ee32a01ca','16f6727e-66f8-484f-b77f-83eeec82cd10', '16f6727e-66f8-484f-b77f-83eeec82cd10', 'OnlineTicketing.bookingoption.roomoption.BookingOptionImpl'),
-('17f6727e-66f8-484f-b77f-83eeec82cd10', 'Regular Ticket','11a9ff33-6dd2-4c0a-b113-a90ee32a01ca','18f6727e-66f8-484f-b77f-83eeec82cd10', '18f6727e-66f8-484f-b77f-83eeec82cd10', 'OnlineTicketing.bookingoption.roomoption.BookingOptionImpl'),
-('19f6727e-66f8-484f-b77f-83eeec82cd10', 'Premium Ticket','11a9ff33-6dd2-4c0a-b113-a90ee32a01ca','20f6727e-66f8-484f-b77f-83eeec82cd10', '20f6727e-66f8-484f-b77f-83eeec82cd10', 'OnlineTicketing.bookingoption.roomoption.BookingOptionImpl')
+('17f6727e-66f8-484f-b77f-83eeec82cd10', 'Jatim Park 1 Entrance Tiket','11a9ff33-6dd2-4c0a-b113-a90ee32a01ca','18f6727e-66f8-484f-b77f-83eeec82cd10', '18f6727e-66f8-484f-b77f-83eeec82cd10', 'OnlineTicketing.bookingoption.roomoption.BookingOptionImpl'),
+('19f6727e-66f8-484f-b77f-83eeec82cd10', 'Entrance Ticket + Museum Angkut Bundle','11a9ff33-6dd2-4c0a-b113-a90ee32a01ca','20f6727e-66f8-484f-b77f-83eeec82cd10', '20f6727e-66f8-484f-b77f-83eeec82cd10', 'OnlineTicketing.bookingoption.roomoption.BookingOptionImpl')
 ON CONFLICT DO NOTHING;
 
 INSERT INTO order_comp (orderid, createdat, startdate, enddate, totalprice, quantity, bookingoption_id, customer_customerid, modulesequence, objectname) VALUES
