@@ -19,55 +19,63 @@ public class BookingItemServiceImpl extends BookingItemServiceDecorator {
     }
 
     public BookingItem createBookingItem(Map<String, Object> requestBody) {
-        BookingItem wrappee = record.createBookingItem(requestBody);
+        requestBody.put("bookingType", "HOTEL");
+        BookingItem bookingItem = record.createBookingItem(requestBody);
         String title = (String) requestBody.get("title");
         String imageUrl = (String) requestBody.get("imageUrl");
         String location = (String) requestBody.get("location");
         String facilities = (String) requestBody.get("facilities");
-        BookingItemImpl deco = (BookingItemImpl) bookingItemFactory.createBookingItem(
-                "OnlineTicketing.bookingitem.hotel.BookingItemImpl", wrappee, title, imageUrl, location, facilities);
-        Repository.saveObject(deco);
-        return deco;
-    }
+        BookingItem hotel = (BookingItem) bookingItemFactory.createBookingItem(
+                "OnlineTicketing.bookingitem.hotel.BookingItemImpl", bookingItem, title, imageUrl, location,
+                facilities);
 
-    public HashMap<String, Object> getBookingItem(Map<String, Object> requestBody) {
-        UUID id = UUID.fromString(requestBody.get("id").toString());
-        BookingItem deco = Repository.getObject(id);
-        return deco.toHashMap();
+        bookingItemRepository.saveObject(hotel);
+
+        return hotel;
     }
 
     // TODO cek lagi
-    public HashMap<String, Object> updateBookingItem(Map<String, Object> requestBody) {
+    public BookingItem updateBookingItem(Map<String, Object> requestBody) {
         String idStr = (String) requestBody.get("id");
         UUID id = UUID.fromString(idStr);
-        BookingItem bookingitem = Repository.getObject(id);
+        BookingItem bookingitem = bookingItemRepository.getObject(id);
         UUID recordBookingItemId = ((BookingItemDecorator) bookingitem).getRecord().getId();
 
         String title = (String) requestBody.get("title");
         String imageUrl = (String) requestBody.get("imageUrl");
         String location = (String) requestBody.get("location");
         String facilities = (String) requestBody.get("facilities");
-        BookingItem wrappee = bookingItemFactory.createBookingItem("OnlineTicketing.bookingitem.core.BookingItemImpl",recordBookingItemId, "hotel");
+        BookingItem wrappee = bookingItemFactory.createBookingItem("OnlineTicketing.bookingitem.core.BookingItemImpl",
+                recordBookingItemId, "HOTEL");
 
-        BookingItemImpl deco = (BookingItemImpl) bookingItemFactory.createBookingItem(
-                "OnlineTicketing.bookingitem.hotel.BookingItemImpl", id, wrappee, title, imageUrl, location, facilities);
+        BookingItemImpl hotel = (BookingItemImpl) bookingItemFactory.createBookingItem(
+                "OnlineTicketing.bookingitem.hotel.BookingItemImpl", id, wrappee, title, imageUrl, location,
+                facilities);
 
+        bookingItemRepository.updateObject(wrappee);
+        bookingItemRepository.updateObject(hotel);
 
-        Repository.updateObject(wrappee);
-        Repository.updateObject(deco);
+        return hotel;
+    }
 
-        return bookingitem.toHashMap();
+    public BookingItem getBookingItem(UUID id) {
+        return bookingItemRepository.getObject(id);
+    }
+
+    public List<BookingItem> getAllBookingItem() {
+        List<BookingItem> list = bookingItemRepository.getAllObject("bookingitem_hotel");
+        return list;
+    }
+
+    public List<BookingItem> deleteBookingItem(UUID id) {
+        BookingItem deco = bookingItemRepository.getObject(id);
+        BookingItem wrappee = ((BookingItemDecorator) deco).getRecord();
+        bookingItemRepository.deleteObject(id);
+        record.deleteBookingItem(wrappee.getId());
+        return getAllBookingItem();
     }
 
     public List<HashMap<String, Object>> transformListToHashMap(List<BookingItem> List) {
         return record.transformListToHashMap(List);
-    }
-
-    public List<HashMap<String, Object>> deleteBookingItem(Map<String, Object> requestBody) {
-        return record.deleteBookingItem(requestBody);
-    }
-
-    public HashMap<String, Object> getBookingItemById(int id) {
-        return record.getBookingItemById(id);
     }
 }

@@ -55,6 +55,10 @@ public class BookingItemImpl extends BookingItemDecorator {
 		this.objectName = BookingItemImpl.class.getName();
 	}
 
+	public UUID getId() {
+		return this.id;
+	}
+
 	public String getTitle() {
 		return this.title;
 	}
@@ -87,4 +91,14 @@ public class BookingItemImpl extends BookingItemDecorator {
 		this.facilities = facilities;
 	}
 
+	public HashMap<String, Object> toHashMap() {
+		HashMap<String, Object> bookingitemMap = super.toHashMap();
+		bookingitemMap.put("id", this.getId());
+		bookingitemMap.put("title", this.getTitle());
+		bookingitemMap.put("imageUrl", this.getImageUrl());
+		bookingitemMap.put("location", this.getLocation());
+		bookingitemMap.put("facilities", this.getFacilities());
+
+		return bookingitemMap;
+	}
 }

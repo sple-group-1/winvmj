@@ -23,13 +23,6 @@ public abstract class BookingItemComponent implements BookingItem{
 
 	} 
 
-	// public BookingItemComponent(
-    //     UUID id, String bookingType
-    // ) {
-    //     this.id = id;
-    //     this.bookingType = bookingType;
-    // }
-
 	public UUID getId() {
 		return this.id;
 	}

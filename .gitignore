@@ -6,3 +6,8 @@ modules-gen
 .vscode
 *.sh
 *.txt
+/bin
+/src
+/bin-comp
+/modules-gen
+.idea

@@ -35,6 +35,16 @@ public class BookingOptionImpl extends BookingOptionDecorator {
 		this.objectName = BookingOptionImpl.class.getName();
 	}
 
+	public BookingOptionImpl(UUID id, BookingOptionComponent record, String roomType) {
+		super(id, record);
+		this.roomType = roomType;
+		this.objectName = BookingOptionImpl.class.getName();
+	}
+
+	public UUID getId() {
+		return this.id;
+	}
+
 	public String getRoomType() {
 		return this.roomType;
 	}
@@ -42,5 +52,13 @@ public class BookingOptionImpl extends BookingOptionDecorator {
 	public void setRoomType(String roomType) {
 		this.roomType = roomType;
 	}
+
+
+	public HashMap<String, Object> toHashMap() {
+		HashMap<String, Object> bookingOptionMap = record.toHashMap();
+		bookingOptionMap.put("id", this.getId());
+		bookingOptionMap.put("roomType", this.getRoomType());
+		return bookingOptionMap;
+}
 
 }
