@@ -1,5 +1,5 @@
 module OnlineTicketing.cart.core {
-	requires OnlineTicketing.bookingitem.core;
+	requires OnlineTicketing.bookingoption.core;
 	requires OnlineTicketing.customer.core;
 	exports OnlineTicketing.cart;
     exports OnlineTicketing.cart.core;
