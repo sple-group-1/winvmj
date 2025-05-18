@@ -69,7 +69,8 @@ public abstract class BookingOptionComponent implements BookingOption{
 		bookingoptionMap.put("price",getPrice());
 		bookingoptionMap.put("bookingType",getBookingType());
 		if (getBookingItem() != null) {
-        	bookingoptionMap = Util.combine(bookingoptionMap, getBookingItem().toHashMap(), "bookingItem");
+        	// bookingoptionMap = Util.combine(bookingoptionMap, getBookingItem().toHashMap(), "bookingItem");
+					bookingoptionMap.put("bookingItemId", getBookingItem().getId());
 		}
 
         return bookingoptionMap;
