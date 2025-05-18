@@ -35,6 +35,12 @@ public class BookingOptionImpl extends BookingOptionDecorator {
 		this.objectName = BookingOptionImpl.class.getName();
 	}
 
+	public BookingOptionImpl(UUID id, BookingOptionComponent record, String roomType) {
+		super(id, record);
+		this.roomType = roomType;
+		this.objectName = BookingOptionImpl.class.getName();
+	}
+
 	public String getRoomType() {
 		return this.roomType;
 	}

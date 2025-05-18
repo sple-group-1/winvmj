@@ -5,55 +5,69 @@ import java.util.*;
 import vmj.routing.route.VMJExchange;
 import vmj.hibernate.integrator.RepositoryUtil;
 
+import OnlineTicketing.bookingitem.BookingItemServiceFactory;
+import OnlineTicketing.bookingitem.core.BookingItemService;
+import OnlineTicketing.bookingoption.BookingOptionFactory;
 import OnlineTicketing.bookingoption.core.BookingOptionServiceDecorator;
 import OnlineTicketing.bookingoption.core.BookingOptionServiceComponent;
 import OnlineTicketing.bookingoption.core.BookingOption;
-
+import OnlineTicketing.bookingoption.core.BookingOptionDecorator;
 import OnlineTicketing.bookingoption.roomoption.BookingOptionImpl;
-import OnlineTicketing.bookingoption.BookingOptionFactory;
 
 public class BookingOptionServiceImpl extends BookingOptionServiceDecorator {
-    protected RepositoryUtil<BookingOptionImpl> Repository;
+    private BookingItemService hotelService;
 
     public BookingOptionServiceImpl(BookingOptionServiceComponent record) {
         super(record);
-        this.Repository = new RepositoryUtil<BookingOptionImpl>(
-                OnlineTicketing.bookingoption.roomoption.BookingOptionImpl.class);
+        this.hotelService = BookingItemServiceFactory.createBookingItemService(
+                "OnlineTicketing.bookingitem.hotel.BookingItemServiceImpl",
+                BookingItemServiceFactory.createBookingItemService(
+                        "OnlineTicketing.bookingitem.core.BookingItemServiceImpl"));
     }
 
     public BookingOption createBookingOption(Map<String, Object> requestBody) {
+        requestBody.put("bookingType", "HOTEL");
         BookingOption wrappee = record.createBookingOption(requestBody);
+        UUID id = wrappee.getId();
         String roomType = (String) requestBody.get("roomType");
-        BookingOptionImpl deco = (BookingOptionImpl) BookingOptionFactory.createBookingOption(
-                "OnlineTicketing.bookingoption.roomoption", wrappee, roomType);
-        this.Repository.saveObject(deco);
+        BookingOption deco = BookingOptionFactory.createBookingOption(
+                "OnlineTicketing.bookingoption.roomoption.BookingOptionImpl", id, wrappee, roomType);
+        this.bookingOptionRepository.saveObject(deco);
         return deco;
     }
 
-    public HashMap<String, Object> getBookingOption(Map<String, Object> requestBody) {
-        UUID id = UUID.fromString(requestBody.get("id").toString());
-        BookingOption deco = this.Repository.getObject(id);
-        return deco.toHashMap();
-    }
+    public BookingOption updateBookingOption(Map<String, Object> requestBody) {
+        record.updateBookingOption(requestBody);
 
-    public HashMap<String, Object> updateBookingOption(Map<String, Object> requestBody) {
         String idStr = (String) requestBody.get("id");
         UUID id = UUID.fromString(idStr);
-        BookingOptionImpl bookingoption = this.Repository.getObject(id);
+        
+        BookingOptionImpl roomOption = (BookingOptionImpl) this.bookingOptionRepository.getObject(id);
+        roomOption.setRoomType((String) requestBody.get("roomType"));
+        this.bookingOptionRepository.updateObject(roomOption);
+        return bookingOptionRepository.getObject(id);
+    }
 
-        bookingoption.setBookingType((String) requestBody.get("bookingType"));
-        bookingoption.setRoomType((String) requestBody.get("roomType"));
+    public BookingOption getBookingOption(UUID id) {
+        BookingOption roomOption = this.bookingOptionRepository.getObject(id);
+        return roomOption;
+    }
 
-        this.Repository.updateObject(bookingoption);
-        return bookingoption.toHashMap();
+    public List<BookingOption> getAllBookingOption() {
+        List<BookingOption> list = bookingOptionRepository.getAllObject("bookingoption_roomoption");
+        return list;
+    }
+
+    public List<BookingOption> deleteBookingOption(UUID id) {
+        BookingOption roomOption = this.bookingOptionRepository.getObject(id);
+        BookingOption bookingOption = ((BookingOptionDecorator) roomOption).getRecord();
+        bookingOptionRepository.deleteObject(id);
+        record.deleteBookingOption(bookingOption.getId());
+        return getAllBookingOption();
     }
 
     public List<HashMap<String, Object>> transformListToHashMap(List<BookingOption> List) {
         return record.transformListToHashMap(List);
-    }
-
-    public List<HashMap<String, Object>> deleteBookingOption(Map<String, Object> requestBody) {
-        return record.deleteBookingOption(requestBody);
     }
 
 }

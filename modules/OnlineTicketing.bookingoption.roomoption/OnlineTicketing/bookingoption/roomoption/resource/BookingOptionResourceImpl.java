@@ -23,16 +23,6 @@ public class BookingOptionResourceImpl extends BookingOptionResourceDecorator {
 		this.roomOptionService = new BookingOptionServiceImpl(recordService);
 	}
 
-	// @Restriced(permission = "")
-	// @Route(url="call/roomoption/save")
-	// public List<HashMap<String,Object>> save(VMJExchange vmjExchange){
-	// if (vmjExchange.getHttpMethod().equals("OPTIONS")) {
-	// return null;
-	// }
-	// = create(vmjExchange);
-	// Repository.saveObject();
-	// return getAll(vmjExchange);
-	// }
 
 	@Route(url = "call/roomoption/save")
 	public HashMap<String, Object> create(VMJExchange vmjExchange) {
@@ -44,16 +34,6 @@ public class BookingOptionResourceImpl extends BookingOptionResourceDecorator {
 		throw new NotFoundException("Route tidak ditemukan");
 	}
 
-	// public BookingOption create(VMJExchange vmjExchange, int id){
-	// String roomType = (String) vmjExchange.getRequestBodyForm("roomType");
-	// = Repository.getObject(id);
-	// int recordId = (((Decorator) saved.getRecord()).getId();
-
-	// = record.create(vmjExchange);
-	// deco = Factory.create("OnlineTicketing.roomoption.core.BookingOptionImpl",
-	// id, , roomType);
-	// return deco;
-	// }
 
 	// @Restriced(permission = "")
 	@Route(url = "call/roomoption/update")
@@ -61,29 +41,27 @@ public class BookingOptionResourceImpl extends BookingOptionResourceDecorator {
 		if (vmjExchange.getHttpMethod().equals("OPTIONS")) {
 			return null;
 		}
-		return this.roomOptionService.updateBookingOption(vmjExchange.getPayload());
+		Map<String, Object> requestBody = vmjExchange.getPayload();
+		BookingOption result = this.roomOptionService.updateBookingOption(requestBody);
+		return result.toHashMap();
 	}
 
 	// @Restriced(permission = "")
 	@Route(url = "call/roomoption/detail")
 	public HashMap<String, Object> get(VMJExchange vmjExchange) {
-		return this.roomOptionService.getBookingOption(vmjExchange.getPayload());
+		String idStr = (String) vmjExchange.getGETParam("id");
+		UUID id = UUID.fromString(idStr);
+		BookingOption result = this.roomOptionService.getBookingOption(id);
+		return result.toHashMap();
 	}
 
 	// @Restriced(permission = "")
 	@Route(url = "call/roomoption/list")
 	public List<HashMap<String, Object>> getAll(VMJExchange vmjExchange) {
-		return this.roomOptionService.getAllBookingOption(vmjExchange.getPayload());
+		List<BookingOption> result = this.roomOptionService.getAllBookingOption();
+		return this.roomOptionService.transformListToHashMap(result);
 	}
 
-	public List<HashMap<String, Object>> transformListToHashMap(List<BookingOption> List) {
-		List<HashMap<String, Object>> resultList = new ArrayList<HashMap<String, Object>>();
-		for (int i = 0; i < List.size(); i++) {
-			resultList.add(List.get(i).toHashMap());
-		}
-
-		return resultList;
-	}
 
 	// @Restriced(permission = "")
 	@Route(url = "call/roomoption/delete")
@@ -92,7 +70,10 @@ public class BookingOptionResourceImpl extends BookingOptionResourceDecorator {
 			return null;
 		}
 
-		return this.roomOptionService.deleteBookingOption(vmjExchange.getPayload());
+		String idStr = (String) vmjExchange.getGETParam("id");
+		UUID id = UUID.fromString(idStr);
+		List<BookingOption> result = this.roomOptionService.deleteBookingOption(id);
+		return this.roomOptionService.transformListToHashMap(result);
 	}
 
 }

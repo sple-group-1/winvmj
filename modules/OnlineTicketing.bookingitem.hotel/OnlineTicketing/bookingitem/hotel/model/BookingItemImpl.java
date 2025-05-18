@@ -45,6 +45,7 @@ public class BookingItemImpl extends BookingItemDecorator {
 		this.objectName = BookingItemImpl.class.getName();
 	}
 
+	// Note: Wrapper and Decorator should share same id (HMD)
 	public BookingItemImpl(UUID id, BookingItemComponent record, String title, String imageUrl, String location,
 			String facilities) {
 		super(id, record);
