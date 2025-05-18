@@ -29,6 +29,7 @@ public class OrderImpl extends OrderComponent {
 		this.endDate = endDate;
 		this.customer = customer;
 		this.bookingOption = bookingOption;
+		this.objectName = OrderImpl.class.getName();
 	}
 
 	public OrderImpl(LocalDateTime createdAt, Long totalPrice, int quantity, LocalDate startDate, LocalDate endDate, Customer customer, BookingOption bookingOption) {
@@ -40,6 +41,8 @@ public class OrderImpl extends OrderComponent {
 		this.endDate = endDate;
 		this.customer = customer;
 		this.bookingOption = bookingOption;
+		this.objectName = OrderImpl.class.getName();
+
 	}
 
 	public OrderImpl() {
@@ -49,6 +52,7 @@ public class OrderImpl extends OrderComponent {
 		this.quantity = 0;
 		this.startDate = null;
 		this.endDate = null;
+		this.objectName = OrderImpl.class.getName();
 	}
 
 }

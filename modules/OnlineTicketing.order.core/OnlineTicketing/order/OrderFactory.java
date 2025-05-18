@@ -38,20 +38,20 @@ public class OrderFactory{
             } 
             catch (IllegalArgumentException e)
             {
-                LOGGER.severe("Failed to create instance of Customer.");
+                LOGGER.severe("Failed to create instance of Order.");
                 LOGGER.severe("Given FQN: " + fullyQualifiedName);
                 LOGGER.severe("Failed to run: Check your constructor argument");
                 System.exit(20);
             }
             catch (ClassCastException e)
-            {   LOGGER.severe("Failed to create instance of Customer.");
+            {   LOGGER.severe("Failed to create instance of Order.");
                 LOGGER.severe("Given FQN: " + fullyQualifiedName);
                 LOGGER.severe("Failed to cast the object");
                 System.exit(30);
             }
             catch (ClassNotFoundException e)
             {
-                LOGGER.severe("Failed to create instance of Customer.");
+                LOGGER.severe("Failed to create instance of Order.");
                 LOGGER.severe("Given FQN: " + fullyQualifiedName);
                 LOGGER.severe("Decorator can't be applied to the object");
                 System.exit(40);

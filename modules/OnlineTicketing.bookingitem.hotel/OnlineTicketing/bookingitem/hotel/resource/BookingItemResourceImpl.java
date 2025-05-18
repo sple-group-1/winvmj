@@ -10,23 +10,24 @@ import OnlineTicketing.bookingitem.core.BookingItemResourceDecorator;
 import OnlineTicketing.bookingitem.core.BookingItem;
 import OnlineTicketing.bookingitem.core.BookingItemComponent;
 import OnlineTicketing.bookingitem.core.BookingItemResourceComponent;
+import OnlineTicketing.bookingitem.core.BookingItemService;
+import OnlineTicketing.bookingitem.core.BookingItemServiceComponent;
 import OnlineTicketing.bookingitem.hotel.BookingItemImpl;
 import OnlineTicketing.bookingitem.hotel.BookingItemServiceImpl;
 
 public class BookingItemResourceImpl extends BookingItemResourceDecorator {
+	private BookingItemService bookingItemService;
 
-	private BookingItemServiceImpl hotelService;
-
-	public BookingItemResourceImpl(BookingItemResourceComponent record) {
-		super(record);
-		this.hotelService = new BookingItemServiceImpl(new OnlineTicketing.bookingitem.core.BookingItemServiceImpl());
+	public BookingItemResourceImpl(BookingItemResourceComponent recordController, BookingItemServiceComponent recordService) {
+		super(recordController);
+		this.bookingItemService = new BookingItemServiceImpl(recordService);
 	}
 
 	@Route(url = "call/hotel/save")
 	public HashMap<String, Object> createBookingItem(VMJExchange vmjExchange) {
 		if (vmjExchange.getHttpMethod().equals("POST")) {
 			Map<String, Object> requestBody = vmjExchange.getPayload();
-			BookingItem result = this.hotelService.createBookingItem(requestBody);
+			BookingItem result = bookingItemService.createBookingItem(requestBody);
 			return result.toHashMap();
 		}
 		throw new NotFoundException("Route tidak ditemukan");
@@ -51,19 +52,19 @@ public class BookingItemResourceImpl extends BookingItemResourceDecorator {
 		if (vmjExchange.getHttpMethod().equals("OPTIONS")) {
 			return null;
 		}
-		return this.hotelService.updateBookingItem(vmjExchange.getPayload());
+		return this.bookingItemService.updateBookingItem(vmjExchange.getPayload());
 	}
 
 	// @Restriced(permission = "")
 	@Route(url = "call/hotel/detail")
 	public HashMap<String, Object> get(VMJExchange vmjExchange) {
-		return this.hotelService.getBookingItem(vmjExchange.getPayload());
+		return this.bookingItemService.getBookingItem(vmjExchange.getPayload());
 	}
 
 	// @Restriced(permission = "")
 	@Route(url = "call/hotel/list")
 	public List<HashMap<String, Object>> getAll(VMJExchange vmjExchange) {
-		return this.hotelService.getAllBookingItem(vmjExchange.getPayload());
+		return this.bookingItemService.getAllBookingItem(vmjExchange.getPayload());
 	}
 
 	public List<HashMap<String, Object>> transformListToHashMap(List<BookingItemImpl> List) {
@@ -82,7 +83,7 @@ public class BookingItemResourceImpl extends BookingItemResourceDecorator {
 			return null;
 		}
 
-		return this.hotelService.deleteBookingItem(vmjExchange.getPayload());
+		return this.bookingItemService.deleteBookingItem(vmjExchange.getPayload());
 	}
 
 }

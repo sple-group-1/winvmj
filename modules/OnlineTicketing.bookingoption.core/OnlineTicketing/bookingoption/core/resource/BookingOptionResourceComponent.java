@@ -12,7 +12,6 @@ public abstract class BookingOptionResourceComponent implements BookingOptionRes
         this.bookingOptionRepository = new RepositoryUtil<BookingOption>(OnlineTicketing.bookingoption.core.BookingOptionComponent.class);
     }
  
-    // public abstract BookingOption createBookingOption(VMJExchange vmjExchange);    
     public abstract HashMap<String, Object> createBookingOption(VMJExchange vmjExchange);    
 	public abstract HashMap<String, Object> updateBookingOption(VMJExchange vmjExchange);
     public abstract HashMap<String, Object> getBookingOption(VMJExchange vmjExchange);

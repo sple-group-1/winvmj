@@ -16,7 +16,7 @@ public abstract class BookingItemDecorator extends BookingItemComponent{
 
 	public BookingItemDecorator () {
 		super();
-		this.record = record;
+		this.record = new BookingItemImpl();
 		this.id =  id.randomUUID();
 	}
 		
@@ -34,6 +34,14 @@ public abstract class BookingItemDecorator extends BookingItemComponent{
 		this.id =  id.randomUUID();
 		this.record = record;	
 		this.objectName=objectName;
+	}
+
+	public BookingItemComponent getRecord() {
+		return this.record;
+	}
+
+	public void setRecord(BookingItemComponent record) {
+		this.record = record;
 	}
 
 	public UUID getId() {

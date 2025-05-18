@@ -1,6 +1,8 @@
 package OnlineTicketing.order.core;
 import java.util.*;
 
+import OnlineTicketing.customer.core.Customer;
+
 public abstract class OrderServiceDecorator extends OrderServiceComponent{
 	protected OrderServiceComponent record;
 
@@ -8,12 +10,8 @@ public abstract class OrderServiceDecorator extends OrderServiceComponent{
         this.record = record;
     }
 
-	public Order createOrder(Map<String, Object> requestBody){
-		return record.createOrder(requestBody);
-	}
-
-	public HashMap<String, Object> getOrder(Map<String, Object> requestBody){
-		return record.getOrder(requestBody);
+	public Order createOrder(Map<String, Object> requestBody, Customer customer){
+		return record.createOrder(requestBody, customer);
 	}
 
 	public List<HashMap<String,Object>> getAllOrder(Map<String, Object> requestBody){
@@ -24,8 +22,8 @@ public abstract class OrderServiceDecorator extends OrderServiceComponent{
 		return record.transformListToHashMap(List);
 	}
 
-	public HashMap<String, Object> getOrderById(UUID id){
-        return record.getOrderById(id);
+	public HashMap<String, Object> getOrder(UUID id){
+        return record.getOrder(id);
     }
 
     public List<HashMap<String, Object>> getCompletedOrder(UUID customerId, String bookingType) {

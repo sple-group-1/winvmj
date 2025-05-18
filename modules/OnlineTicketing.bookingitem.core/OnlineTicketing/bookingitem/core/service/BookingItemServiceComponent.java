@@ -6,18 +6,22 @@ import vmj.routing.route.VMJExchange;
 //add other required packages
 
 public abstract class BookingItemServiceComponent implements BookingItemService{
-	protected RepositoryUtil<BookingItem> Repository;
+	protected RepositoryUtil<BookingItem> bookingItemRepository;
 
     public BookingItemServiceComponent(){
-        this.Repository = new RepositoryUtil<BookingItem>(OnlineTicketing.bookingitem.core.BookingItemComponent.class);
+        this.bookingItemRepository = new RepositoryUtil<BookingItem>(OnlineTicketing.bookingitem.core.BookingItemComponent.class);
     }	
 
-    public abstract BookingItem createBookingItem(Map<String, Object> requestBodye);   
-	public abstract HashMap<String, Object> updateBookingItem(Map<String, Object> requestBody);
-    public abstract HashMap<String, Object> getBookingItem(Map<String, Object> requestBody);
-    public abstract List<HashMap<String,Object>> getAllBookingItem(Map<String, Object> requestBody);
-    public abstract List<HashMap<String,Object>> transformListToHashMap(List<BookingItem> List);
-    public abstract List<HashMap<String,Object>> deleteBookingItem(Map<String, Object> requestBody);
-	public abstract HashMap<String, Object> getBookingItemById(int id);
+	public abstract BookingItem createBookingItem(Map<String, Object> requestBody);
+
+    public abstract BookingItem updateBookingItem(Map<String, Object> requestBody);
+
+    public abstract BookingItem getBookingItem(UUID id);
+
+    public abstract List<BookingItem> getAllBookingItem();
+
+    public abstract List<BookingItem> deleteBookingItem(UUID id);
+
+	public abstract List<HashMap<String, Object>> transformListToHashMap(List<BookingItem> list);
 
 }

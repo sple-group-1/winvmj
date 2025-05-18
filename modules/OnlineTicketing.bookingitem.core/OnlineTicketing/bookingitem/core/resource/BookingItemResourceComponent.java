@@ -6,8 +6,11 @@ import vmj.routing.route.VMJExchange;
 //add other required packages
 
 public abstract class BookingItemResourceComponent implements BookingItemResource{
-	
-	public BookingItemResourceComponent() { }
+	protected RepositoryUtil<BookingItem> bookingItemRepository;
+
+    public BookingItemResourceComponent(){
+        this.bookingItemRepository = new RepositoryUtil<BookingItem>(OnlineTicketing.bookingitem.core.BookingItemComponent.class);
+    }	
  
     public abstract HashMap<String, Object> createBookingItem(VMJExchange vmjExchange);    
 	public abstract HashMap<String, Object> updateBookingItem(VMJExchange vmjExchange);

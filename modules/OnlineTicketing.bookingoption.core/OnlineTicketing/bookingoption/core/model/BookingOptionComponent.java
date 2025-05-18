@@ -12,6 +12,7 @@ import javax.persistence.Table;
 import javax.persistence.ManyToOne;
 
 import OnlineTicketing.bookingitem.core.*;
+import OnlineTicketing.util.core.*;
 
 @Entity(name="bookingoption_comp")
 @Table(name="bookingoption_comp")
@@ -29,14 +30,14 @@ public abstract class BookingOptionComponent implements BookingOption{
 
 	} 
 
-	public BookingOptionComponent(
-        UUID id, Long price, String bookingType, BookingItem bookingItem
-    ) {
-        this.id = id;
-        this.price = price;
-        this.bookingType = bookingType;
-        this.bookingItem = bookingItem;
-    }
+	// public BookingOptionComponent(
+    //     UUID id, Long price, String bookingType, BookingItem bookingItem
+    // ) {
+    //     this.id = id;
+    //     this.price = price;
+    //     this.bookingType = bookingType;
+    //     this.bookingItem = bookingItem;
+    // }
 
 	public UUID getId() {return this.id;};
 	public void setId(UUID id) {this.id=id;};
@@ -62,4 +63,15 @@ public abstract class BookingOptionComponent implements BookingOption{
             "}";
     }
 	
+	public HashMap<String, Object> toHashMap() {
+        HashMap<String, Object> bookingoptionMap = new HashMap<String,Object>();
+		bookingoptionMap.put("id",getId());
+		bookingoptionMap.put("price",getPrice());
+		bookingoptionMap.put("bookingType",getBookingType());
+		if (getBookingItem() != null) {
+        	bookingoptionMap = Util.combine(bookingoptionMap, getBookingItem().toHashMap(), "bookingItem");
+		}
+
+        return bookingoptionMap;
+    }
 }

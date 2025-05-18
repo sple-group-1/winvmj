@@ -1,5 +1,6 @@
 module OnlineTicketing.blog.likeblog {
 	requires OnlineTicketing.blog.core;
+	requires OnlineTicketing.customer.core;
     exports OnlineTicketing.blog.likeblog;
 
 	requires vmj.routing.route;
