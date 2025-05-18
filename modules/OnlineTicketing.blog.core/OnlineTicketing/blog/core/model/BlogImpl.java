@@ -24,6 +24,8 @@ public class BlogImpl extends BlogComponent {
 		this.title = title;
 		this.content = content;
 		this.createdAt = createdAt;
+		this.objectName = BlogImpl.class.getName();
+
 	}
 
 	public BlogImpl(String title, String content, Date createdAt) {
@@ -31,6 +33,8 @@ public class BlogImpl extends BlogComponent {
 		this.title = title;
 		this.content = content;
 		this.createdAt = createdAt;
+		this.objectName = BlogImpl.class.getName();
+
 	}
 
 	public BlogImpl() { 
@@ -38,6 +42,8 @@ public class BlogImpl extends BlogComponent {
 		this.title = "";
 		this.content = "";
 		this.createdAt = new Date();
+		this.objectName = BlogImpl.class.getName();
+
 	}
 
 

@@ -12,15 +12,15 @@ public abstract class BlogServiceDecorator extends BlogServiceComponent{
 		return record.createBlog(requestBody);
 	}
 
-	public HashMap<String, Object> getBlog(Map<String, Object> requestBody){
-		return record.getBlog(requestBody);
+	public Blog getBlog(UUID id){
+		return record.getBlog(id);
 	}
 
-	public List<HashMap<String,Object>> getAllBlog(Map<String, Object> requestBody){
-		return record.getAllBlog(requestBody);
+	public List<Blog> getAllBlog(){
+		return record.getAllBlog();
 	}
 
-    public HashMap<String, Object> updateBlog(Map<String, Object> requestBody){
+    public Blog updateBlog(HashMap<String, Object> requestBody){
 		return record.updateBlog(requestBody);
 	}
 
@@ -28,8 +28,8 @@ public abstract class BlogServiceDecorator extends BlogServiceComponent{
 		return record.transformListToHashMap(List);
 	}
 
-    public List<HashMap<String,Object>> deleteBlog(Map<String, Object> requestBody){
-		return record.deleteBlog(requestBody);
+    public List<Blog> deleteBlog(UUID id){
+		return record.deleteBlog(id);
 	}
 
 	public HashMap<String, Object> getBlogById(UUID id){

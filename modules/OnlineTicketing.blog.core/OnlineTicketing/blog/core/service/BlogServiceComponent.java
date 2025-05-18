@@ -13,11 +13,11 @@ public abstract class BlogServiceComponent implements BlogService{
     }	
 
 	public abstract Blog createBlog(Map<String, Object> requestBody);    
-	public abstract HashMap<String, Object> updateBlog(Map<String, Object> requestBody);
-    public abstract HashMap<String, Object> getBlog(Map<String, Object> requestBody);
-    public abstract List<HashMap<String,Object>> getAllBlog(Map<String, Object> requestBody);
+	public abstract Blog updateBlog(HashMap<String, Object> requestBody);
+    public abstract Blog getBlog(UUID id);
+    public abstract List<Blog> getAllBlog();
     public abstract List<HashMap<String,Object>> transformListToHashMap(List<Blog> List);
-    public abstract List<HashMap<String,Object>> deleteBlog(Map<String, Object> requestBody);
+    public abstract List<Blog> deleteBlog(UUID id);
 	public abstract HashMap<String, Object> getBlogById(UUID id);
 
 }
