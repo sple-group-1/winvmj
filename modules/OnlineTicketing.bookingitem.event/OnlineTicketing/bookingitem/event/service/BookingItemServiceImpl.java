@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.lang.RuntimeException;
 import vmj.routing.route.exceptions.*;
 import java.nio.charset.StandardCharsets;
+import vmj.routing.route.exceptions.ForbiddenException;
 
 import OnlineTicketing.bookingitem.BookingItemFactory;
 import OnlineTicketing.bookingitem.core.BookingItem;
@@ -63,6 +64,10 @@ public class BookingItemServiceImpl extends BookingItemServiceDecorator {
 
 		String title = (String) requestBody.get("title");
 		String location = (String) requestBody.get("location");
+
+		if (!requestBody.containsKey("imageUrls")) {
+      		throw new ForbiddenException("Please upload image");
+		}
 		Map<String, byte[]> uploadedFile = (HashMap<String, byte[]>) requestBody.get("imageUrls");
 
 		byte[] fileContent = uploadedFile.get("content");
@@ -90,7 +95,6 @@ public class BookingItemServiceImpl extends BookingItemServiceDecorator {
 
         BookingItem bookingItem = bookingItemFactory.createBookingItem("OnlineTicketing.bookingitem.core.BookingItemImpl", recordBookingItemId, "event");
         BookingItem event = bookingItemFactory.createBookingItem("OnlineTicketing.bookingitem.event.BookingItemImpl", id, bookingItem, title, location, imageUrls, facilities, description);
-		bookingItem.setBookingType((String) requestBody.get("bookingType"));
 
 		bookingItemRepository.updateObject(bookingItem);
 		bookingItemRepository.updateObject(event);
