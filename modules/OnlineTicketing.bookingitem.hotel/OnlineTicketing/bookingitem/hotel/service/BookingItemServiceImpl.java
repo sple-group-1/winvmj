@@ -19,8 +19,8 @@ public class BookingItemServiceImpl extends BookingItemServiceDecorator {
     }
 
     public BookingItem createBookingItem(Map<String, Object> requestBody) {
+        requestBody.put("bookingType", "HOTEL");
         BookingItem bookingItem = record.createBookingItem(requestBody);
-        UUID id = bookingItem.getId();
         String title = (String) requestBody.get("title");
         String imageUrl = (String) requestBody.get("imageUrl");
         String location = (String) requestBody.get("location");
@@ -31,7 +31,6 @@ public class BookingItemServiceImpl extends BookingItemServiceDecorator {
 
         bookingItemRepository.saveObject(hotel);
 
-        hotel = bookingItemRepository.getObject(hotel.getId());
         return hotel;
     }
 
@@ -47,16 +46,16 @@ public class BookingItemServiceImpl extends BookingItemServiceDecorator {
         String location = (String) requestBody.get("location");
         String facilities = (String) requestBody.get("facilities");
         BookingItem wrappee = bookingItemFactory.createBookingItem("OnlineTicketing.bookingitem.core.BookingItemImpl",
-                recordBookingItemId, "hotel");
+                recordBookingItemId, "HOTEL");
 
-        BookingItemImpl deco = (BookingItemImpl) bookingItemFactory.createBookingItem(
+        BookingItemImpl hotel = (BookingItemImpl) bookingItemFactory.createBookingItem(
                 "OnlineTicketing.bookingitem.hotel.BookingItemImpl", id, wrappee, title, imageUrl, location,
                 facilities);
 
         bookingItemRepository.updateObject(wrappee);
-        bookingItemRepository.updateObject(deco);
+        bookingItemRepository.updateObject(hotel);
 
-        return bookingitem;
+        return hotel;
     }
 
     public BookingItem getBookingItem(UUID id) {

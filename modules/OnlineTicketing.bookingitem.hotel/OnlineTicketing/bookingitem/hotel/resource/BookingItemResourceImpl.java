@@ -16,7 +16,7 @@ import OnlineTicketing.bookingitem.hotel.BookingItemImpl;
 import OnlineTicketing.bookingitem.hotel.BookingItemServiceImpl;
 
 public class BookingItemResourceImpl extends BookingItemResourceDecorator {
-	private BookingItemService bookingItemService;
+	private BookingItemServiceImpl bookingItemService;
 
 	public BookingItemResourceImpl(BookingItemResourceComponent recordController,
 			BookingItemServiceComponent recordService) {
@@ -73,4 +73,10 @@ public class BookingItemResourceImpl extends BookingItemResourceDecorator {
 		return bookingItemService.transformListToHashMap(result);
 	}
 
+	// @Route(url = "call/hotel/list")
+	// public List<HashMap<String, Object>> searchHotel(VMJExchange vmjExchange) {
+	// 	Map<String, Object> requestBody = vmjExchange.getPayload();
+	// 	List<BookingItem> result = this.bookingItemService.searchHotel(requestBody);
+	// 	return bookingItemService.transformListToHashMap(result);
+	// }
 }

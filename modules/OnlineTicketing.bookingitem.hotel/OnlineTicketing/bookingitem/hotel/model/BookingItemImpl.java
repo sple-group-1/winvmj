@@ -45,7 +45,6 @@ public class BookingItemImpl extends BookingItemDecorator {
 		this.objectName = BookingItemImpl.class.getName();
 	}
 
-	// Note: Wrapper and Decorator should share same id (HMD)
 	public BookingItemImpl(UUID id, BookingItemComponent record, String title, String imageUrl, String location,
 			String facilities) {
 		super(id, record);
@@ -54,6 +53,10 @@ public class BookingItemImpl extends BookingItemDecorator {
 		this.location = location;
 		this.facilities = facilities;
 		this.objectName = BookingItemImpl.class.getName();
+	}
+
+	public UUID getId() {
+		return this.id;
 	}
 
 	public String getTitle() {
@@ -88,4 +91,14 @@ public class BookingItemImpl extends BookingItemDecorator {
 		this.facilities = facilities;
 	}
 
+	public HashMap<String, Object> toHashMap() {
+		HashMap<String, Object> bookingitemMap = super.toHashMap();
+		bookingitemMap.put("id", this.getId());
+		bookingitemMap.put("title", this.getTitle());
+		bookingitemMap.put("imageUrl", this.getImageUrl());
+		bookingitemMap.put("location", this.getLocation());
+		bookingitemMap.put("facilities", this.getFacilities());
+
+		return bookingitemMap;
+	}
 }

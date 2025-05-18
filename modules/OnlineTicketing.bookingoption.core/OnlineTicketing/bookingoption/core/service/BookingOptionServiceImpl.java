@@ -4,11 +4,13 @@ import java.util.*;
 import java.util.logging.Logger;
 
 import OnlineTicketing.bookingoption.BookingOptionFactory;
+import OnlineTicketing.bookingitem.BookingItemServiceFactory;
 import OnlineTicketing.bookingitem.core.*;
-//add other required packages
 
 public class BookingOptionServiceImpl extends BookingOptionServiceComponent{
 	private BookingOptionFactory bookingOptionFactory = new BookingOptionFactory();
+	private BookingItemService bookingItemService = BookingItemServiceFactory.createBookingItemService(
+		"OnlineTicketing.bookingitem.core.BookingItemServiceImpl");
 
 	public BookingOption createBookingOption(Map<String, Object> requestBody) {
 		String bookingType = (String) requestBody.get("bookingType");
@@ -19,7 +21,7 @@ public class BookingOptionServiceImpl extends BookingOptionServiceComponent{
 		BookingItem bookingItem = null;
 		if (bookingItemIdStr != null) {
 			UUID bookingItemId = UUID.fromString(bookingItemIdStr);
-			bookingItem = bookingOptionRepository.getProxyObject(OnlineTicketing.bookingitem.core.BookingItemComponent.class, bookingItemId);
+			bookingItem = bookingItemService.getBookingItem(bookingItemId);
 		}
 
 		BookingOption bookingOption = bookingOptionFactory.createBookingOption(
