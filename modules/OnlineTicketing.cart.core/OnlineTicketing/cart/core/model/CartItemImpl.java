@@ -15,6 +15,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import OnlineTicketing.bookingoption.core.*;
 import java.time.*;
+import java.time.format.DateTimeFormatter;
+import OnlineTicketing.util.core.*;
 
 @Entity(name="cartitem_impl")
 @Table(name="cartitem_impl")
@@ -45,15 +47,15 @@ public class CartItemImpl extends CartItemComponent {
 
 	
 	public HashMap<String, Object> toHashMap() {
+		DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MMM dd, yyyy");
         HashMap<String, Object> cartitemMap = new HashMap<String,Object>();
 		cartitemMap.put("id",getId());
-		cartitemMap.put("bookingOption",getBookingOption());
-		cartitemMap.put("cart",getCart());
+		cartitemMap.put("startDate",getStartDate().format(dateFormatter));
+		cartitemMap.put("endDate",getEndDate().format(dateFormatter));
 		cartitemMap.put("quantity",getQuantity());
-		cartitemMap.put("startDate",getStartDate());
-		cartitemMap.put("endDate",getEndDate());
 		cartitemMap.put("amount",getAmount());
-
+		cartitemMap = Util.combine(cartitemMap, getCart().toHashMap(), "cart");
+        cartitemMap = Util.combine(cartitemMap, getBookingOption().toHashMap(), "bookingOption");
         return cartitemMap;
     }
 

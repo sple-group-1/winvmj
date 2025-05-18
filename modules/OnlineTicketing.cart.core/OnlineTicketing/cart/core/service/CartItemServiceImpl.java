@@ -24,6 +24,8 @@ import OnlineTicketing.bookingoption.core.*;
 public class CartItemServiceImpl extends CartItemServiceComponent{
 
 	private CartItemFactory cartItemFactory = new CartItemFactory();
+	private BookingOptionService bookingOptionService = new BookingOptionServiceImpl();
+	private CartService cartService = new CartServiceImpl();
 
     // public List<HashMap<String,Object>> saveCartItem(VMJExchange vmjExchange){
 	// 	if (vmjExchange.getHttpMethod().equals("OPTIONS")) {
@@ -65,16 +67,15 @@ public class CartItemServiceImpl extends CartItemServiceComponent{
 		Cart cart = null;
 		if (cartIdStr != null) {
 			UUID cartId = UUID.fromString(cartIdStr);
-			cart = cartItemRepository.getProxyObject(OnlineTicketing.cart.core.CartComponent.class, cartId);
+			cart = cartService.getCartById(cartId);
 		}
 
 		BookingOption bookingOption = null;
 		if (bookingOptionIdStr != null){
 			UUID bookingOptionId = UUID.fromString(bookingOptionIdStr);
-			bookingOption = cartItemRepository.getProxyObject(OnlineTicketing.bookingoption.core.BookingOptionComponent.class, bookingOptionId);
+			bookingOption = bookingOptionService.getBookingOption(bookingOptionId);
 		}
 		
-		//to do: fix association attributes
 		CartItem cartItem = CartItemFactory.createCartItem(
 			"OnlineTicketing.cart.core.CartItemImpl"
 		, bookingOption
