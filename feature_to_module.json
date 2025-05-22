@@ -3,7 +3,8 @@
     "OnlineTicketing.util.core",
     "OnlineTicketing.customer.core",
     "OnlineTicketing.bookingitem.core",
-    "OnlineTicketing.bookingoption.core"
+    "OnlineTicketing.bookingoption.core",
+    "OnlineTicketing.bookingavailability.core"
   ],
   "Order": ["OnlineTicketing.util.core", "OnlineTicketing.order.core"],
   "Wishlist": ["OnlineTicketing.wishlist.core"],
