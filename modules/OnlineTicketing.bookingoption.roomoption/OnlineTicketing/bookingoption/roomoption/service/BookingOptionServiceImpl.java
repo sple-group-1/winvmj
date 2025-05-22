@@ -57,6 +57,11 @@ public class BookingOptionServiceImpl extends BookingOptionServiceDecorator {
         return list;
     }
 
+    public List<BookingOption> getListBookingOptionByHotelId(UUID hotelId) {
+        List<BookingOption> list = bookingOptionRepository.getListObject("bookingoption_roomoption", "bookingitem_id", hotelId);
+        return list;
+    }
+
     public List<BookingOption> deleteBookingOption(UUID id) {
         BookingOption roomOption = this.bookingOptionRepository.getObject(id);
         BookingOption bookingOption = ((BookingOptionDecorator) roomOption).getRecord();

@@ -12,17 +12,16 @@ import OnlineTicketing.bookingoption.core.BookingOptionServiceComponent;
 import OnlineTicketing.bookingoption.core.BookingOptionService;
 import OnlineTicketing.bookingoption.core.BookingOption;
 
-
 import OnlineTicketing.bookingoption.roomoption.BookingOptionImpl;
 
 public class BookingOptionResourceImpl extends BookingOptionResourceDecorator {
-	private BookingOptionService roomOptionService;
+	private BookingOptionServiceImpl roomOptionService;
 
-	public BookingOptionResourceImpl(BookingOptionResourceComponent recordController, BookingOptionServiceComponent recordService) {
+	public BookingOptionResourceImpl(BookingOptionResourceComponent recordController,
+			BookingOptionServiceComponent recordService) {
 		super(recordController);
 		this.roomOptionService = new BookingOptionServiceImpl(recordService);
 	}
-
 
 	@Route(url = "call/roomoption/save")
 	public HashMap<String, Object> create(VMJExchange vmjExchange) {
@@ -33,7 +32,6 @@ public class BookingOptionResourceImpl extends BookingOptionResourceDecorator {
 		}
 		throw new NotFoundException("Route tidak ditemukan");
 	}
-
 
 	// @Restriced(permission = "")
 	@Route(url = "call/roomoption/update")
@@ -58,10 +56,11 @@ public class BookingOptionResourceImpl extends BookingOptionResourceDecorator {
 	// @Restriced(permission = "")
 	@Route(url = "call/roomoption/list")
 	public List<HashMap<String, Object>> getAll(VMJExchange vmjExchange) {
-		List<BookingOption> result = this.roomOptionService.getAllBookingOption();
+		String hotelIdStr = (String) vmjExchange.getGETParam("hotelId");
+		UUID hotelId = UUID.fromString(hotelIdStr);
+		List<BookingOption> result = this.roomOptionService.getListBookingOptionByHotelId(hotelId);
 		return this.roomOptionService.transformListToHashMap(result);
 	}
-
 
 	// @Restriced(permission = "")
 	@Route(url = "call/roomoption/delete")
