@@ -4,7 +4,7 @@
 	<feature automatic="selected" name="Booking"/>
 	<feature manual="selected" name="Hotel"/>
 	<feature name="Flight"/>
-	<feature manual="selected" name="Event"/>
+	<feature name="Event"/>
 	<feature automatic="selected" name="Order"/>
 	<feature name="Blog"/>
 	<feature name="LikeBlog"/>
