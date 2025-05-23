@@ -66,6 +66,7 @@ public class CartItemResourceImpl extends CartItemResourceComponent{
 		return cartitemServiceImpl.deleteCartItem(requestBody);
 	}
 
+	@Restricted(permissionName = "CheckoutCart")
 	@Route(url="call/cartitem/checkout")
 	public List<HashMap<String, Object>> checkoutCart(VMJExchange vmjExchange){
 		if (vmjExchange.getHttpMethod().equals("POST")) {
