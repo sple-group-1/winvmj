@@ -11,15 +11,15 @@ import vmj.routing.route.exceptions.*;
 
 public class BookingAvailabilityResourceImpl extends BookingAvailabilityResourceComponent {
 
-	private BookingAvailabilityServiceImpl bookingavailabilityServiceImpl = new BookingAvailabilityServiceImpl();
+	private BookingAvailabilityServiceImpl service = new BookingAvailabilityServiceImpl();
 
 
 	// @Restriced(permission = "")
-	@Route(url = "call/bookingavailability")
+	@Route(url = "call/bookingavailability/save")
 	public HashMap<String, Object> createBookingAvailability(VMJExchange vmjExchange) {
 		if (vmjExchange.getHttpMethod().equals("POST")) {
 			Map<String, Object> requestBody = vmjExchange.getPayload();
-			BookingAvailability result = bookingavailabilityServiceImpl.createBookingAvailability(requestBody);
+			BookingAvailability result = service.createBookingAvailability(requestBody);
 			return result.toHashMap();
 		}
 		throw new NotFoundException("Route tidak ditemukan");
@@ -32,22 +32,24 @@ public class BookingAvailabilityResourceImpl extends BookingAvailabilityResource
 		if (vmjExchange.getHttpMethod().equals("OPTIONS")) {
 			return null;
 		}
-		return bookingavailabilityServiceImpl.updateBookingAvailability(requestBody);
-
+		BookingAvailability result = service.updateBookingAvailability(requestBody);
+		return result.toHashMap();
 	}
 
 	// @Restriced(permission = "")
 	@Route(url = "call/bookingavailability/detail")
 	public HashMap<String, Object> getBookingAvailability(VMJExchange vmjExchange) {
 		Map<String, Object> requestBody = vmjExchange.getPayload();
-		return bookingavailabilityServiceImpl.getBookingAvailability(requestBody);
+		BookingAvailability result = service.getBookingAvailability(requestBody);
+		return result.toHashMap();
 	}
 
 	// @Restriced(permission = "")
 	@Route(url = "call/bookingavailability/list")
 	public List<HashMap<String, Object>> getAllBookingAvailability(VMJExchange vmjExchange) {
 		Map<String, Object> requestBody = vmjExchange.getPayload();
-		return bookingavailabilityServiceImpl.getAllBookingAvailability(requestBody);
+		List<BookingAvailability> results = service.getAllBookingAvailability(requestBody);
+		return service.transformListToHashMap(results);
 	}
 
 	// @Restriced(permission = "")
@@ -58,7 +60,8 @@ public class BookingAvailabilityResourceImpl extends BookingAvailabilityResource
 			return null;
 		}
 
-		return bookingavailabilityServiceImpl.deleteBookingAvailability(requestBody);
+		List<BookingAvailability> results = service.deleteBookingAvailability(requestBody);
+		return service.transformListToHashMap(results);
 	}
 
 }

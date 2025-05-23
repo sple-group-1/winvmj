@@ -1,6 +1,6 @@
-module OnlineTicketing.bookingavailability.dailyavailability {
+module OnlineTicketing.bookingavailability.hotelavailability {
 	requires OnlineTicketing.bookingavailability.core;
-    exports OnlineTicketing.bookingavailability.dailyavailability;
+    exports OnlineTicketing.bookingavailability.hotelavailability;
 
 	requires vmj.routing.route;
 	requires vmj.hibernate.integrator;
@@ -10,5 +10,5 @@ module OnlineTicketing.bookingavailability.dailyavailability {
 	requires java.naming;
 	requires java.net.http;
 
-	opens OnlineTicketing.bookingavailability.dailyavailability to org.hibernate.orm.core, gson, vmj.hibernate.integrator;
+	opens OnlineTicketing.bookingavailability.hotelavailability to org.hibernate.orm.core, gson, vmj.hibernate.integrator;
 }
