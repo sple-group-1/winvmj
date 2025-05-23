@@ -1,21 +1,38 @@
 package OnlineTicketing.order.core;
 
 import java.util.*;
-import java.util.logging.Logger;
 import java.time.*;
 
 import OnlineTicketing.order.OrderFactory;
 import OnlineTicketing.customer.core.*;
 import OnlineTicketing.bookingoption.core.*;
+import OnlineTicketing.bookingitem.BookingItemServiceFactory;
+import OnlineTicketing.bookingitem.core.BookingItemService;
+import OnlineTicketing.bookingitem.core.BookingItemServiceImpl;
+import OnlineTicketing.bookingitem.core.BookingItem;
+import OnlineTicketing.util.core.*;
 //add other required packages
 
 public class OrderServiceImpl extends OrderServiceComponent{
 	private OrderFactory orderFactory = new OrderFactory();
+    private BookingItemService hotelService = BookingItemServiceFactory.createBookingItemService(
+                "OnlineTicketing.bookingitem.hotel.BookingItemServiceImpl",
+                BookingItemServiceFactory.createBookingItemService(
+                        "OnlineTicketing.bookingitem.core.BookingItemServiceImpl"));
+
 	private BookingOptionService bookingOptionService = new BookingOptionServiceImpl();
 
     public Order createOrder(Map<String, Object> requestBody, Customer customer){
-		String quantityStr = (String) requestBody.get("quantity");
-		int quantity = Integer.parseInt(quantityStr);
+		Object quantityObj = requestBody.get("quantity");
+		int quantity = 0;
+
+		if (quantityObj instanceof Number) {
+			quantity = ((Number) quantityObj).intValue();
+		} else if (quantityObj instanceof String) {
+			quantity = (int) Double.parseDouble((String) quantityObj); 
+
+		}
+
 		String startStr = (String) requestBody.get("startDate");
 		LocalDate startDate = LocalDate.parse(startStr);
 		LocalDate endDate;
@@ -54,7 +71,12 @@ public class OrderServiceImpl extends OrderServiceComponent{
 
 	public HashMap<String, Object> getOrder(UUID id){
 		Order order = orderRepository.getObject(id);
-		return order.toHashMap();
+		HashMap<String, Object> result = order.toHashMap();
+		if (order.getBookingOption().getBookingType().equalsIgnoreCase("hotel")){
+			BookingItem hotel = (hotelService).getBookingItem(order.getBookingOption().getBookingItem().getId());
+			result = Util.combine(result, hotel.toHashMap(), "");
+		}
+		return result;
 	}
 
     public List<HashMap<String,Object>> getAllOrder(Map<String, Object> requestBody){
@@ -66,7 +88,12 @@ public class OrderServiceImpl extends OrderServiceComponent{
     public List<HashMap<String,Object>> transformListToHashMap(List<Order> List){
 		List<HashMap<String,Object>> resultList = new ArrayList<HashMap<String,Object>>();
         for(int i = 0; i < List.size(); i++) {
-            resultList.add(List.get(i).toHashMap());
+			HashMap<String, Object> result = List.get(i).toHashMap();
+			if (List.get(i).getBookingOption().getBookingType().equalsIgnoreCase("hotel")){
+				BookingItem hotel = (hotelService).getBookingItem(List.get(i).getBookingOption().getBookingItem().getId());
+				result = Util.combine(result, hotel.toHashMap(), "");
+			}
+            resultList.add(result);
         }
 
         return resultList;
@@ -119,13 +146,16 @@ public class OrderServiceImpl extends OrderServiceComponent{
 
 		String bookingType = (String) optionMap.get("bookingType");
 		Long price = (Long) optionMap.get("price");
-		if (bookingType.equals("hotel")) {
-			return 0L;
+		Long total = 0L;
+
+		if (bookingType.equals("HOTEL")) {
+			long days = endDate.toEpochDay() - startDate.toEpochDay();
+			total = bookingOption.getPrice() * days * quantity;
 		}
 		else if (bookingType.equals("event")) {
-			return quantity * price;
+			total = quantity * price;
 		}
-		return 0L;
+		return total;
 	}
 
 	public HashMap<String, Object> countPayment(Map<String, Object> requestBody){
