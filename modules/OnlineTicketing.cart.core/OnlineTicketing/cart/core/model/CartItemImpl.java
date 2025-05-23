@@ -47,7 +47,7 @@ public class CartItemImpl extends CartItemComponent {
 
 	
 	public HashMap<String, Object> toHashMap() {
-		DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MMM dd, yyyy");
+		DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         HashMap<String, Object> cartitemMap = new HashMap<String,Object>();
 		cartitemMap.put("id",getId());
 		cartitemMap.put("startDate",getStartDate().format(dateFormatter));
