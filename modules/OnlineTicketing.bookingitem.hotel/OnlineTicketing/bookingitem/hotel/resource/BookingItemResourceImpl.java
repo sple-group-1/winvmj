@@ -14,6 +14,7 @@ import OnlineTicketing.bookingitem.core.BookingItemService;
 import OnlineTicketing.bookingitem.core.BookingItemServiceComponent;
 import OnlineTicketing.bookingitem.hotel.BookingItemImpl;
 import OnlineTicketing.bookingitem.hotel.BookingItemServiceImpl;
+import vmj.auth.annotations.Restricted;
 
 public class BookingItemResourceImpl extends BookingItemResourceDecorator {
 	private BookingItemServiceImpl bookingItemService;
@@ -24,7 +25,7 @@ public class BookingItemResourceImpl extends BookingItemResourceDecorator {
 		this.bookingItemService = new BookingItemServiceImpl(recordService);
 	}
 
-	@Restriced(permission = "CreateHotel")
+	@Restricted(permission = "CreateHotel")
 	@Route(url = "call/hotel/save")
 	public HashMap<String, Object> createBookingItem(VMJExchange vmjExchange) {
 		if (vmjExchange.getHttpMethod().equals("POST")) {
@@ -35,7 +36,7 @@ public class BookingItemResourceImpl extends BookingItemResourceDecorator {
 		throw new NotFoundException("Route tidak ditemukan");
 	}
 
-	@Restriced(permission = "UpdateHotel")
+	@Restricted(permission = "UpdateHotel")
 	@Route(url = "call/hotel/update")
 	public HashMap<String, Object> updateBookingItem(VMJExchange vmjExchange) {
 		if (vmjExchange.getHttpMethod().equals("OPTIONS")) {
@@ -46,7 +47,7 @@ public class BookingItemResourceImpl extends BookingItemResourceDecorator {
 		return hotel.toHashMap();
 	}
 
-	@Restriced(permission = "ReadHotel")
+	@Restricted(permission = "ReadHotel")
 	@Route(url = "call/hotel/detail")
 	public HashMap<String, Object> getBookingItem(VMJExchange vmjExchange) {
 		String idStr = vmjExchange.getGETParam("id");
@@ -55,14 +56,14 @@ public class BookingItemResourceImpl extends BookingItemResourceDecorator {
 		return hotel.toHashMap();
 	}
 
-	@Restriced(permission = "ReadHotel")
+	@Restricted(permission = "ReadHotel")
 	@Route(url = "call/hotel/list")
 	public List<HashMap<String, Object>> getAllBookingItem(VMJExchange vmjExchange) {
 		List<BookingItem> result = this.bookingItemService.getAllBookingItem();
 		return bookingItemService.transformListToHashMap(result);
 	}
 
-	@Restriced(permission = "DeleteHotel")
+	@Restricted(permission = "DeleteHotel")
 	@Route(url = "call/hotel/delete")
 	public List<HashMap<String, Object>> deleteBookingItem(VMJExchange vmjExchange) {
 		if (vmjExchange.getHttpMethod().equals("OPTIONS")) {
