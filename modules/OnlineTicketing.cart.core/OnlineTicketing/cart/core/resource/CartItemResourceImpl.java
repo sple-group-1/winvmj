@@ -55,7 +55,7 @@ public class CartItemResourceImpl extends CartItemResourceComponent{
 	}
 
     
-	// @Restriced(permission = "")
+	@Restricted(permissionName = "DeleteCartItem")
     @Route(url="call/cartitem/delete")
     public List<HashMap<String,Object>> deleteCartItem(VMJExchange vmjExchange){
 		Map<String, Object> requestBody = vmjExchange.getPayload(); 

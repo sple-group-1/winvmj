@@ -23,7 +23,7 @@ ON CONFLICT DO NOTHING;
 
 INSERT INTO auth_role_impl (id, name, allowedPermissions) VALUES
 ('15f6727e-66f8-484f-b77f-83eeec82cd10','administrator','administrator'),
-('25f6727e-66f8-484f-b77f-83eeec82cd10','Customer','home,CreateOrder,ReadOrder,ReadEvent,ReadPackage,ReadBlog,ReadCartItem,CheckoutCart')
+('25f6727e-66f8-484f-b77f-83eeec82cd10','Customer','home,CreateOrder,ReadOrder,ReadEvent,ReadPackage,ReadBlog,ReadCartItem,DeleteCartItem,CheckoutCart')
 ON CONFLICT DO NOTHING;
 
 INSERT INTO auth_user_role_comp (id) VALUES
