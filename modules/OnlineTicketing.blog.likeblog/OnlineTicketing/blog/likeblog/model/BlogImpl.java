@@ -21,56 +21,52 @@ import OnlineTicketing.blog.core.BlogComponent;
 public class BlogImpl extends BlogDecorator {
 
 	public int likeCount;
-
-	@ElementCollection
-	@Column(name = "liked_customer_id")
-	private Set<UUID> likedCustomerId = new HashSet<>();
-
 	
 	public BlogImpl(){
         super();
         this.objectName = BlogImpl.class.getName();
     }
     
-    public BlogImpl(int likeCount, Customer customer) {
+    public BlogImpl(int likeCount) {
     	super();
 		this.likeCount = likeCount;
-		// this.customerImpl = customer;
 		this.objectName = BlogImpl.class.getName();
     }
 	
-	public BlogImpl(BlogComponent record, int likeCount, Customer customer) {
+	public BlogImpl(BlogComponent record, int likeCount) {
 		super(record);
 		this.likeCount = likeCount;
-		// this.customerImpl = customer;
 		this.objectName = BlogImpl.class.getName();
 	}
 
+	public void like() {
+		likeCount += 1;
+	}
 
-public void like(Customer customer) {
-    if (likedCustomerId.contains(customer.getCustomerId())) {
-        return; 
-    }
-    likedCustomerId.add(customer.getCustomerId());
-    likeCount += 1;
-}
+	public int getLike() {
+		return this.likeCount;
+	}
 
+	public void setLike(int likeCount) {
+		this.likeCount = likeCount;
+	}
 
-public int getLike() {
-    return this.likeCount;
-}
+	@Override
+	public void setTitle(String title) {
+		record.setTitle(title);
+	}
 
-public void setLike(int likeCount) {
-    this.likeCount = likeCount;
-}
-
+	@Override
+	public void setContent(String content) {
+		record.setContent(content);
+		
+	}
 
 	@Override
 	public HashMap<String, Object> toHashMap() {
 		HashMap<String, Object> blogMap = record.toHashMap();
 		blogMap.put("id", this.getId());
 		blogMap.put("likeCount", this.likeCount);
-		blogMap.put("likedCustomerId", this.likedCustomerId);
 		return blogMap;
 	}
 

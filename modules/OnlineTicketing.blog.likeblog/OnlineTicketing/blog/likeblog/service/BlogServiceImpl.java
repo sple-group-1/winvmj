@@ -27,64 +27,38 @@ public class BlogServiceImpl extends BlogServiceDecorator {
     String title = (String) requestBody.get("title");
     String content = (String) requestBody.get("content");
     Date createdAt = new Date();
-    int like = 0; 
+    int likeCount = 0; 
 
     // TODO: fix association attributes
-    Blog blog = BlogFactory.createBlog(
+Blog baseBlog = BlogFactory.createBlog(
         "OnlineTicketing.blog.core.BlogImpl",
         title,
         content,
-        createdAt,
-        like 
+        createdAt
+    );
+
+    Blog blog = BlogFactory.createBlog(
+        "OnlineTicketing.blog.likeblog.BlogImpl",
+        baseBlog,
+        likeCount
     );
 
     blogRepository.saveObject(blog);
     return blog;
 }
 
-	public Blog updateBlog(HashMap<String, Object> requestBody) {
-		String idStr = (String) requestBody.get("id");
-		UUID id = UUID.fromString(idStr);
-
-		String title = (String) requestBody.get("title");
-		String content = (String) requestBody.get("content");
-		Blog blog = blogRepository.getObject(id);
-		blog.setTitle(title);
-		blog.setContent(content);
-	
-		blogRepository.updateObject(blog);
-
-		blog = blogRepository.getObject(id);
-		return blog;
-	}
-
-
-    public Blog getBlog(UUID id){
-	Blog blog = blogRepository.getObject(id);
-	return blog;
-	}
-
     public List<Blog> getAllBlog(){
 		List<Blog> BlogList = blogRepository.getAllObject("blog_likeblog");
 		return BlogList;
 	}
 
-    public List<Blog> deleteBlog(UUID id){
-		blogRepository.deleteObject(id);
-		return getAllBlog();
-	}
-
-public void like(UUID id, String email) {
-    Customer customer = customerService.getCustomerByEmail(email);
+public void like(UUID id) {
     Blog blog = blogRepository.getObject(id);
 
-    if (blog instanceof BlogImpl) {
-        BlogImpl blogImpl = (BlogImpl) blog;
-        // Customer customerImpl = (Customer) customer;
-
-        blogImpl.like(customer);
-        blogRepository.updateObject(blogImpl);
-    }
+if (blog instanceof BlogImpl) {
+    ((BlogImpl) blog).like();
+    blogRepository.updateObject(blog);
+}
 
 }
 }
