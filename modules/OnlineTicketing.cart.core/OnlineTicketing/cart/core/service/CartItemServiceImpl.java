@@ -17,13 +17,18 @@ import vmj.routing.route.Route;
 import vmj.routing.route.VMJExchange;
 import vmj.routing.route.exceptions.*;
 import OnlineTicketing.cart.CartItemFactory;
+import OnlineTicketing.customer.core.*;
+import OnlineTicketing.order.core.*;
 //add other required packages
 
-import OnlineTicketing.bookingitem.core.*;
+import OnlineTicketing.bookingoption.core.*;
 
 public class CartItemServiceImpl extends CartItemServiceComponent{
 
 	private CartItemFactory cartItemFactory = new CartItemFactory();
+	private BookingOptionService bookingOptionService = new BookingOptionServiceImpl();
+	private CartService cartService = new CartServiceImpl();
+	private OrderService orderService = new OrderServiceImpl();
 
     // public List<HashMap<String,Object>> saveCartItem(VMJExchange vmjExchange){
 	// 	if (vmjExchange.getHttpMethod().equals("OPTIONS")) {
@@ -60,24 +65,23 @@ public class CartItemServiceImpl extends CartItemServiceComponent{
 		int amount = Integer.parseInt(amountStr);
 
 		String cartIdStr = (String) requestBody.get("cartId");
-		String bookingitemIdStr = (String) requestBody.get("bookingItemId");
+		String bookingOptionIdStr = (String) requestBody.get("bookingOptionId");
 
 		Cart cart = null;
 		if (cartIdStr != null) {
 			UUID cartId = UUID.fromString(cartIdStr);
-			cart = cartItemRepository.getProxyObject(OnlineTicketing.cart.core.CartComponent.class, cartId);
+			cart = cartService.getCartById(cartId);
 		}
 
-		BookingItem bookingitem = null;
-		if (bookingitemIdStr != null){
-			UUID bookingitemId = UUID.fromString(bookingitemIdStr);
-			bookingitem = cartItemRepository.getProxyObject(OnlineTicketing.bookingitem.core.BookingItemComponent.class, bookingitemId);
+		BookingOption bookingOption = null;
+		if (bookingOptionIdStr != null){
+			UUID bookingOptionId = UUID.fromString(bookingOptionIdStr);
+			bookingOption = bookingOptionService.getBookingOption(bookingOptionId);
 		}
 		
-		//to do: fix association attributes
 		CartItem cartItem = CartItemFactory.createCartItem(
 			"OnlineTicketing.cart.core.CartItemImpl"
-		, bookingitem
+		, bookingOption
 		, cart
 		, quantity
 		, startDate
@@ -87,18 +91,6 @@ public class CartItemServiceImpl extends CartItemServiceComponent{
 		cartItemRepository.saveObject(cartItem);
 		return cartItem;
 	}
-
-    // public CartItem createCartItem(Map<String, Object> requestBody, int id){
-	// 	String quantityStr = (String) vmjExchange.getRequestBodyForm("quantity");
-	// 	int quantity = Integer.parseInt(quantityStr);
-	// 	String amountStr = (String) vmjExchange.getRequestBodyForm("amount");
-	// 	int amount = Integer.parseInt(amountStr);
-		
-	// 	//to do: fix association attributes
-		
-	// 	CartItem cartitem = CartItemFactory.createCartItem("OnlineTicketing.cart.core.CartItemImpl", bookingitemimpl, cartimpl, quantity, startDate, endDate, amount);
-	// 	return cartitem;
-	// }
 
     public HashMap<String, Object> updateCartItem(Map<String, Object> requestBody){
 		String idStr = (String) requestBody.get("cartItemId");
@@ -162,6 +154,13 @@ public class CartItemServiceImpl extends CartItemServiceComponent{
 		return transformListToHashMap(list);
 	}
 
+	public List<HashMap<String, Object>> getAllCustomerCartItem(Map<String, Object> requestBody, Customer customer){
+		Cart customerCart = getCustomerCart(customer);
+		if (customerCart == null) return null;
+		List<HashMap<String, Object>> cartCartItems = getCartItems(customerCart);
+		return cartCartItems;
+	}
+
     public List<HashMap<String,Object>> transformListToHashMap(List<CartItem> list){
 		List<HashMap<String,Object>> resultList = new ArrayList<HashMap<String,Object>>();
         for(int i = 0; i < list.size(); i++) {
@@ -178,5 +177,44 @@ public class CartItemServiceImpl extends CartItemServiceComponent{
 		UUID id = UUID.fromString(idStr);
 		cartItemRepository.deleteObject(id);
 		return getAllCartItem(requestBody);
+	}
+
+	private Cart getCustomerCart(Customer customer){
+		List<HashMap<String, Object>> carts = cartService.getAllCart(null);
+		Cart customerCart = null;
+		for(HashMap<String, Object> cart: carts){
+			Cart tempCart = cartService.getCartById((UUID) cart.get("id"));
+			if (tempCart.getCustomer().getCustomerId().toString().equals(customer.getCustomerId().toString()))
+				customerCart = tempCart;
+				break;
+		}
+		return customerCart;
+	}
+
+	private List<HashMap<String, Object>> getCartItems(Cart cart){
+		List<HashMap<String, Object>> cartItems = getAllCartItem(null);
+		List<HashMap<String, Object>> cartCartItems = new ArrayList<>();
+
+		for(HashMap<String, Object> cartItem: cartItems){
+			UUID cartId = (UUID) cartItem.get("cartId");
+			if (cartId.toString().equals(cart.getId().toString()))
+				cartCartItems.add(cartItem);
+		}
+
+		return cartCartItems;
+	}
+
+	public List<HashMap<String, Object>> checkoutCart(Map<String, Object> requestBody, Customer customer){
+		Cart customerCart = getCustomerCart(customer);
+		if (customerCart == null) return null;
+		List<HashMap<String, Object>> cartCartItems = getCartItems(customerCart);
+		if (cartCartItems.isEmpty()) return null;
+
+		List<HashMap<String, Object>> orders = new ArrayList<>();
+		for (HashMap<String, Object> cartItem: cartCartItems){
+			Order order = orderService.createOrder(cartItem, customer);
+			orders.add(order.toHashMap());
+		}
+		return orders;
 	}
 }

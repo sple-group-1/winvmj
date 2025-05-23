@@ -2,14 +2,14 @@ package OnlineTicketing.cart.core;
 import vmj.routing.route.Route;
 import vmj.routing.route.VMJExchange;
 import java.util.*;
-import OnlineTicketing.bookingitem.core.*;
+import OnlineTicketing.bookingoption.core.*;
 import java.time.*;
 
 public interface CartItem {
 	public UUID getId();
 	public void setId(UUID id);
-	public BookingItem getBookingitem();
-	public void setBookingitem(BookingItem bookingitem);
+	public BookingOption getBookingOption();
+	public void setBookingOption(BookingOption bookingOption);
 	public Cart getCart();
 	public void setCart(Cart cart);
 	public int getQuantity();

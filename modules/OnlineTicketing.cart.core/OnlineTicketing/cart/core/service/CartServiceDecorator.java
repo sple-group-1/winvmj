@@ -42,7 +42,7 @@ public abstract class CartServiceDecorator extends CartServiceComponent{
 	// 	return record.deleteCart(requestBody);
 	// }
 
-	public HashMap<String, Object> getCartById(UUID id){
+	public Cart getCartById(UUID id){
         return record.getCartById(id);
     }
 

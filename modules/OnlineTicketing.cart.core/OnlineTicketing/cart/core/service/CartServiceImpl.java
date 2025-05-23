@@ -21,6 +21,7 @@ import OnlineTicketing.customer.core.*;
 public class CartServiceImpl extends CartServiceComponent{
 
 	private CartFactory cartFactory = new CartFactory();
+	private CustomerService customerService = new CustomerServiceImpl();
 
     // public List<HashMap<String,Object>> saveCart(VMJExchange vmjExchange){
 	// 	if (vmjExchange.getHttpMethod().equals("OPTIONS")) {
@@ -38,7 +39,7 @@ public class CartServiceImpl extends CartServiceComponent{
 		Customer customer = null;
 		if (customerIdStr != null) {
 			UUID customerId = UUID.fromString(customerIdStr);
-			customer = cartRepository.getProxyObject(OnlineTicketing.customer.core.CustomerComponent.class, customerId);
+			customerId = (UUID) customerService.getCustomerById(customerId).get("customerId");
 		}
 		
 		//to do: fix association attributes
@@ -108,13 +109,13 @@ public class CartServiceImpl extends CartServiceComponent{
 	// 	return cart.toHashMap();
 	// }
 
-	public HashMap<String, Object> getCartById(UUID id){
+	public Cart getCartById(UUID id){
 		Cart cart = cartRepository.getObject(id);
-		return cart.toHashMap();
+		return cart;
 	}
 
     public List<HashMap<String,Object>> getAllCart(Map<String, Object> requestBody){
-		String table = (String) requestBody.get("table_name");
+		String table = "cart_impl";
 		List<Cart> List = cartRepository.getAllObject(table);
 		return transformListToHashMap(List);
 	}

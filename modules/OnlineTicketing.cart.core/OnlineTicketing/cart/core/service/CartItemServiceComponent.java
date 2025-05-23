@@ -3,6 +3,7 @@ import java.util.*;
 
 import vmj.hibernate.integrator.RepositoryUtil;
 import vmj.routing.route.VMJExchange;
+import OnlineTicketing.customer.core.*;
 //add other required packages
 
 public abstract class CartItemServiceComponent implements CartItemService{
@@ -21,7 +22,8 @@ public abstract class CartItemServiceComponent implements CartItemService{
     public abstract List<HashMap<String,Object>> getAllCartItem(Map<String, Object> requestBody);
     public abstract List<HashMap<String,Object>> transformListToHashMap(List<CartItem> List);
     public abstract List<HashMap<String,Object>> deleteCartItem(Map<String, Object> requestBody);
+    public abstract List<HashMap<String, Object>> getAllCustomerCartItem(Map<String, Object> requestBody, Customer customer);
 	// public abstract HashMap<String, Object> getCartItemById(int id);
     public abstract HashMap<String, Object> getCartItemById(UUID id);
-
+    public abstract List<HashMap<String, Object>> checkoutCart(Map<String, Object> requestBody, Customer customer);
 }

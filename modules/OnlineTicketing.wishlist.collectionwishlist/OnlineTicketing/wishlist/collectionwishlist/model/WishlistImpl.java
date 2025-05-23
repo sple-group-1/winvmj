@@ -30,4 +30,24 @@ public class WishlistImpl extends WishlistDecorator {
     super(record);
     this.objectName = WishlistImpl.class.getName();
   }
+
+  @Override
+  public UUID getWishlistId() {
+    return this.wishlistId;
+  }
+
+  @Override
+  public void setWishlistId(UUID wishlistId) {
+    this.wishlistId = wishlistId;
+  }
+
+  @Override
+  public Date getAddedAt() {
+    return this.addedAt;
+  }
+
+  @Override
+  public void setAddedAt(Date addedAt) {
+    this.addedAt = addedAt;
+  }
 }

@@ -5,12 +5,14 @@ import vmj.routing.route.Route;
 import vmj.routing.route.VMJExchange;
 import vmj.routing.route.exceptions.*;
 import OnlineTicketing.cart.CartItemFactory;
-//import prices.auth.vmj.annotations.Restricted;
+import OnlineTicketing.customer.core.*;
+import vmj.auth.annotations.Restricted;
 //add other required packages
 
 public class CartItemResourceImpl extends CartItemResourceComponent{
 	
 	private CartItemServiceImpl cartitemServiceImpl = new CartItemServiceImpl();
+	private CustomerService customerService = new CustomerServiceImpl();
 
 	// @Restriced(permission = "")
     @Route(url="call/cartitem")
@@ -41,11 +43,15 @@ public class CartItemResourceImpl extends CartItemResourceComponent{
 		return cartitemServiceImpl.getCartItem(requestBody);
 	}
 
-	// @Restriced(permission = "")
+	@Restricted(permissionName = "ReadCartItem")
     @Route(url="call/cartitem/list")
     public List<HashMap<String,Object>> getAllCartItem(VMJExchange vmjExchange){
+		String email = vmjExchange.getAuthPayload().getEmail();
+		Customer customer = customerService.getCustomerByEmail(email);
+		UUID customerId = customer.getCustomerId();
+
 		Map<String, Object> requestBody = vmjExchange.getPayload(); 
-		return cartitemServiceImpl.getAllCartItem(requestBody);
+		return cartitemServiceImpl.getAllCustomerCartItem(requestBody, customer);
 	}
 
     
@@ -60,4 +66,18 @@ public class CartItemResourceImpl extends CartItemResourceComponent{
 		return cartitemServiceImpl.deleteCartItem(requestBody);
 	}
 
+	@Route(url="call/cartitem/checkout")
+	public List<HashMap<String, Object>> checkoutCart(VMJExchange vmjExchange){
+		if (vmjExchange.getHttpMethod().equals("POST")) {
+			String email = vmjExchange.getAuthPayload().getEmail();
+			Customer customer = customerService.getCustomerByEmail(email);
+			UUID customerId = customer.getCustomerId();
+
+		    Map<String, Object> requestBody = vmjExchange.getPayload(); 
+
+			List<HashMap<String, Object>> result = cartitemServiceImpl.checkoutCart(requestBody, customer);
+			return result;
+		}
+		throw new NotFoundException("Route tidak ditemukan");
+	}
 }
