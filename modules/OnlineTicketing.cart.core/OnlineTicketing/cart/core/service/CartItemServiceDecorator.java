@@ -2,6 +2,7 @@ package OnlineTicketing.cart.core;
 import java.util.*;
 
 import vmj.routing.route.VMJExchange;
+import OnlineTicketing.customer.core.*;
 
 public abstract class CartItemServiceDecorator extends CartItemServiceComponent{
 	protected CartItemServiceComponent record;
@@ -50,4 +51,7 @@ public abstract class CartItemServiceDecorator extends CartItemServiceComponent{
         return record.getCartItemById(id);
     }
 
+	public List<HashMap<String, Object>> checkoutCart(Map<String, Object> requestBody, Customer customer){
+		return record.checkoutCart(requestBody, customer);
+	}
 }

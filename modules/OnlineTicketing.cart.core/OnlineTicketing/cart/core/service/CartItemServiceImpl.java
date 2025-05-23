@@ -17,6 +17,8 @@ import vmj.routing.route.Route;
 import vmj.routing.route.VMJExchange;
 import vmj.routing.route.exceptions.*;
 import OnlineTicketing.cart.CartItemFactory;
+import OnlineTicketing.customer.core.*;
+import OnlineTicketing.order.core.*;
 //add other required packages
 
 import OnlineTicketing.bookingoption.core.*;
@@ -26,6 +28,7 @@ public class CartItemServiceImpl extends CartItemServiceComponent{
 	private CartItemFactory cartItemFactory = new CartItemFactory();
 	private BookingOptionService bookingOptionService = new BookingOptionServiceImpl();
 	private CartService cartService = new CartServiceImpl();
+	private OrderService orderService = new OrderServiceImpl();
 
     // public List<HashMap<String,Object>> saveCartItem(VMJExchange vmjExchange){
 	// 	if (vmjExchange.getHttpMethod().equals("OPTIONS")) {
@@ -167,5 +170,44 @@ public class CartItemServiceImpl extends CartItemServiceComponent{
 		UUID id = UUID.fromString(idStr);
 		cartItemRepository.deleteObject(id);
 		return getAllCartItem(requestBody);
+	}
+
+	private Cart getCustomerCart(Customer customer){
+		List<HashMap<String, Object>> carts = cartService.getAllCart(null);
+		Cart customerCart = null;
+		for(HashMap<String, Object> cart: carts){
+			UUID cartCustomerId = (UUID) cart.get("customerId");
+			Cart temp = cartService.getCartById(cartCustomerId);
+			if (temp.getCustomer().getCustomerId().toString().equals(customer.getCustomerId().toString()))
+				customerCart = temp;
+		}
+		return customerCart;
+	}
+
+	private List<HashMap<String, Object>> getCartItems(Cart cart){
+		List<HashMap<String, Object>> cartItems = getAllCartItem(null);
+		List<HashMap<String, Object>> cartCartItems = new ArrayList<>();
+
+		for(HashMap<String, Object> cartItem: cartItems){
+			UUID cartId = (UUID) cartItem.get("cartId");
+			if (cartId.toString().equals(cart.getId().toString()))
+				cartCartItems.add(cartItem);
+		}
+
+		return cartCartItems;
+	}
+
+	public List<HashMap<String, Object>> checkoutCart(Map<String, Object> requestBody, Customer customer){
+		Cart customerCart = getCustomerCart(customer);
+		if (customerCart == null) return null;
+		List<HashMap<String, Object>> cartCartItems = getCartItems(customerCart);
+		if (cartCartItems.isEmpty()) return null;
+
+		List<HashMap<String, Object>> orders = new ArrayList<>();
+		for (HashMap<String, Object> cartItem: cartCartItems){
+			Order order = orderService.createOrder(cartItem, customer);
+			orders.add(order.toHashMap());
+		}
+		return orders;
 	}
 }

@@ -10,4 +10,5 @@ public interface CartItemResource {
     List<HashMap<String,Object>> getAllCartItem(VMJExchange vmjExchange);
     List<HashMap<String,Object>> deleteCartItem(VMJExchange vmjExchange);
 	HashMap<String, Object> createCartItem(VMJExchange vmjExhange);
+    List<HashMap<String, Object>> checkoutCart(VMJExchange vmjExchange);
 }
