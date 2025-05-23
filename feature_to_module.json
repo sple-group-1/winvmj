@@ -10,6 +10,7 @@
   "RegularWishlist": ["OnlineTicketing.wishlist.regulerwishlist"],
   "CollectionWishlist": ["OnlineTicketing.wishlist.collectionwishlist"],
   "Blog": ["OnlineTicketing.blog.core"],
+  "LikeBlog": ["OnlineTicketing.blog.core", "OnlineTicketing.blog.likeblog"],
   "Cart": ["OnlineTicketing.cart.core"],
   "Review": ["OnlineTicketing.review.core"],
   "Hotel": [
