@@ -31,4 +31,7 @@ public abstract class CartItemResourceDecorator extends CartItemResourceComponen
 		return record.deleteCartItem(vmjExchange);
 	}
 
+	public List<HashMap<String, Object>> checkoutCart(VMJExchange vmjExchange){
+		return record.checkoutCart(vmjExchange);
+	}
 }

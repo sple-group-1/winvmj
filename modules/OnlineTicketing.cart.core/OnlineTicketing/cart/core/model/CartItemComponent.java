@@ -9,7 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
-import OnlineTicketing.bookingitem.core.*;
+import OnlineTicketing.bookingoption.core.*;
 import java.time.*;
 import javax.persistence.ManyToOne;
 
@@ -19,8 +19,8 @@ import javax.persistence.ManyToOne;
 public abstract class CartItemComponent implements CartItem{
 	@Id
 	public UUID id; 
-	@ManyToOne(targetEntity=OnlineTicketing.bookingitem.core.BookingItemComponent.class)
-	public BookingItem bookingitem;
+	@ManyToOne(targetEntity=OnlineTicketing.bookingoption.core.BookingOptionComponent.class)
+	public BookingOption bookingOption;
 	@ManyToOne(targetEntity=OnlineTicketing.cart.core.CartComponent.class)
 	public Cart cart;
 	public int quantity;
@@ -34,10 +34,10 @@ public abstract class CartItemComponent implements CartItem{
 	} 
 
 	public CartItemComponent(
-        UUID id, BookingItem bookingitem, Cart cart, int quantity, LocalDate startDate, LocalDate endDate, int amount
+        UUID id, BookingOption bookingOption, Cart cart, int quantity, LocalDate startDate, LocalDate endDate, int amount
     ) {
         this.id = id;
-        this.bookingitem = bookingitem;
+        this.bookingOption = bookingOption;
         this.cart = cart;
         this.quantity = quantity;
         this.startDate = startDate;
@@ -52,11 +52,11 @@ public abstract class CartItemComponent implements CartItem{
 		this.id = id;
 	}
 	
-	public BookingItem getBookingitem(){
-		return this.bookingitem; 
+	public BookingOption getBookingOption(){
+		return this.bookingOption; 
 	}
-	public void setBookingitem(BookingItem bookingitem){
-		this.bookingitem = bookingitem;
+	public void setBookingOption(BookingOption bookingOption){
+		this.bookingOption = bookingOption;
 	}
 	
 	public Cart getCart(){
@@ -101,7 +101,7 @@ public abstract class CartItemComponent implements CartItem{
     public String toString() {
         return "{" +
             " id='" + getId() + "'" +
-            " bookingitem='" + getBookingitem() + "'" +
+            " bookingOption='" + getBookingOption() + "'" +
             " cart='" + getCart() + "'" +
             " quantity='" + getQuantity() + "'" +
             " startDate='" + getStartDate() + "'" +

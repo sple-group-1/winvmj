@@ -13,16 +13,18 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import OnlineTicketing.bookingitem.core.*;
+import OnlineTicketing.bookingoption.core.*;
 import java.time.*;
+import java.time.format.DateTimeFormatter;
+import OnlineTicketing.util.core.*;
 
 @Entity(name="cartitem_impl")
 @Table(name="cartitem_impl")
 public class CartItemImpl extends CartItemComponent {
 
-	public CartItemImpl(UUID id, BookingItem bookingitem, Cart cart, int quantity, LocalDate startDate, LocalDate endDate, int amount) {
+	public CartItemImpl(UUID id, BookingOption bookingOption, Cart cart, int quantity, LocalDate startDate, LocalDate endDate, int amount) {
 		this.id = id;
-		this.bookingitem = bookingitem;
+		this.bookingOption = bookingOption;
 		this.cart = cart;
 		this.quantity = quantity;
 		this.startDate = startDate;
@@ -30,9 +32,9 @@ public class CartItemImpl extends CartItemComponent {
 		this.amount = amount;
 	}
 
-	public CartItemImpl(BookingItem bookingitem, Cart cart, int quantity, LocalDate startDate, LocalDate endDate, int amount) {
-		this.id =  id.randomUUID();;
-		this.bookingitem = bookingitem;
+	public CartItemImpl(BookingOption bookingOption, Cart cart, int quantity, LocalDate startDate, LocalDate endDate, int amount) {
+		this.id =  id.randomUUID();
+		this.bookingOption = bookingOption;
 		this.cart = cart;
 		this.quantity = quantity;
 		this.startDate = startDate;
@@ -45,15 +47,15 @@ public class CartItemImpl extends CartItemComponent {
 
 	
 	public HashMap<String, Object> toHashMap() {
+		DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MMM dd, yyyy");
         HashMap<String, Object> cartitemMap = new HashMap<String,Object>();
 		cartitemMap.put("id",getId());
-		cartitemMap.put("bookingitem",getBookingitem());
-		cartitemMap.put("cart",getCart());
+		cartitemMap.put("startDate",getStartDate().format(dateFormatter));
+		cartitemMap.put("endDate",getEndDate().format(dateFormatter));
 		cartitemMap.put("quantity",getQuantity());
-		cartitemMap.put("startDate",getStartDate());
-		cartitemMap.put("endDate",getEndDate());
 		cartitemMap.put("amount",getAmount());
-
+		cartitemMap = Util.combine(cartitemMap, getCart().toHashMap(), "cart");
+        cartitemMap = Util.combine(cartitemMap, getBookingOption().toHashMap(), "bookingOption");
         return cartitemMap;
     }
 

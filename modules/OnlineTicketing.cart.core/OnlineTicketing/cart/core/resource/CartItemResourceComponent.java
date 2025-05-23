@@ -14,5 +14,6 @@ public abstract class CartItemResourceComponent implements CartItemResource{
     public abstract HashMap<String, Object> getCartItem(VMJExchange vmjExchange);
     public abstract List<HashMap<String,Object>> getAllCartItem(VMJExchange vmjExchange);
     public abstract List<HashMap<String,Object>> deleteCartItem(VMJExchange vmjExchange);
+    public abstract List<HashMap<String, Object>> checkoutCart(VMJExchange vmjExchange);
 
 }
