@@ -115,7 +115,7 @@ public class CartServiceImpl extends CartServiceComponent{
 	}
 
     public List<HashMap<String,Object>> getAllCart(Map<String, Object> requestBody){
-		String table = (String) requestBody.get("table_name");
+		String table = "cart_impl";
 		List<Cart> List = cartRepository.getAllObject(table);
 		return transformListToHashMap(List);
 	}

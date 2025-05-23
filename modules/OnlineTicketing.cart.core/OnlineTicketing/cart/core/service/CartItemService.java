@@ -13,6 +13,7 @@ public interface CartItemService {
     // HashMap<String, Object> getCartItemById(int id);
     HashMap<String, Object> getCartItemById(UUID id);
     List<HashMap<String,Object>> getAllCartItem(Map<String, Object> requestBody);
+    List<HashMap<String, Object>> getAllCustomerCartItem(Map<String, Object> requestBody, Customer customer);
     List<HashMap<String,Object>> deleteCartItem(Map<String, Object> requestBody);
 	// List<HashMap<String, Object>> transformListToHashMap(List<Disbursement> List);
     List<HashMap<String, Object>> transformListToHashMap(List<CartItem> List);

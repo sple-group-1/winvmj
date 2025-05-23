@@ -51,7 +51,7 @@ public class CartItemResourceImpl extends CartItemResourceComponent{
 		UUID customerId = customer.getCustomerId();
 
 		Map<String, Object> requestBody = vmjExchange.getPayload(); 
-		return cartitemServiceImpl.getAllCartItem(requestBody, customer);
+		return cartitemServiceImpl.getAllCustomerCartItem(requestBody, customer);
 	}
 
     

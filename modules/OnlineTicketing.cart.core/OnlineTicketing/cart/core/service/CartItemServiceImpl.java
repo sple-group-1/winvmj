@@ -154,6 +154,13 @@ public class CartItemServiceImpl extends CartItemServiceComponent{
 		return transformListToHashMap(list);
 	}
 
+	public List<HashMap<String, Object>> getAllCustomerCartItem(Map<String, Object> requestBody, Customer customer){
+		Cart customerCart = getCustomerCart(customer);
+		if (customerCart == null) return null;
+		List<HashMap<String, Object>> cartCartItems = getCartItems(customerCart);
+		return cartCartItems;
+	}
+
     public List<HashMap<String,Object>> transformListToHashMap(List<CartItem> list){
 		List<HashMap<String,Object>> resultList = new ArrayList<HashMap<String,Object>>();
         for(int i = 0; i < list.size(); i++) {
@@ -176,10 +183,10 @@ public class CartItemServiceImpl extends CartItemServiceComponent{
 		List<HashMap<String, Object>> carts = cartService.getAllCart(null);
 		Cart customerCart = null;
 		for(HashMap<String, Object> cart: carts){
-			UUID cartCustomerId = (UUID) cart.get("customerId");
-			Cart temp = cartService.getCartById(cartCustomerId);
-			if (temp.getCustomer().getCustomerId().toString().equals(customer.getCustomerId().toString()))
-				customerCart = temp;
+			Cart tempCart = cartService.getCartById((UUID) cart.get("id"));
+			if (tempCart.getCustomer().getCustomerId().toString().equals(customer.getCustomerId().toString()))
+				customerCart = tempCart;
+				break;
 		}
 		return customerCart;
 	}

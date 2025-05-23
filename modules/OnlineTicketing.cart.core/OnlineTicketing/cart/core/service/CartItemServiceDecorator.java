@@ -27,6 +27,10 @@ public abstract class CartItemServiceDecorator extends CartItemServiceComponent{
 		return record.getAllCartItem(requestBody);
 	}
 
+	public List<HashMap<String, Object>> getAllCustomerCartItem(Map<String, Object> requestBody, Customer customer){
+		return record.getAllCustomerCartItem(requestBody, customer);
+	}
+
     // public List<HashMap<String,Object>> saveCartItem(VMJExchange vmjExchange){
 	// 	return record.saveCartItem(vmjExchange);
 	// }
