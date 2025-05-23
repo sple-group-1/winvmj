@@ -23,6 +23,7 @@ public class BookingOptionResourceImpl extends BookingOptionResourceDecorator {
 		this.roomOptionService = new BookingOptionServiceImpl(recordService);
 	}
 
+	@Restriced(permission = "CreateRoomOption")
 	@Route(url = "call/roomoption/save")
 	public HashMap<String, Object> create(VMJExchange vmjExchange) {
 		if (vmjExchange.getHttpMethod().equals("POST")) {
@@ -33,7 +34,7 @@ public class BookingOptionResourceImpl extends BookingOptionResourceDecorator {
 		throw new NotFoundException("Route tidak ditemukan");
 	}
 
-	// @Restriced(permission = "")
+	@Restriced(permission = "UpdateRoomOption")
 	@Route(url = "call/roomoption/update")
 	public HashMap<String, Object> update(VMJExchange vmjExchange) {
 		if (vmjExchange.getHttpMethod().equals("OPTIONS")) {
@@ -44,7 +45,7 @@ public class BookingOptionResourceImpl extends BookingOptionResourceDecorator {
 		return result.toHashMap();
 	}
 
-	// @Restriced(permission = "")
+	@Restriced(permission = "ReadRoomOption")
 	@Route(url = "call/roomoption/detail")
 	public HashMap<String, Object> get(VMJExchange vmjExchange) {
 		String idStr = (String) vmjExchange.getGETParam("id");
@@ -53,7 +54,7 @@ public class BookingOptionResourceImpl extends BookingOptionResourceDecorator {
 		return result.toHashMap();
 	}
 
-	// @Restriced(permission = "")
+	@Restriced(permission = "ReadRoomOption")
 	@Route(url = "call/roomoption/list")
 	public List<HashMap<String, Object>> getAll(VMJExchange vmjExchange) {
 		String hotelIdStr = (String) vmjExchange.getGETParam("hotelId");
@@ -62,7 +63,7 @@ public class BookingOptionResourceImpl extends BookingOptionResourceDecorator {
 		return this.roomOptionService.transformListToHashMap(result);
 	}
 
-	// @Restriced(permission = "")
+	@Restriced(permission = "DeleteRoomOption")
 	@Route(url = "call/roomoption/delete")
 	public List<HashMap<String, Object>> deleteBookingOption(VMJExchange vmjExchange) {
 		if (vmjExchange.getHttpMethod().equals("OPTIONS")) {
