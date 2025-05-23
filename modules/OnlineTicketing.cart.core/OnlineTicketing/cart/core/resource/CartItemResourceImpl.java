@@ -6,7 +6,7 @@ import vmj.routing.route.VMJExchange;
 import vmj.routing.route.exceptions.*;
 import OnlineTicketing.cart.CartItemFactory;
 import OnlineTicketing.customer.core.*;
-//import prices.auth.vmj.annotations.Restricted;
+import vmj.auth.annotations.Restricted;
 //add other required packages
 
 public class CartItemResourceImpl extends CartItemResourceComponent{
@@ -43,7 +43,7 @@ public class CartItemResourceImpl extends CartItemResourceComponent{
 		return cartitemServiceImpl.getCartItem(requestBody);
 	}
 
-	// @Restriced(permission = "")
+	@Restricted(permissionName = "ReadCartItem")
     @Route(url="call/cartitem/list")
     public List<HashMap<String,Object>> getAllCartItem(VMJExchange vmjExchange){
 		String email = vmjExchange.getAuthPayload().getEmail();
