@@ -212,8 +212,18 @@ public class CartItemServiceImpl extends CartItemServiceComponent{
 
 		List<HashMap<String, Object>> orders = new ArrayList<>();
 		for (HashMap<String, Object> cartItem: cartCartItems){
-			Order order = orderService.createOrder(cartItem, customer);
+			HashMap<String, Object> requestOrder = new HashMap<>();
+
+			requestOrder.put("id", cartItem.get("id").toString());
+			requestOrder.put("quantity", Integer.toString((Integer) cartItem.get("quantity")));
+			requestOrder.put("startDate", cartItem.get("startDate"));
+			requestOrder.put("endDate", cartItem.get("endDate"));
+			requestOrder.put("bookingOptionId", cartItem.get("bookingOptionId").toString());
+
+			Order order = orderService.createOrder(requestOrder, customer);
 			orders.add(order.toHashMap());
+			
+			deleteCartItem(requestOrder);
 		}
 		return orders;
 	}
