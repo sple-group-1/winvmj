@@ -1,8 +1,6 @@
 module OnlineTicketing.order.core {
 	requires OnlineTicketing.customer.core;
 	requires OnlineTicketing.bookingoption.core;
-	requires OnlineTicketing.bookingitem.core;
-	requires OnlineTicketing.bookingitem.hotel;
 	requires OnlineTicketing.util.core;
 	exports OnlineTicketing.order;
     exports OnlineTicketing.order.core;
