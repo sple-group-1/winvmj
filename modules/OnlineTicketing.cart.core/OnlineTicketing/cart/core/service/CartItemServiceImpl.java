@@ -54,30 +54,33 @@ public class CartItemServiceImpl extends CartItemServiceComponent{
 	// 	return getAllCartItem(requestBody);
 	// }
 
-    public CartItem createCartItem(Map<String, Object> requestBody){
+    public CartItem createCartItem(Map<String, Object> requestBody, Customer customer){
 		String quantityStr = (String) requestBody.get("quantity");
 		int quantity = Integer.parseInt(quantityStr);
-		String startStr = (String) requestBody.get("start_date");
+		String startStr = (String) requestBody.get("startDate");
 		LocalDate startDate = LocalDate.parse(startStr);
-		String endStr = (String) requestBody.get("end_date");
-		LocalDate endDate = LocalDate.parse(endStr);
-		String amountStr = (String) requestBody.get("amount");
-		int amount = Integer.parseInt(amountStr);
+		
+		LocalDate endDate;
+		if (requestBody.get("endDate") != null) {
+			String endStr = (String) requestBody.get("endDate");
+			endDate = LocalDate.parse(endStr);
+		}
+		else {
+			endDate = startDate;
+		}
 
-		String cartIdStr = (String) requestBody.get("cartId");
 		String bookingOptionIdStr = (String) requestBody.get("bookingOptionId");
 
-		Cart cart = null;
-		if (cartIdStr != null) {
-			UUID cartId = UUID.fromString(cartIdStr);
-			cart = cartService.getCartById(cartId);
-		}
+		Cart cart = getCustomerCart(customer);
 
 		BookingOption bookingOption = null;
 		if (bookingOptionIdStr != null){
 			UUID bookingOptionId = UUID.fromString(bookingOptionIdStr);
 			bookingOption = bookingOptionService.getBookingOption(bookingOptionId);
 		}
+		
+		int amount = (int)(long) countTotal(startDate, endDate, quantity, bookingOption);
+		
 		
 		CartItem cartItem = CartItemFactory.createCartItem(
 			"OnlineTicketing.cart.core.CartItemImpl"
@@ -218,13 +221,26 @@ public class CartItemServiceImpl extends CartItemServiceComponent{
 			requestOrder.put("quantity", Integer.toString((Integer) cartItem.get("quantity")));
 			requestOrder.put("startDate", cartItem.get("startDate"));
 			requestOrder.put("endDate", cartItem.get("endDate"));
-			requestOrder.put("bookingOptionId", cartItem.get("bookingOptionId").toString());
-
+			requestOrder.put("bookingOptionId", cartItem.get("bookingOptionPackageId").toString());
 			Order order = orderService.createOrder(requestOrder, customer);
 			orders.add(order.toHashMap());
 			
 			deleteCartItem(requestOrder);
 		}
 		return orders;
+	}
+	
+	public Long countTotal(LocalDate startDate, LocalDate endDate, int quantity, BookingOption bookingOption) {
+		HashMap<String, Object> optionMap = bookingOption.toHashMap();
+
+		String bookingType = (String) optionMap.get("bookingType");
+		Long price = (Long) optionMap.get("price");
+		if (bookingType.equals("hotel")) {
+			return 0L;
+		}
+		else if (bookingType.equals("event")) {
+			return quantity * price;
+		}
+		return 0L;
 	}
 }
