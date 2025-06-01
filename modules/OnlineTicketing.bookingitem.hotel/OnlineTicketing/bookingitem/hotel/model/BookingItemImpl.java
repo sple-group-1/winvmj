@@ -12,35 +12,51 @@ import OnlineTicketing.bookingitem.core.BookingItemDecorator;
 import OnlineTicketing.bookingitem.core.BookingItem;
 import OnlineTicketing.bookingitem.core.BookingItemComponent;
 
-@Entity(name="bookingitem_hotel")
-@Table(name="bookingitem_hotel")
+@Entity(name = "bookingitem_hotel")
+@Table(name = "bookingitem_hotel")
 public class BookingItemImpl extends BookingItemDecorator {
 
 	protected String title;
 	protected String imageUrl;
 	protected String location;
-	protected List<String> facilities;
-	public BookingItemImpl(
-        super();
-        this.objectName = BookingItemImpl.class.getName();
-    }
-    
-    public BookingItemImpl(String title, String imageUrl, String location, List<String> facilities) {
-    	super();
+	protected String facilities;
+
+	public BookingItemImpl() {
+		super();
+		this.objectName = BookingItemImpl.class.getName();
+	}
+
+	public BookingItemImpl(String title, String imageUrl, String location, String facilities) {
+		super();
 		this.title = title;
 		this.imageUrl = imageUrl;
 		this.location = location;
 		this.facilities = facilities;
 		this.objectName = BookingItemImpl.class.getName();
-    }
-	
-	public BookingItemImpl(BookingItemComponent record, String title, String imageUrl, String location, List<String> facilities) {
+	}
+
+	public BookingItemImpl(BookingItemComponent record, String title, String imageUrl, String location,
+			String facilities) {
 		super(record);
 		this.title = title;
 		this.imageUrl = imageUrl;
 		this.location = location;
 		this.facilities = facilities;
 		this.objectName = BookingItemImpl.class.getName();
+	}
+
+	public BookingItemImpl(UUID id, BookingItemComponent record, String title, String imageUrl, String location,
+			String facilities) {
+		super(id, record);
+		this.title = title;
+		this.imageUrl = imageUrl;
+		this.location = location;
+		this.facilities = facilities;
+		this.objectName = BookingItemImpl.class.getName();
+	}
+
+	public UUID getId() {
+		return this.id;
 	}
 
 	public String getTitle() {
@@ -50,6 +66,7 @@ public class BookingItemImpl extends BookingItemDecorator {
 	public void setTitle(String title) {
 		this.title = title;
 	}
+
 	public String getImageUrl() {
 		return this.imageUrl;
 	}
@@ -57,6 +74,7 @@ public class BookingItemImpl extends BookingItemDecorator {
 	public void setImageUrl(String imageUrl) {
 		this.imageUrl = imageUrl;
 	}
+
 	public String getLocation() {
 		return this.location;
 	}
@@ -64,13 +82,23 @@ public class BookingItemImpl extends BookingItemDecorator {
 	public void setLocation(String location) {
 		this.location = location;
 	}
-	public List<String> getFacilities() {
+
+	public String getFacilities() {
 		return this.facilities;
 	}
 
-	public void setFacilities(List<String> facilities) {
+	public void setFacilities(String facilities) {
 		this.facilities = facilities;
 	}
 
+	public HashMap<String, Object> toHashMap() {
+		HashMap<String, Object> bookingitemMap = super.toHashMap();
+		bookingitemMap.put("id", this.getId());
+		bookingitemMap.put("title", this.getTitle());
+		bookingitemMap.put("imageUrl", this.getImageUrl());
+		bookingitemMap.put("location", this.getLocation());
+		bookingitemMap.put("facilities", this.getFacilities());
 
+		return bookingitemMap;
+	}
 }

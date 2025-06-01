@@ -14,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import OnlineTicketing.customer.core.*;
+import OnlineTicketing.util.core.*;
 
 
 @Entity(name="cart_impl")
@@ -40,7 +41,7 @@ public class CartImpl extends CartComponent {
         HashMap<String, Object> cartMap = new HashMap<String,Object>();
 		cartMap.put("id",getId());
 		cartMap.put("total",getTotal());
-		cartMap.put("customer",getCustomer());
+		cartMap = Util.combine(cartMap, getCustomer().toHashMap(), "customer");
 
         return cartMap;
     }

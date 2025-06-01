@@ -22,37 +22,36 @@ public class BookingItemImpl extends BookingItemComponent {
 	public BookingItemImpl(UUID id, String bookingType) {
 		this.id = id;
 		this.bookingType = bookingType;
+        this.objectName = BookingItemImpl.class.getName();
+
 	}
 
 	public BookingItemImpl(String bookingType) {
-		this.id =  id.randomUUID();;
+		this.id =  id.randomUUID();
 		this.bookingType = bookingType;
+        this.objectName = BookingItemImpl.class.getName();
+
 	}
 
-	public BookingItemImpl() { }
-
-	public UUID getId() {
-		return this.id;
+	public BookingItemImpl() {
+		this.id =  id.randomUUID();
+		this.bookingType = "";
+        this.objectName = BookingItemImpl.class.getName();
 	}
 
-	public void setId(UUID id) {
-		this.id = id;
-	}
-	public String getBookingType() {
-		return this.bookingType;
-	}
+	// public UUID getId() {
+	// 	return this.id;
+	// }
 
-	public void setBookingType(String bookingType) {
-		this.bookingType = bookingType;
-	}
+	// public void setId(UUID id) {
+	// 	this.id = id;
+	// }
+	// public String getBookingType() {
+	// 	return this.bookingType;
+	// }
 
-	
-	public HashMap<String, Object> toHashMap() {
-        HashMap<String, Object> bookingitemMap = new HashMap<String,Object>();
-		bookingitemMap.put("id",getId());
-		bookingitemMap.put("bookingType",getBookingType());
-
-        return bookingitemMap;
-    }
+	// public void setBookingType(String bookingType) {
+	// 	this.bookingType = bookingType;
+	// }
 
 }

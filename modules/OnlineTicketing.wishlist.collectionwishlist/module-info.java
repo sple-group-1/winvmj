@@ -1,14 +1,15 @@
 module OnlineTicketing.wishlist.collectionwishlist {
-	requires OnlineTicketing.wishlist.core;
-    exports OnlineTicketing.wishlist.collectionwishlist;
+  exports OnlineTicketing.wishlist.collectionwishlist;
 
-	requires vmj.routing.route;
-	requires vmj.hibernate.integrator;
-	requires vmj.auth;
-	requires java.logging;
-	// https://stackoverflow.com/questions/46488346/error32-13-error-cannot-access-referenceable-class-file-for-javax-naming-re/50568217
-	requires java.naming;
-	requires java.net.http;
+  requires OnlineTicketing.wishlist.core;
+  requires vmj.routing.route;
+  requires vmj.hibernate.integrator;
+  requires vmj.auth;
+  requires java.logging;
+  // https://stackoverflow.com/questions/46488346/error32-13-error-cannot-access-referenceable-class-file-for-javax-naming-re/50568217
+  requires java.naming;
+  requires java.net.http;
 
-	opens OnlineTicketing.wishlist.collectionwishlist to org.hibernate.orm.core, gson, vmj.hibernate.integrator;
+  opens OnlineTicketing.wishlist.collectionwishlist
+      to org.hibernate.orm.core, gson, vmj.hibernate.integrator;
 }

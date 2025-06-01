@@ -3,102 +3,77 @@ import java.util.*;
 
 import vmj.routing.route.Route;
 import vmj.routing.route.VMJExchange;
+import vmj.auth.annotations.Restricted;
 
 import OnlineTicketing.bookingitem.core.BookingItemResourceDecorator;
-import OnlineTicketing.bookingitem.core.BookingItemImpl;
+import OnlineTicketing.bookingitem.core.BookingItem;
 import OnlineTicketing.bookingitem.core.BookingItemResourceComponent;
+import OnlineTicketing.bookingitem.core.BookingItemService;
+import OnlineTicketing.bookingitem.core.BookingItemServiceComponent;
 
 public class BookingItemResourceImpl extends BookingItemResourceDecorator {
-    public BookingItemResourceImpl (BookingItemResourceComponent record) {
-        super(record);
+	private BookingItemService bookingItemService;
+
+    public BookingItemResourceImpl (BookingItemResourceComponent recordController, BookingItemServiceComponent recordService) {
+        super(recordController);
+		this.bookingItemService = new BookingItemServiceImpl(recordService);
     }
 
-    // @Restriced(permission = "")
+  	@Restricted(permissionName = "CreateEvent")
     @Route(url="call/event/save")
-    public List<HashMap<String,Object>> save(VMJExchange vmjExchange){
+    public HashMap<String,Object> createBookingItem(VMJExchange vmjExchange){
 		if (vmjExchange.getHttpMethod().equals("OPTIONS")) {
 			return null;
 		}
-		  = create(vmjExchange);
-		Repository.saveObject();
-		return getAll(vmjExchange);
+		Map<String, Object> requestBody = vmjExchange.getPayload(); 
+		BookingItem event = bookingItemService.createBookingItem(requestBody);
+		return event.toHashMap();
 	}
 
-    public BookingItem create(VMJExchange vmjExchange){
-		String title = (String) vmjExchange.getRequestBodyForm("title");
-		String location = (String) vmjExchange.getRequestBodyForm("location");
-		String description = (String) vmjExchange.getRequestBodyForm("description");
-		
-		  = record.create(vmjExchange);
-		 deco = Factory.create("OnlineTicketing.event.core.BookingItemImpl", , title, location, imageUrls, facilities, description);
-			return deco;
-	}
-
-    public BookingItem create(VMJExchange vmjExchange, int id){
-		String title = (String) vmjExchange.getRequestBodyForm("title");
-		String location = (String) vmjExchange.getRequestBodyForm("location");
-		String description = (String) vmjExchange.getRequestBodyForm("description");
-		  = Repository.getObject(id);
-		int recordId = (((Decorator) saved.getRecord()).getId();
-		
-		  = record.create(vmjExchange);
-		 deco = Factory.create("OnlineTicketing.event.core.BookingItemImpl", id, , title, location, imageUrls, facilities, description);
-			return deco;
-	}
-
-    // @Restriced(permission = "")
+  	@Restricted(permissionName = "UpdateEvent")
     @Route(url="call/event/update")
-    public HashMap<String, Object> update(VMJExchange vmjExchange){
+    public HashMap<String, Object> updateBookingItem(VMJExchange vmjExchange){
 		if (vmjExchange.getHttpMethod().equals("OPTIONS")) {
 			return null;
 		}
-		String idStr = (String) vmjExchange.getRequestBodyForm("");
-		int id = Integer.parseInt(idStr);
-		
-		  = Repository.getObject(id);
-		 = create(vmjExchange, id);
-		
-		Repository.updateObject();
-		 = Repository.getObject(id);
-		//to do: fix association attributes
-		
-		return .toHashMap();
+
+		Map<String, Object> requestBody = vmjExchange.getPayload(); 
+		BookingItem result = bookingItemService.updateBookingItem(requestBody);
+		return result.toHashMap();
 		
 	}
 
-	// @Restriced(permission = "")
+  	@Restricted(permissionName = "ReadEvent")
     @Route(url="call/event/detail")
-    public HashMap<String, Object> get(VMJExchange vmjExchange){
-		return record.getBookingItem(vmjExchange);
+    public HashMap<String, Object> getBookingItem(VMJExchange vmjExchange){
+		String idStr = vmjExchange.getGETParam("eventId");
+		if(idStr == null) {
+		throw new IllegalArgumentException("Invalid UUID");
+		}
+		UUID id = UUID.fromString(idStr);
+
+		BookingItem result = bookingItemService.getBookingItem(id);
+		return result.toHashMap();
 	}
 
-	// @Restriced(permission = "")
+  	@Restricted(permissionName = "ReadEvent")
     @Route(url="call/event/list")
-    public List<HashMap<String,Object>> getAll(VMJExchange vmjExchange){
-		List<> List = Repository.getAllObject("_impl");
-		return transformListToHashMap(List);
+    public List<HashMap<String,Object>> getAllBookingItem(VMJExchange vmjExchange){
+		List<BookingItem> result = bookingItemService.getAllBookingItem();
+		return bookingItemService.transformListToHashMap(result);
 	}
 
-    public List<HashMap<String,Object>> transformListToHashMap(List<> List){
-		List<HashMap<String,Object>> resultList = new ArrayList<HashMap<String,Object>>();
-        for(int i = 0; i < List.size(); i++) {
-            resultList.add(List.get(i).toHashMap());
-        }
-
-        return resultList;
-	}
-
-	// @Restriced(permission = "")
+  	@Restricted(permissionName = "DeleteEvent")
     @Route(url="call/event/delete")
     public List<HashMap<String,Object>> deleteBookingItem(VMJExchange vmjExchange){
 		if (vmjExchange.getHttpMethod().equals("OPTIONS")) {
 			return null;
 		}
+		String idStr = (String) vmjExchange.getRequestBodyForm("eventId");
+    	UUID id = UUID.fromString(idStr);
 		
-		String idStr = (String) vmjExchange.getRequestBodyForm("");
-		int id = Integer.parseInt(idStr);
-		Repository.deleteObject(id);
-		return getAll(vmjExchange);
+		List<BookingItem> result = bookingItemService.deleteBookingItem(id);
+		return bookingItemService.transformListToHashMap(result);
 	}
 
 }

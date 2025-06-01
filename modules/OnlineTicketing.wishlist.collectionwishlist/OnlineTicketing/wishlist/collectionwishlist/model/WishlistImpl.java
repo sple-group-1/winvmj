@@ -12,25 +12,42 @@ import OnlineTicketing.wishlist.core.WishlistDecorator;
 import OnlineTicketing.wishlist.core.Wishlist;
 import OnlineTicketing.wishlist.core.WishlistComponent;
 
-@Entity(name="wishlist_collectionwishlist")
-@Table(name="wishlist_collectionwishlist")
+@Entity(name = "wishlist_collectionwishlist")
+@Table(name = "wishlist_collectionwishlist")
 public class WishlistImpl extends WishlistDecorator {
 
-	public WishlistImpl(
-        super();
-        this.objectName = WishlistImpl.class.getName();
-    }
-    
-    public WishlistImpl(CollectionImpl collectionimpl) {
-    	super();
-		this.objectName = WishlistImpl.class.getName();
-    }
-	
-	public WishlistImpl(WishlistComponent record, CollectionImpl collectionimpl) {
-		super(record);
-		this.objectName = WishlistImpl.class.getName();
-	}
+  public WishlistImpl() {
+    super();
+    this.objectName = WishlistImpl.class.getName();
+  }
 
+  public WishlistImpl(CollectionImpl collectionimpl) {
+    super();
+    this.objectName = WishlistImpl.class.getName();
+  }
 
+  public WishlistImpl(WishlistComponent record, CollectionImpl collectionimpl) {
+    super(record);
+    this.objectName = WishlistImpl.class.getName();
+  }
 
+  @Override
+  public UUID getWishlistId() {
+    return this.wishlistId;
+  }
+
+  @Override
+  public void setWishlistId(UUID wishlistId) {
+    this.wishlistId = wishlistId;
+  }
+
+  @Override
+  public Date getAddedAt() {
+    return this.addedAt;
+  }
+
+  @Override
+  public void setAddedAt(Date addedAt) {
+    this.addedAt = addedAt;
+  }
 }

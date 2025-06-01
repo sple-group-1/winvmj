@@ -12,26 +12,37 @@ import OnlineTicketing.bookingoption.core.BookingOptionDecorator;
 import OnlineTicketing.bookingoption.core.BookingOption;
 import OnlineTicketing.bookingoption.core.BookingOptionComponent;
 
-@Entity(name="bookingoption_roomoption")
-@Table(name="bookingoption_roomoption")
+@Entity(name = "bookingoption_roomoption")
+@Table(name = "bookingoption_roomoption")
 public class BookingOptionImpl extends BookingOptionDecorator {
 
 	protected String roomType;
-	public BookingOptionImpl(
-        super();
-        this.objectName = BookingOptionImpl.class.getName();
-    }
-    
-    public BookingOptionImpl(String roomType) {
-    	super();
+
+	public BookingOptionImpl() {
+		super();
+		this.objectName = BookingOptionImpl.class.getName();
+	}
+
+	public BookingOptionImpl(String roomType) {
+		super();
 		this.roomType = roomType;
 		this.objectName = BookingOptionImpl.class.getName();
-    }
-	
+	}
+
 	public BookingOptionImpl(BookingOptionComponent record, String roomType) {
 		super(record);
 		this.roomType = roomType;
 		this.objectName = BookingOptionImpl.class.getName();
+	}
+
+	public BookingOptionImpl(UUID id, BookingOptionComponent record, String roomType) {
+		super(id, record);
+		this.roomType = roomType;
+		this.objectName = BookingOptionImpl.class.getName();
+	}
+
+	public UUID getId() {
+		return this.id;
 	}
 
 	public String getRoomType() {
@@ -42,5 +53,12 @@ public class BookingOptionImpl extends BookingOptionDecorator {
 		this.roomType = roomType;
 	}
 
+
+	public HashMap<String, Object> toHashMap() {
+		HashMap<String, Object> bookingOptionMap = record.toHashMap();
+		bookingOptionMap.put("id", this.getId());
+		bookingOptionMap.put("roomType", this.getRoomType());
+		return bookingOptionMap;
+}
 
 }

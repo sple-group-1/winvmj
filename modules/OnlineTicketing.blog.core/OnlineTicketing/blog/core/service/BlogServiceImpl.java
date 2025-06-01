@@ -3,6 +3,7 @@ package OnlineTicketing.blog.core;
 import java.util.*;
 import java.util.logging.Logger;
 import java.time.Instant;
+import java.text.SimpleDateFormat;
 
 import OnlineTicketing.blog.BlogFactory;
 //add other required packages
@@ -28,38 +29,26 @@ public class BlogServiceImpl extends BlogServiceComponent{
 	}
 
 
-    public HashMap<String, Object> updateBlog(Map<String, Object> requestBody){
+	public Blog updateBlog(HashMap<String, Object> requestBody) {
 		String idStr = (String) requestBody.get("id");
 		UUID id = UUID.fromString(idStr);
-		String createdAtStr = (String) requestBody.get("createdAt");
-		Date createdAt = Date.from(Instant.parse(createdAtStr));
-		Blog blog = blogRepository.getObject(id);
-		
-		blog.setTitle((String) requestBody.get("title"));
-		blog.setContent((String) requestBody.get("content"));
-		blog.setCreatedAt(createdAt);
 
+		String title = (String) requestBody.get("title");
+		String content = (String) requestBody.get("content");
+		Blog blog = blogRepository.getObject(id);
+		blog.setTitle(title);
+		blog.setContent(content);
+	
 		blogRepository.updateObject(blog);
-		
-		//to do: fix association attributes
-		
-		return blog.toHashMap();
-		
+
+		blog = blogRepository.getObject(id);
+		return blog;
 	}
 
-    public HashMap<String, Object> getBlog(Map<String, Object> requestBody){
-		Map<String, Object> map = new HashMap<>();
-		map.put("table_name", "blog_impl");
-		List<HashMap<String, Object>> blogList = getAllBlog(map);
-		String idStr = (String) requestBody.get("id");
-		UUID id = UUID.fromString(idStr);
-		for (HashMap<String, Object> blog : blogList){
-			UUID record_id = UUID.fromString(blog.get("record_id").toString());
-			if (record_id.equals(id)){
-				return blog;
-			}
-		}
-		return null;
+
+    public Blog getBlog(UUID id){
+	Blog blog = blogRepository.getObject(id);
+	return blog;
 	}
 
 	public HashMap<String, Object> getBlogById(UUID id){
@@ -67,10 +56,11 @@ public class BlogServiceImpl extends BlogServiceComponent{
 		return blog.toHashMap();
 	}
 
-    public List<HashMap<String,Object>> getAllBlog(Map<String, Object> requestBody){
-		String table = (String) requestBody.get("table_name");
-		List<Blog> List = blogRepository.getAllObject(table);
-		return transformListToHashMap(List);
+    public List<Blog> getAllBlog(){
+		// String table = (String) requestBody.get("table_name");
+		List<Blog> BlogList = blogRepository.getAllObject("blog_impl",BlogImpl.class.getName());
+		// return transformListToHashMap(List);
+		return BlogList;
 	}
 
     public List<HashMap<String,Object>> transformListToHashMap(List<Blog> List){
@@ -82,12 +72,12 @@ public class BlogServiceImpl extends BlogServiceComponent{
         return resultList;
 	}
 
-    public List<HashMap<String,Object>> deleteBlog(Map<String, Object> requestBody){
-		String idStr = ((String) requestBody.get("id"));
-		// int id = Integer.parseInt(idStr);
-		UUID id = UUID.fromString(idStr);
+    public List<Blog> deleteBlog(UUID id){
+		// String idStr = ((String) requestBody.get("id"));
+		// // int id = Integer.parseInt(idStr);
+		// UUID id = UUID.fromString(idStr);
 		blogRepository.deleteObject(id);
-		return getAllBlog(requestBody);
+		return getAllBlog();
 	}
 
 }

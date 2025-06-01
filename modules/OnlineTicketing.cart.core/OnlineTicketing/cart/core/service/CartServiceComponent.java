@@ -17,6 +17,6 @@ public abstract class CartServiceComponent implements CartService{
     public abstract HashMap<String, Object> getCart(Map<String, Object> requestBody);
     public abstract List<HashMap<String,Object>> getAllCart(Map<String, Object> requestBody);
     public abstract List<HashMap<String,Object>> transformListToHashMap(List<Cart> List);
-    public abstract HashMap<String, Object> getCartById(UUID id);
+    public abstract Cart getCartById(UUID id);
 
 }

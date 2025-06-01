@@ -41,15 +41,5 @@ public class BookingOptionImpl extends BookingOptionComponent {
 		this.bookingType = "";
 		this.bookingItem = null;
 	}
-	
-	public HashMap<String, Object> toHashMap() {
-        HashMap<String, Object> bookingoptionMap = new HashMap<String,Object>();
-		bookingoptionMap.put("id",getId());
-		bookingoptionMap.put("price",getPrice());
-		bookingoptionMap.put("bookingType",getBookingType());
-		bookingoptionMap.put("bookingItem",getBookingItem());
-
-        return bookingoptionMap;
-    }
 
 }

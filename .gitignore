@@ -2,6 +2,7 @@ src
 src-gen
 bin-comp
 bin
+modules-gen
 .vscode
 *.sh
 *.txt
@@ -9,3 +10,4 @@ bin
 /src
 /bin-comp
 /modules-gen
+.idea

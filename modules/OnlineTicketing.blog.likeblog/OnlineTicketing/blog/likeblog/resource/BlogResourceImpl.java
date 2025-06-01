@@ -1,105 +1,68 @@
 package OnlineTicketing.blog.likeblog;
 import java.util.*;
+import java.util.logging.Logger;
 
 import vmj.routing.route.Route;
 import vmj.routing.route.VMJExchange;
+import vmj.routing.route.exceptions.*;
+import vmj.auth.annotations.Restricted;
 
 import OnlineTicketing.blog.core.BlogResourceDecorator;
 import OnlineTicketing.blog.core.BlogImpl;
 import OnlineTicketing.blog.core.BlogResourceComponent;
+import OnlineTicketing.blog.core.BlogService;
+import OnlineTicketing.blog.likeblog.BlogServiceImpl;
+import OnlineTicketing.blog.core.BlogServiceComponent;
+import OnlineTicketing.blog.core.Blog;
 
 public class BlogResourceImpl extends BlogResourceDecorator {
-    public BlogResourceImpl (BlogResourceComponent record) {
-        super(record);
+  private BlogService blogService;
+
+    public BlogResourceImpl (BlogResourceComponent recordController, BlogServiceComponent recordservice) {
+      super(recordController);
+      this.blogService = new BlogServiceImpl(recordservice);
+ }
+
+	@Restricted(permissionName = "CreateBlog")
+    @Route(url="call/likeblog/create")
+    public HashMap<String,Object> createBlog(VMJExchange vmjExchange){
+		if (vmjExchange.getHttpMethod().equals("POST")) {
+		    Map<String, Object> requestBody = vmjExchange.getPayload(); 
+			Blog result = blogService.createBlog(requestBody);
+			return result.toHashMap();
+		}
+		throw new NotFoundException("Route tidak ditemukan");
+	}
+
+ 	@Restricted(permissionName = "ReadBlog")
+    @Route(url="call/likeblog/list")
+    public List<HashMap<String,Object>> getAllBlog(VMJExchange vmjExchange){
+		List<Blog> blogList = blogService.getAllBlog();
+    	return blogService.transformListToHashMap(blogList);
+	}
+
+
+@Route(url="call/blog/like")
+public HashMap<String, Object> like(VMJExchange vmjExchange) {
+    if (!vmjExchange.getHttpMethod().equals("POST")) {
+        throw new NotFoundException("Route tidak ditemukan");
+    }
+    String idStr = (String) vmjExchange.getRequestBodyForm("id");
+    UUID id = UUID.fromString(idStr);
+
+    Blog blog = blogService.getBlog(id);
+    if (blog == null) {
+        throw new NotFoundException("Blog tidak ditemukan");
     }
 
-    // @Restriced(permission = "")
-    @Route(url="call/likeblog/save")
-    public List<HashMap<String,Object>> save(VMJExchange vmjExchange){
-		if (vmjExchange.getHttpMethod().equals("OPTIONS")) {
-			return null;
-		}
-		  = create(vmjExchange);
-		Repository.saveObject();
-		return getAll(vmjExchange);
-	}
+    if (blogService instanceof BlogServiceImpl) {
+        ((BlogServiceImpl) blogService).like(id); 
+    }
+    Blog updatedBlog = blogService.getBlog(id);
+    return updatedBlog.toHashMap();
+}
 
-    public Blog create(VMJExchange vmjExchange){
-		String likeCountStr = (String) vmjExchange.getRequestBodyForm("likeCount");
-		int likeCount = Integer.parseInt(likeCountStr);
-		
-		  = record.create(vmjExchange);
-		 deco = Factory.create("OnlineTicketing.likeblog.core.BlogImpl", , likeCount, customerimpl);
-			return deco;
-	}
 
-    public Blog create(VMJExchange vmjExchange, int id){
-		String likeCountStr = (String) vmjExchange.getRequestBodyForm("likeCount");
-		int likeCount = Integer.parseInt(likeCountStr);
-		  = Repository.getObject(id);
-		int recordId = (((Decorator) saved.getRecord()).getId();
-		
-		  = record.create(vmjExchange);
-		 deco = Factory.create("OnlineTicketing.likeblog.core.BlogImpl", id, , likeCount, customerimpl);
-			return deco;
-	}
 
-    // @Restriced(permission = "")
-    @Route(url="call/likeblog/update")
-    public HashMap<String, Object> update(VMJExchange vmjExchange){
-		if (vmjExchange.getHttpMethod().equals("OPTIONS")) {
-			return null;
-		}
-		String idStr = (String) vmjExchange.getRequestBodyForm("");
-		int id = Integer.parseInt(idStr);
-		
-		  = Repository.getObject(id);
-		 = create(vmjExchange, id);
-		
-		Repository.updateObject();
-		 = Repository.getObject(id);
-		//to do: fix association attributes
-		
-		return .toHashMap();
-		
-	}
 
-	// @Restriced(permission = "")
-    @Route(url="call/likeblog/detail")
-    public HashMap<String, Object> get(VMJExchange vmjExchange){
-		return record.getBlog(vmjExchange);
-	}
-
-	// @Restriced(permission = "")
-    @Route(url="call/likeblog/list")
-    public List<HashMap<String,Object>> getAll(VMJExchange vmjExchange){
-		List<> List = Repository.getAllObject("_impl");
-		return transformListToHashMap(List);
-	}
-
-    public List<HashMap<String,Object>> transformListToHashMap(List<> List){
-		List<HashMap<String,Object>> resultList = new ArrayList<HashMap<String,Object>>();
-        for(int i = 0; i < List.size(); i++) {
-            resultList.add(List.get(i).toHashMap());
-        }
-
-        return resultList;
-	}
-
-	// @Restriced(permission = "")
-    @Route(url="call/likeblog/delete")
-    public List<HashMap<String,Object>> deleteBlog(VMJExchange vmjExchange){
-		if (vmjExchange.getHttpMethod().equals("OPTIONS")) {
-			return null;
-		}
-		
-		String idStr = (String) vmjExchange.getRequestBodyForm("");
-		int id = Integer.parseInt(idStr);
-		Repository.deleteObject(id);
-		return getAll(vmjExchange);
-	}
-
-	public void Like() {
-		// TODO: implement this method
-	}
 }

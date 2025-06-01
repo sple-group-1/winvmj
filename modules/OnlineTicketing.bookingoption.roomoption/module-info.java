@@ -1,6 +1,8 @@
 module OnlineTicketing.bookingoption.roomoption {
+	exports OnlineTicketing.bookingoption.roomoption;
 	requires OnlineTicketing.bookingoption.core;
-    exports OnlineTicketing.bookingoption.roomoption;
+	requires OnlineTicketing.bookingitem.core;
+	requires OnlineTicketing.bookingitem.hotel;
 
 	requires vmj.routing.route;
 	requires vmj.hibernate.integrator;
