@@ -3,6 +3,7 @@ package OnlineTicketing.order.core;
 import java.util.*;
 import java.util.logging.Logger;
 import java.time.*;
+import java.time.temporal.ChronoUnit;
 
 import OnlineTicketing.order.OrderFactory;
 import OnlineTicketing.customer.core.*;
@@ -118,9 +119,11 @@ public class OrderServiceImpl extends OrderServiceComponent{
 		HashMap<String, Object> optionMap = bookingOption.toHashMap();
 
 		String bookingType = (String) optionMap.get("bookingType");
+		System.out.println("Booking Type: " + bookingType);
 		Long price = (Long) optionMap.get("price");
-		if (bookingType.equals("hotel")) {
-			return 0L;
+		if (bookingType.equalsIgnoreCase("HOTEL")) {
+			long duration = ChronoUnit.DAYS.between(startDate, endDate);
+			return quantity * price * duration;
 		}
 		else if (bookingType.equals("event")) {
 			return quantity * price;
