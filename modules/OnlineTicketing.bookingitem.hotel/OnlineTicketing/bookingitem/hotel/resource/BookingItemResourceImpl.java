@@ -62,6 +62,12 @@ public class BookingItemResourceImpl extends BookingItemResourceDecorator {
 	}
 
 	// @Restriced(permission = "")
+	@Route(url = "call/hotel/search")
+	public List<HashMap<String, Object>> searchHotels(VMJExchange vmjExchange) {
+		return this.bookingItemService.searchHotels(vmjExchange);
+	}
+
+	// @Restriced(permission = "")
 	@Route(url = "call/hotel/delete")
 	public List<HashMap<String, Object>> deleteBookingItem(VMJExchange vmjExchange) {
 		if (vmjExchange.getHttpMethod().equals("OPTIONS")) {
