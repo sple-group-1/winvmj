@@ -9,7 +9,7 @@ INSERT INTO cart_impl (id) VALUES
 ON CONFLICT DO NOTHING;
 
 INSERT INTO cartitem_comp (id, amount, enddate, quantity, startdate, bookingoption_id, cart_id, modulesequence, objectname) VALUES
-('f2c3f5a7-2a14-4a7d-a408-5a8b82df178e', 100000, '2025-5-13', 10, '2025-5-1', '6af6727e-66f8-484f-b77f-83eeec82cd10', '3d0c98d4-3e48-4d4f-8df2-f15c7a3ea229', 'cartitem_impl', 'OnlineTicketing.cart.core.CartItemImpl')
+('f2c3f5a7-2a14-4a7d-a408-5a8b82df178e', 100000, '2025-5-13', 10, '2025-5-1', '11f6727e-66f8-484f-b77f-83eeec82cd10', '3d0c98d4-3e48-4d4f-8df2-f15c7a3ea229', 'cartitem_impl', 'OnlineTicketing.cart.core.CartItemImpl')
 ON CONFLICT DO NOTHING;
 
 INSERT INTO cartitem_impl (id) VALUES
