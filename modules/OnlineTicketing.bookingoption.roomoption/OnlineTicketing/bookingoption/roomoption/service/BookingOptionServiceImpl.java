@@ -31,8 +31,9 @@ public class BookingOptionServiceImpl extends BookingOptionServiceDecorator {
         requestBody.put("bookingType", "HOTEL");
         BookingOption wrappee = record.createBookingOption(requestBody);
         String roomType = (String) requestBody.get("roomType");
+        String imageUrl = (String) requestBody.get("imageUrl");
         BookingOption deco = BookingOptionFactory.createBookingOption(
-                "OnlineTicketing.bookingoption.roomoption.BookingOptionImpl", wrappee, roomType);
+                "OnlineTicketing.bookingoption.roomoption.BookingOptionImpl", wrappee, roomType, imageUrl);
         this.bookingOptionRepository.saveObject(deco);
         return deco;
     }
@@ -45,6 +46,7 @@ public class BookingOptionServiceImpl extends BookingOptionServiceDecorator {
         
         BookingOptionImpl roomOption = (BookingOptionImpl) this.bookingOptionRepository.getObject(id);
         roomOption.setRoomType((String) requestBody.get("roomType"));
+        roomOption.setImageUrl((String) requestBody.get("imageUrl"));
         this.bookingOptionRepository.updateObject(roomOption);
         return roomOption;
     }
