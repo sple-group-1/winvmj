@@ -75,4 +75,12 @@ public class BookingOptionResourceImpl extends BookingOptionResourceDecorator {
 		return this.roomOptionService.transformListToHashMap(result);
 	}
 
+	@Route(url = "call/roomoption/bookingfeereview")
+	public HashMap<String, Object> getBookingFeeReview(VMJExchange vmjExchange) {
+		if (vmjExchange.getHttpMethod().equals("OPTIONS")) {
+			return null;
+		}
+		return this.roomOptionService.getBookingFeeReview(vmjExchange);
+	}
+
 }

@@ -86,7 +86,7 @@ public class BookingItemServiceImpl extends BookingItemServiceDecorator {
         String startDate = params.get("start_date");
         String endDate = params.get("end_date");
         String roomCountStr = params.get("room_count");
-        int roomCount = roomCountStr != null ? Integer.parseInt(roomCountStr) : 0;
+        int roomCount = roomCountStr != null && !roomCountStr.isEmpty() ? Integer.parseInt(roomCountStr) : 0;
 
         // Search keyword from title and location
         List<BookingItem> hotels = getAllBookingItem();

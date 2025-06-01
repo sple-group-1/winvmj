@@ -1,6 +1,8 @@
 package OnlineTicketing.bookingoption.roomoption;
 
 import java.util.*;
+import java.time.*;
+import java.time.temporal.ChronoUnit;
 
 import vmj.routing.route.VMJExchange;
 import vmj.hibernate.integrator.RepositoryUtil;
@@ -68,6 +70,35 @@ public class BookingOptionServiceImpl extends BookingOptionServiceDecorator {
         bookingOptionRepository.deleteObject(id);
         record.deleteBookingOption(bookingOption.getId());
         return getAllBookingOption();
+    }
+
+    public HashMap<String, Object> getBookingFeeReview(VMJExchange vmjExchange) {
+        String roomIdStr = (String) vmjExchange.getGETParam("roomId");
+        String startDateStr = (String) vmjExchange.getGETParam("start_date");
+        String endDateStr = (String) vmjExchange.getGETParam("end_date");
+        String roomCountStr = (String) vmjExchange.getGETParam("room_count");
+        UUID roomId = UUID.fromString(roomIdStr);
+        LocalDate startDate = LocalDate.parse(startDateStr);
+        LocalDate endDate = LocalDate.parse(endDateStr);
+        int roomCount = Integer.parseInt(roomCountStr);
+        
+        long duration = ChronoUnit.DAYS.between(startDate, endDate);
+
+        BookingOption roomOption = this.bookingOptionRepository.getObject(roomId);
+        Long price = roomOption.getPrice();
+
+        Long totalPrice = price * duration * roomCount;
+
+        Map<String, String> queryParams = vmjExchange.queryToMap();
+        HashMap<String, Object> response = new HashMap<>();
+        for (Map.Entry<String, String> entry : queryParams.entrySet()) {
+            response.put(entry.getKey(), entry.getValue());
+        }
+
+        response.put("duration_days", duration);
+        response.put("total_price", totalPrice); 
+
+        return response;
     }
 
     public List<HashMap<String, Object>> transformListToHashMap(List<BookingOption> List) {
