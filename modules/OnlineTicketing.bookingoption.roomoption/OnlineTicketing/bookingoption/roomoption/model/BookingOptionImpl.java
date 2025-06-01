@@ -11,6 +11,9 @@ import javax.persistence.Column;
 import OnlineTicketing.bookingoption.core.BookingOptionDecorator;
 import OnlineTicketing.bookingoption.core.BookingOption;
 import OnlineTicketing.bookingoption.core.BookingOptionComponent;
+import OnlineTicketing.util.core.*;
+
+import OnlineTicketing.bookingitem.hotel.BookingItemImpl;
 
 @Entity(name = "bookingoption_roomoption")
 @Table(name = "bookingoption_roomoption")
@@ -58,6 +61,9 @@ public class BookingOptionImpl extends BookingOptionDecorator {
 		HashMap<String, Object> bookingOptionMap = record.toHashMap();
 		bookingOptionMap.put("id", this.getId());
 		bookingOptionMap.put("roomType", this.getRoomType());
+		BookingItemImpl hotel = (BookingItemImpl) this.getBookingItem();
+		System.out.println("Hotel 0f room option: " + hotel.toHashMap());
+		bookingOptionMap = Util.combine(bookingOptionMap, hotel.toHashMap(), "hotel");
 		return bookingOptionMap;
 }
 
