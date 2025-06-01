@@ -17,7 +17,7 @@ import OnlineTicketing.review.core.ReviewComponent;
 public class ReviewImpl extends ReviewDecorator {
 
 	public EFloat rating;
-	public ReviewImpl(
+	public ReviewImpl(){
         super();
         this.objectName = ReviewImpl.class.getName();
     }

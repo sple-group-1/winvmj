@@ -7,6 +7,7 @@ import vmj.routing.route.VMJExchange;
 import OnlineTicketing.review.core.ReviewResourceDecorator;
 import OnlineTicketing.review.core.ReviewImpl;
 import OnlineTicketing.review.core.ReviewResourceComponent;
+import OnlineTicketing.review.core.*;
 
 public class ReviewResourceImpl extends ReviewResourceDecorator {
     public ReviewResourceImpl (ReviewResourceComponent record) {
@@ -19,26 +20,28 @@ public class ReviewResourceImpl extends ReviewResourceDecorator {
 		if (vmjExchange.getHttpMethod().equals("OPTIONS")) {
 			return null;
 		}
-		  = create(vmjExchange);
-		Repository.saveObject();
+		Review review = create(vmjExchange);
+		Repository.saveObject(review);
 		return getAll(vmjExchange);
 	}
 
     public Review create(VMJExchange vmjExchange){
 		
-		  = record.create(vmjExchange);
-		 deco = Factory.create("OnlineTicketing.reviewrating.core.ReviewImpl", , rating);
-			return deco;
+		Review recordReview = record.create(vmjExchange);
+		EFloat rating = new EFloat((String) vmjExchange.getRequestBodyForm("rating"));
+
+		Review deco = Factory.create("OnlineTicketing.review.reviewrating.ReviewImpl", recordReview, rating);
+		return deco;
 	}
 
-    public Review create(VMJExchange vmjExchange, int id){
-		  = Repository.getObject(id);
-		int recordId = (((Decorator) saved.getRecord()).getId();
+    // public Review create(VMJExchange vmjExchange, int id){
+	// 	  = Repository.getObject(id);
+	// 	int recordId = (((Decorator) saved.getRecord()).getId();
 		
-		  = record.create(vmjExchange);
-		 deco = Factory.create("OnlineTicketing.reviewrating.core.ReviewImpl", id, , rating);
-			return deco;
-	}
+	// 	  = record.create(vmjExchange);
+	// 	 deco = Factory.create("OnlineTicketing.reviewrating.core.ReviewImpl", id, , rating);
+	// 		return deco;
+	// }
 
     // @Restriced(permission = "")
     @Route(url="call/reviewrating/update")
@@ -46,17 +49,16 @@ public class ReviewResourceImpl extends ReviewResourceDecorator {
 		if (vmjExchange.getHttpMethod().equals("OPTIONS")) {
 			return null;
 		}
-		String idStr = (String) vmjExchange.getRequestBodyForm("");
+		String idStr = (String) vmjExchange.getRequestBodyForm("reviewId");
 		int id = Integer.parseInt(idStr);
-		
-		  = Repository.getObject(id);
-		 = create(vmjExchange, id);
-		
-		Repository.updateObject();
-		 = Repository.getObject(id);
-		//to do: fix association attributes
-		
-		return .toHashMap();
+
+		Review saved = Repository.getObject(id);
+		Review updated = create(vmjExchange);
+
+		Repository.updateObject(updated);
+		Review refreshed = Repository.getObject(id);
+
+		return refreshed.toHashMap();
 		
 	}
 
@@ -69,11 +71,11 @@ public class ReviewResourceImpl extends ReviewResourceDecorator {
 	// @Restriced(permission = "")
     @Route(url="call/reviewrating/list")
     public List<HashMap<String,Object>> getAll(VMJExchange vmjExchange){
-		List<> List = Repository.getAllObject("_impl");
+		List<Review> List = Repository.getAllObject("_impl");
 		return transformListToHashMap(List);
 	}
 
-    public List<HashMap<String,Object>> transformListToHashMap(List<> List){
+    public List<HashMap<String,Object>> transformListToHashMap(List<Review> List){
 		List<HashMap<String,Object>> resultList = new ArrayList<HashMap<String,Object>>();
         for(int i = 0; i < List.size(); i++) {
             resultList.add(List.get(i).toHashMap());
