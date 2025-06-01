@@ -11,8 +11,8 @@ public abstract class CartItemServiceDecorator extends CartItemServiceComponent{
         this.record = record;
     }
 
-	public CartItem createCartItem(Map<String, Object> requestBody){
-		return record.createCartItem(requestBody);
+	public CartItem createCartItem(Map<String, Object> requestBody, Customer customer){
+		return record.createCartItem(requestBody, customer);
 	}
 
     // public CartItem createCartItem(Map<String, Object> requestBody, Map<String, Object> response){

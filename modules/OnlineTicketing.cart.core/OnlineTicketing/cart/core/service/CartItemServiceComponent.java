@@ -16,7 +16,7 @@ public abstract class CartItemServiceComponent implements CartItemService{
     // public abstract List<HashMap<String,Object>> saveCartItem(VMJExchange vmjExchange);
     // public abstract List<HashMap<String,Object>> saveCartItem(Map<String, Object> requestBody);
     // public abstract CartItem createCartItem(Map<String, Object> requestBodye);
-	public abstract CartItem createCartItem(Map<String, Object> requestBody);    
+	public abstract CartItem createCartItem(Map<String, Object> requestBody, Customer customer);    
 	public abstract HashMap<String, Object> updateCartItem(Map<String, Object> requestBody);
     public abstract HashMap<String, Object> getCartItem(Map<String, Object> requestBody);
     public abstract List<HashMap<String,Object>> getAllCartItem(Map<String, Object> requestBody);

@@ -18,8 +18,12 @@ public class CartItemResourceImpl extends CartItemResourceComponent{
     @Route(url="call/cartitem")
     public HashMap<String,Object> createCartItem(VMJExchange vmjExchange){
 		if (vmjExchange.getHttpMethod().equals("POST")) {
+			String email = vmjExchange.getAuthPayload().getEmail();
+			Customer customer = customerService.getCustomerByEmail(email);
+			UUID customerId = customer.getCustomerId();
+
 		    Map<String, Object> requestBody = vmjExchange.getPayload(); 
-			CartItem result = cartitemServiceImpl.createCartItem(requestBody);
+			CartItem result = cartitemServiceImpl.createCartItem(requestBody, customer);
 			return result.toHashMap();
 		}
 		throw new NotFoundException("Route tidak ditemukan");
