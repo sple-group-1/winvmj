@@ -11,8 +11,14 @@ import OnlineTicketing.bookingitem.core.BookingItemDecorator;
 import OnlineTicketing.bookingitem.core.BookingItemServiceComponent;
 import OnlineTicketing.bookingitem.BookingItemFactory;
 
+import OnlineTicketing.bookingitem.hotel.BookingItemImpl;
+
+import OnlineTicketing.bookingoption.core.BookingOption;
+
 public class BookingItemServiceImpl extends BookingItemServiceDecorator {
     private BookingItemFactory bookingItemFactory = new BookingItemFactory();
+
+    private RepositoryUtil<BookingOption> roomRepository = new RepositoryUtil<>(OnlineTicketing.bookingoption.core.BookingOption.class);
 
     public BookingItemServiceImpl(BookingItemServiceComponent record) {
         super(record);
@@ -65,6 +71,53 @@ public class BookingItemServiceImpl extends BookingItemServiceDecorator {
     public List<BookingItem> getAllBookingItem() {
         List<BookingItem> list = bookingItemRepository.getAllObject("bookingitem_hotel");
         return list;
+    }
+
+    public List<HashMap<String, Object>> searchHotels(VMJExchange vmjExchange) {
+        Map<String, String> params;
+
+        try {
+            params = vmjExchange.queryToMap();
+        } catch (Exception e) {
+            params = new HashMap<>();
+        }
+        
+        String keyword = params.get("keyword");
+        String startDate = params.get("start_date");
+        String endDate = params.get("end_date");
+        String roomCountStr = params.get("room_count");
+        int roomCount = roomCountStr != null ? Integer.parseInt(roomCountStr) : 0;
+
+        // Search keyword from title and location
+        List<BookingItem> hotels = getAllBookingItem();
+        List<BookingItem> filteredHotels = new ArrayList<>();
+
+        for (BookingItem bookingItem : hotels) {
+            BookingItemImpl hotel = (BookingItemImpl) bookingItem;
+            String title = hotel.getTitle().toLowerCase();
+            String location = hotel.getLocation().toLowerCase();
+            if ((keyword == null || keyword.isEmpty() || title.contains(keyword.toLowerCase())
+                    || location.contains(keyword.toLowerCase()))) {
+                filteredHotels.add(hotel);
+            }
+        }
+
+        // TODO: Implement date and room availability filtering logic
+
+        List<HashMap<String, Object>> result = new ArrayList<>();
+        for (BookingItem hotel : filteredHotels) {
+            List<BookingOption> rooms = roomRepository.getListObject("bookingoption_roomoption", "bookingitem_id", hotel.getId());;
+            Long startPrice = Long.MAX_VALUE;
+            for (BookingOption room : rooms) {
+                if (room.getPrice() < startPrice) {
+                    startPrice = room.getPrice();
+                }
+            }
+            HashMap<String, Object> hotelMap = hotel.toHashMap();
+            hotelMap.put("startPrice", startPrice);
+            result.add(hotelMap);
+        }
+        return result;
     }
 
     public List<BookingItem> deleteBookingItem(UUID id) {
